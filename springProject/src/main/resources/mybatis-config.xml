@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- type 실제 경로  alias 별명 -->
+	<typeAliases>
+		<typeAlias type="com.project.springProject.model.EmpVO" alias="empvo" />
+		<typeAlias type="com.project.springProject.model.BuseoVO" alias="buseovo" />
+		<typeAlias type="com.project.springProject.model.GradeVO" alias="gradevo" />
+		<typeAlias type="com.project.springProject.model.ComcodeVO" alias="comcodevo" />
+	</typeAliases>
+
+</configuration>

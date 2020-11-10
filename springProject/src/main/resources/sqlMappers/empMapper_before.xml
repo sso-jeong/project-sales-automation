@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="emp">
+
+	<!-- ################ INSERT -->
+	<insert id="setRegOne" parameterType="empvo">
+		INSERT INTO emp_tbl SET 
+		EMPID = #{EMPID},
+		EMPNM = #{EMPNM},
+		DEPTID = #{DEPTID},
+		GRADE = #{GRADE}, 
+		EMPPWD = #{EMPPWD}, 
+		EMPHP = #{EMPHP}, 
+		EMAIL = #{EMAIL}, 
+		EMPADDR = #{EMPADDR}, 
+		REGDATE = now()
+	</insert>
+	
+	<!-- ################ SELECT -->
+	
+	<select id="getRegAll" resultType="empvo">
+		SELECT * FROM emp_tbl ORDER BY EMPID DESC
+	</select>
+	
+	<select id="getCntAll" resultType="int">
+		SELECT COUNT(EMPID) FROM emp_tbl
+	</select>
+	
+	<select id="getRegSelect" parameterType="int" resultType="empvo">
+		SELECT * FROM emp_tbl WHERE EMPID = #{EMPID}
+	</select>
+	
+	<select id="idChk" parameterType="int" resultType="int">
+		SELECT COUNT(EMPID) FROM emp_tbl WHERE EMPID = #{EMPID}
+	</select>
+	
+	<select id="loginChk" parameterType="hashmap" resultType="int">
+		SELECT COUNT(EMPID) FROM emp_tbl WHERE EMPID = #{EMPID} AND EMPPWD = #{EMPPWD}
+	</select>
+	
+	<select id="setSessionLogin" parameterType="empvo" resultType="empvo">
+	
+	</select>
+	
+	<!-- ################ DELETE -->
+	
+	<delete id="setRegDelOne" parameterType="int">
+		DELETE FROM emp_tbl WHERE EMPID = #{EMPID}
+	</delete>
+	
+	<!-- ################ UPDATE -->
+	
+	<update id="setRegUpdateOne" parameterType="empvo">
+		<!-- 파일업로드 학습 후 수정 -->
+	</update>
+	
+	<update id="gradeChange" parameterType="empvo">
+		UPDATE emp_tbl SET GRADE = #{GRADE} WHERE EMPID = #{EMPID}
+	</update>
+	
+	
+
+</mapper>
+
+
+
+
+

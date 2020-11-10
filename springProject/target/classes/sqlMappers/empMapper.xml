@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="emp">
+
+	<select id="idCheck" parameterType="String" resultType="int">
+		SELECT
+		COUNT(empid) FROM emp_tbl WHERE empid = #{empid}
+	</select>
+
+	<select id="chkLogin" parameterType="empvo" resultType="empvo">
+		SELECT
+		empid, empnm, deptid, grade, empauth
+		FROM emp_tbl WHERE empid =
+		#{empid} AND emppwd = #{emppwd}
+	</select>
+
+	<select id="pwdFind" parameterType="empvo" resultType="String">
+		SELECT
+		emppwd
+		FROM emp_tbl WHERE empid = #{empid} AND email = #{email}
+	</select>
+
+	<insert id="setRegOne" parameterType="empvo">
+		<selectKey keyProperty="seq" order="BEFORE" resultType="int">
+			SELECT CASE WHEN MAX(empid) IS NULL THEN '01'
+						WHEN CONVERT(SUBSTR(MAX(empid),8,2),UNSIGNED) + 1 <![CDATA[<]]> 10 
+				THEN CONCAT('0',RIGHT(CAST(MAX(CONVERT(empid,UNSIGNED)) AS CHAR(8)), 1) +1)
+				01 10 
+				ELSE RIGHT(CAST(MAX(CONVERT(empid,UNSIGNED)) AS CHAR(9)), CHAR_LENGTH(MAX(CONVERT(empid,UNSIGNED)))-9)+1 END as seq 
+				FROM emp_tbl
+				WHERE deptid = #{deptid}
+		</selectKey>
+		INSERT INTO emp_tbl SET
+		deptid = #{deptid},
+		grade = #{grade},
+		empnm =
+		#{empnm},
+		emppwd = #{emppwd},
+		empaddr = #{empaddr},
+		emphp = #{emphp},
+		email = #{email},
+		regdate = now(),
+		empid = CONCAT(#{empid}, #{seq})
+	</insert>
+	
+	<!-- ################################# 사원목록 소스 시작  ################################# -->
+	
+	<sql id="search">
+		<choose>
+			<when test="words == ''">
+
+			</when>
+			<when test="searchOpt=='all'">
+				AND (empnm LIKE CONCAT('%', #{words},'%') OR
+				buseo_name LIKE CONCAT('%', #{words},'%') OR 
+				grade_name LIKE CONCAT('%', #{words},'%'))
+			</when>
+			<otherwise>
+				AND ${searchOpt} LIKE CONCAT('%', #{words},'%')
+			</otherwise>
+		</choose>
+	</sql>
+
+	<select id="getEmpList" parameterType="hashmap"
+		resultType="empvo">
+		SELECT
+		empid,
+		empnm,
+		deptid,
+		buseo_name AS buseoName,
+		grade,
+		grade_name AS gradeName,
+		birth,
+		gender,
+		regnum,
+		empaddr,
+		emphp,
+		email,
+		accountnum,
+		joindate
+		FROM emp_tbl
+		E, buseo_tbl B, grade_tbl G
+		WHERE grade != 7 AND E.deptid
+		= B.buseo_id
+		AND E.grade = G.grade_id
+		<include refid="search"></include>
+		ORDER BY regdate desc LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="getEmpListOne" parameterType="String" resultType="empvo">
+		SELECT
+		empid,
+		empnm,
+		deptid,
+		buseo_name AS buseoName,
+		grade,
+		grade_name AS gradeName,
+		birth,
+		gender,
+		regnum,
+		empaddr,
+		emphp,
+		email,
+		accountnum,
+		joindate
+		FROM emp_tbl
+		E, buseo_tbl B, grade_tbl G
+		WHERE grade != 7 AND E.deptid = B.buseo_id AND E.grade = G.grade_id AND empid = #{empid}
+	</select>
+	
+	<insert id="setRegAll" parameterType="empvo">
+		<selectKey keyProperty="seq" order="BEFORE" resultType="int">
+			SELECT CASE WHEN empid IS NULL THEN 1
+			ELSE right(empid,
+			char_length(empid)-7) +1 END
+			FROM emp_tbl
+			WHERE deptid = #{deptid}
+			ORDER BY regdate DESC LIMIT 1
+		</selectKey>
+
+		INSERT INTO emp_tbl SET
+		deptid			= #{deptid},
+		grade			= #{grade},
+		empnm			= #{empnm},
+		emppwd			= #{emppwd},
+		empaddr			= #{empaddr},
+		emphp			= #{emphp},
+		email			= #{email},
+		regdate			= now(),
+		empid 			= CONCAT(#{empid}, #{seq}),
+		gender			= #{gender},
+		birth			= #{birth},
+		birthtype		= #{birthtype},
+		regnum			= #{regnum},
+		empaddr			= #{empaddr},
+		emphp			= #{emphp},
+		empcp			= #{empcp},
+		accountnum		= #{accountnum},
+		hope			= #{hope},
+		licence			= #{licence},
+		hobby			= #{hobby},
+		forte			= #{forte},
+		chagubun		= #{chagubun},
+		miligubun		= #{miligubun},
+		impediment		= #{impediment},
+		patriotism		= #{patriotism},
+		religion		= #{religion},
+		marrygubun		= #{marrygubun},
+		linguistic		= #{linguistic},
+		reward			= #{reward},
+		joindate		= #{joindate},
+		insert_person	= #{empid}
+		
+	</insert>
+
+	<update id="setEmpOthers" parameterType="empvo">
+		UPDATE emp_tbl SET 
+		gender			= #{gender},
+		birth			= #{birth},
+		birthtype		= #{birthtype},
+		regnum			= #{regnum},
+		empaddr			= #{empaddr},
+		emphp			= #{emphp},
+		empcp			= #{empcp},
+		accountnum		= #{accountnum},
+		hope			= #{hope},
+		licence			= #{licence},
+		hobby			= #{hobby},
+		forte			= #{forte},
+		chagubun		= #{chagubun},
+		miligubun		= #{miligubun},
+		impediment		= #{impediment},
+		patriotism		= #{patriotism},
+		religion		= #{religion},
+		marrygubun		= #{marrygubun},
+		linguistic		= #{linguistic},
+		reward			= #{reward},
+		joindate		= #{joindate},
+		insert_person	= #{empid}
+		WHERE empid = #{empid}
+	</update>
+	
+	<!--  ################################# 사원목록 소스 끝   ################################# -->
+
+</mapper>
