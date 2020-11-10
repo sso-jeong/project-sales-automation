@@ -1,8 +1,7 @@
 package com.project.saleforce.model;
 
 public class EmpVO {
-	private String regdate, sfaauth, buseoname, gradename, empid, deptid, empnm, emppwd, emphp, email, empaddr, grade, empauth, joindate, gender;
-	private int seq;
+	private String regdate, sfaauth, buseoname, gradename, empid, deptid, empnm, emppwd, emphp, email, empaddr, grade, empauth, joindate, gender, seq;
 	
 
 	public String getJoindate() {
@@ -21,11 +20,11 @@ public class EmpVO {
 		return deptid;
 	}
 
-	public int getSeq() {
+	public String getSeq() {
 		return seq;
 	}
 
-	public void setSeq(int seq) {
+	public void setSeq(String seq) {
 		this.seq = seq;
 	}
 
