@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com">
+
+	<select id="getGrpList" resultType="comcodevo">
+		SELECT grpcd, grpnm FROM comcode WHERE grpnm IS NOT NULL ORDER BY grpcd;
+	</select>
+	
+	<select id="getDivList" resultType="comcodevo">
+		SELECT divcd, divnm FROM comcode WHERE grpnm IS NOT NULL ORDER BY divcd;
+	</select>
+	
+	<select id="getTypeList" resultType="comcodevo">
+		SELECT typecd, typenm FROM comcode WHERE typenm IS NOT NULL ORDER BY typecd;
+	</select>
+	
+	<select id="getDttypeList" resultType="comcodevo">
+		SELECT dttypecd, dttypenm FROM comcode WHERE dttypenm IS NOT NULL ORDER BY dttypecd;
+	</select>
+	
+	<select id="getStktypeList" resultType="comcodevo">
+		SELECT stktypecd, stktypenm FROM comcode WHERE stktypenm IS NOT NULL ORDER BY stktypecd;
+	</select>
+	
+	<select id="getGenderList" resultType="comcodevo">
+		SELECT gendercd, gendernm FROM comcode WHERE gendernm IS NOT NULL ORDER BY gendercd;
+	</select>
+	
+	<select id="getChaList" resultType="comcodevo">
+		SELECT chacd, chanm FROM comcode WHERE chanm IS NOT NULL ORDER BY chacd;
+	</select>
+	
+	<select id="getMiliList" resultType="comcodevo">
+		SELECT milicd, milinm FROM comcode WHERE milinm IS NOT NULL ORDER BY milicd;
+	</select>
+	
+	<select id="getImpList" resultType="comcodevo">
+		SELECT impcd, impnm FROM comcode WHERE impnm IS NOT NULL ORDER BY impcd;
+	</select>
+	
+	<select id="getPatrList" resultType="comcodevo">
+		SELECT patrcd, patrnm FROM comcode WHERE patrnm IS NOT NULL ORDER BY patrcd;
+	</select>
+	
+	<select id="getReliList" resultType="comcodevo">
+		SELECT relicd, relinm FROM comcode WHERE relinm IS NOT NULL ORDER BY relicd;
+	</select>
+	
+	<select id="getMarList" resultType="comcodevo">
+		SELECT marcd, marnm FROM comcode WHERE marnm IS NOT NULL ORDER BY marcd;
+	</select>
+	
+	<select id="getDlList" resultType="comcodevo">
+		SELECT dlcd, dlnm FROM comcode WHERE dlnm IS NOT NULL ORDER BY dlcd;
+	</select>
+	
+	<select id="getHuList" resultType="comcodevo">
+		SELECT hucd, hunm FROM comcode WHERE hunm IS NOT NULL ORDER BY hucd;
+	</select>
+	
+	<select id="getPayList" resultType="comcodevo">
+		SELECT paycd, paynm FROM comcode WHERE paynm IS NOT NULL ORDER BY paycd;
+	</select>
+	
+	<select id="getCaList" resultType="comcodevo">
+		SELECT cacd, canm FROM comcode WHERE canm IS NOT NULL ORDER BY cacd;
+	</select>
+	
+	<select id="getDatgrpList" resultType="comcodevo">
+		SELECT datgrpcd, datgrpnm FROM comcode WHERE datgrpnm IS NOT NULL ORDER BY datgrpcd;
+	</select>
+	
+	<select id="getAprformList" resultType="comcodevo">
+		SELECT aprformcd, aprformnm FROM comcode WHERE aprformnm IS NOT NULL ORDER BY aprformcd;
+	</select>
+	
+	<select id="getAprcaList" resultType="comcodevo">
+		SELECT aprcacd, aprcanm FROM comcode WHERE aprcanm IS NOT NULL ORDER BY aprcacd;
+	</select>
+	
+	<select id="getAprsingList" resultType="comcodevo">
+		SELECT aprsingcd, aprsingnm FROM comcode WHERE aprsingnm IS NOT NULL ORDER BY aprsingcd;
+	</select>
+	
+	<select id="getReasonList" resultType="comcodevo">
+		SELECT reasoncd, reasonnm FROM comcode WHERE reasonnm IS NOT NULL ORDER BY reasoncd;
+	</select>
+	
+	<select id="getbirthtype" resultType="comcodevo">
+		SELECT birttypecd, birttypenm FROM comcode WHERE birttypenm IS NOT NULL ORDER BY birttypecd;
+	</select>
+</mapper>

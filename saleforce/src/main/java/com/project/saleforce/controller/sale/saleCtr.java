@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.project.saleforce.model.CodeVO;
+import com.project.saleforce.model.ComcodeVO;
 import com.project.saleforce.model.ItemVO;
 import com.project.saleforce.paging.Pager;
-import com.project.saleforce.service.CodeSrv;
+import com.project.saleforce.service.ComcodeSrv;
 import com.project.saleforce.service.ItemSrv;
 
 @Controller
@@ -24,7 +24,7 @@ public class saleCtr {
 	ItemSrv iSrv;
 	
 	@Autowired
-	CodeSrv cSrv;
+	ComcodeSrv cSrv;
 	
 	@RequestMapping("SFA_item_manage")
 	public ModelAndView getItemList(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "itemcd") String searchOpt, @RequestParam(defaultValue = "") String words) {
@@ -56,7 +56,7 @@ public class saleCtr {
 		mav.addObject("curPage", pager.getCurPage());
 		mav.addObject("totalPage", pager.getTotPage());
 		
-		//페이지 번호를 클릭했을 때 css active 클래스 처리
+		//�럹�씠吏� 踰덊샇瑜� �겢由��뻽�쓣 �븣 css active �겢�옒�뒪 泥섎━
 		mav.addObject("selected", pager.getCurPage());
 		
 		mav.setViewName("sale/SFA_item_manage");
@@ -65,19 +65,19 @@ public class saleCtr {
 	
 	@RequestMapping("/getDivList")
 	@ResponseBody
-	public List<CodeVO> getDivList() {
-		List<CodeVO> list = cSrv.getDivList();
+	public List<ComcodeVO> getDivList() {
+		List<ComcodeVO> list = cSrv.getDivList();
 		return list;
 	}
 	
 	@RequestMapping("/getGrpList")
 	@ResponseBody
-	public List<CodeVO> getGrpList(){
-		List<CodeVO> list = cSrv.getGrpList();
+	public List<ComcodeVO> getGrpList(){
+		List<ComcodeVO> list = cSrv.getGrpList();
 		return list;
 	}
 
-	@RequestMapping(value = "insert_item", method = RequestMethod.POST) //서버 실행시 첫 화면
+	@RequestMapping(value = "insert_item", method = RequestMethod.POST) //�꽌踰� �떎�뻾�떆 泥� �솕硫�
 	public String setItem(@ModelAttribute ItemVO ivo) {
 		String div = ivo.getItemdiv();
 		String grp = ivo.getItemgrp();
