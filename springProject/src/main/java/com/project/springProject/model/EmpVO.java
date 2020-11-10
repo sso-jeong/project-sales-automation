@@ -1,8 +1,5 @@
 package com.project.springProject.model;
 
-//import java.text.SimpleDateFormat;
-//import java.util.Date;
-
 public class EmpVO {
 	private String empid;
 	private String deptid;
