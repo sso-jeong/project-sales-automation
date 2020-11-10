@@ -1,47 +1,78 @@
 package com.project.saleforce.model;
 
 public class EmpVO {
-	private String regdate, sfaauth, buseoname, gradename, empid, deptid, empnm, emppwd, emphp, email, empaddr, grade, empauth, joindate, gender, seq;
-	
-
-	public String getJoindate() {
-		return joindate;
-	}
-
-	public void setJoindate(String joindate) {
-		this.joindate = joindate;
-	}
+	private String empid;
+	private String deptid;
+	private String buseoname;
+	private String grade;
+	private String gradename;
+	private String empnm;
+	private String emppwd;
+	private String gender;
+	private String empaddr;
+	private String emphp;
+	private String email;
+	private String empauth;
+	private String birth;
+	private String birthtype;
+	private String regnum;
+	private String accountnum;
+	private String joindate;
+	private String regdate;
+	private String empcp;
+	private String hope;
+	private String licence;
+	private String hobby;
+	private String forte;
+	private String chagubun;
+	private String miligubun;
+	private String impediment;
+	private String patriotism;
+	private String religion;
+	private String marrygubun;
+	private String linguistic;
+	private String reward;
+	private String insert_person;
+	private String seq;
 
 	public String getEmpid() {
 		return empid;
-	}
-
-	public String getDeptid() {
-		return deptid;
-	}
-
-	public String getSeq() {
-		return seq;
-	}
-
-	public void setSeq(String seq) {
-		this.seq = seq;
 	}
 
 	public void setEmpid(String empid) {
 		this.empid = empid;
 	}
 
+	public String getDeptid() {
+		return deptid;
+	}
+
 	public void setDeptid(String deptid) {
 		this.deptid = deptid;
 	}
 
-	public String getEmpauth() {
-		return empauth;
+	public String getBuseoname() {
+		return buseoname;
 	}
 
-	public void setEmpauth(String empauth) {
-		this.empauth = empauth;
+	public void setBuseoname(String buseoname) {
+		this.buseoname = buseoname;
+	}
+
+	public String getGrade() {
+		return grade;
+	}
+
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+	public String getGradename() {
+		return gradename;
+	}
+
+	public void setGradename(String gradename) {
+		this.gradename = gradename;
 	}
 
 	public String getEmpnm() {
@@ -60,6 +91,22 @@ public class EmpVO {
 		this.emppwd = emppwd;
 	}
 
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getEmpaddr() {
+		return empaddr;
+	}
+
+	public void setEmpaddr(String empaddr) {
+		this.empaddr = empaddr;
+	}
+
 	public String getEmphp() {
 		return emphp;
 	}
@@ -76,52 +123,52 @@ public class EmpVO {
 		this.email = email;
 	}
 
-	public String getEmpaddr() {
-		return empaddr;
+	public String getEmpauth() {
+		return empauth;
 	}
 
-	public void setEmpaddr(String empaddr) {
-		this.empaddr = empaddr;
+	public void setEmpauth(String empauth) {
+		this.empauth = empauth;
 	}
 
-	public String getGrade() {
-		return grade;
+	public String getBirth() {
+		return birth;
 	}
 
-	public void setGrade(String grade) {
-		this.grade = grade;
+	public void setBirth(String birth) {
+		this.birth = birth;
 	}
 
-	public String getBuseoname() {
-		return buseoname;
+	public String getBirthtype() {
+		return birthtype;
 	}
 
-	public void setBuseoname(String buseoname) {
-		this.buseoname = buseoname;
+	public void setBirthtype(String birthtype) {
+		this.birthtype = birthtype;
 	}
 
-	public String getGradename() {
-		return gradename;
+	public String getRegnum() {
+		return regnum;
 	}
 
-	public void setGradename(String gradename) {
-		this.gradename = gradename;
+	public void setRegnum(String regnum) {
+		this.regnum = regnum;
 	}
 
-	public String getGender() {
-		return gender;
+	public String getAccountnum() {
+		return accountnum;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
+	public void setAccountnum(String accountnum) {
+		this.accountnum = accountnum;
 	}
 
-	public String getSfaauth() {
-		return sfaauth;
+	public String getJoindate() {
+		return joindate;
 	}
 
-	public void setSfaauth(String sfaauth) {
-		this.sfaauth = sfaauth;
+	public void setJoindate(String joindate) {
+		this.joindate = joindate;
 	}
 
 	public String getRegdate() {
@@ -132,5 +179,124 @@ public class EmpVO {
 		this.regdate = regdate;
 	}
 
-	
+	public String getEmpcp() {
+		return empcp;
+	}
+
+	public void setEmpcp(String empcp) {
+		this.empcp = empcp;
+	}
+
+	public String getHope() {
+		return hope;
+	}
+
+	public void setHope(String hope) {
+		this.hope = hope;
+	}
+
+	public String getLicence() {
+		return licence;
+	}
+
+	public void setLicence(String licence) {
+		this.licence = licence;
+	}
+
+	public String getHobby() {
+		return hobby;
+	}
+
+	public void setHobby(String hobby) {
+		this.hobby = hobby;
+	}
+
+	public String getForte() {
+		return forte;
+	}
+
+	public void setForte(String forte) {
+		this.forte = forte;
+	}
+
+	public String getChagubun() {
+		return chagubun;
+	}
+
+	public void setChagubun(String chagubun) {
+		this.chagubun = chagubun;
+	}
+
+	public String getMiligubun() {
+		return miligubun;
+	}
+
+	public void setMiligubun(String miligubun) {
+		this.miligubun = miligubun;
+	}
+
+	public String getImpediment() {
+		return impediment;
+	}
+
+	public void setImpediment(String impediment) {
+		this.impediment = impediment;
+	}
+
+	public String getPatriotism() {
+		return patriotism;
+	}
+
+	public void setPatriotism(String patriotism) {
+		this.patriotism = patriotism;
+	}
+
+	public String getReligion() {
+		return religion;
+	}
+
+	public void setReligion(String religion) {
+		this.religion = religion;
+	}
+
+	public String getMarrygubun() {
+		return marrygubun;
+	}
+
+	public void setMarrygubun(String marrygubun) {
+		this.marrygubun = marrygubun;
+	}
+
+	public String getLinguistic() {
+		return linguistic;
+	}
+
+	public void setLinguistic(String linguistic) {
+		this.linguistic = linguistic;
+	}
+
+	public String getReward() {
+		return reward;
+	}
+
+	public void setReward(String reward) {
+		this.reward = reward;
+	}
+
+	public String getInsert_person() {
+		return insert_person;
+	}
+
+	public void setInsert_person(String insert_person) {
+		this.insert_person = insert_person;
+	}
+
+	public String getSeq() {
+		return seq;
+	}
+
+	public void setSeq(String seq) {
+		this.seq = seq;
+	}
+
 }

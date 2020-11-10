@@ -1,6 +1,6 @@
 function sale() {
     $.ajax({
-        url: "/springProject/getGrpList",
+        url: "/saleforce/getGrpList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -18,7 +18,7 @@ function sale() {
     });
 
     $.ajax({
-        url: "/springProject/getDivList",
+        url: "/saleforce/getDivList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -38,7 +38,7 @@ function sale() {
 
 function company() {
     $.ajax({
-        url: "/springProject/getTypeList",
+        url: "/saleforce/getTypeList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -56,7 +56,7 @@ function company() {
     });
 
     $.ajax({
-        url: "/springProject/getDttypeList",
+        url: "/saleforce/getDttypeList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -76,7 +76,7 @@ function company() {
 
 function stock() {
     $.ajax({
-        url: "/springProject/getStktypeList",
+        url: "/saleforce/getStktypeList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -96,7 +96,7 @@ function stock() {
 
 function empList() {
     $.ajax({
-        url: "/springProject/getGenderList",
+        url: "/saleforce/getGenderList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -114,7 +114,7 @@ function empList() {
     });
     
      $.ajax({
-        url: "/springProject/getbirthtype",
+        url: "/saleforce/getbirthtype",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -132,7 +132,7 @@ function empList() {
     });
 
     $.ajax({
-        url: "/springProject/getChaList",
+        url: "/saleforce/getChaList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -150,7 +150,7 @@ function empList() {
     });
 
     $.ajax({
-        url: "/springProject/getMiliList",
+        url: "/saleforce/getMiliList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -168,7 +168,7 @@ function empList() {
     });
 
     $.ajax({
-        url: "/springProject/getImpList",
+        url: "/saleforce/getImpList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -186,7 +186,7 @@ function empList() {
     });
 
     $.ajax({
-        url: "/springProject/getPatrList",
+        url: "/saleforce/getPatrList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -204,7 +204,7 @@ function empList() {
     });
 
     $.ajax({
-        url: "/springProject/getReliList",
+        url: "/saleforce/getReliList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -222,7 +222,7 @@ function empList() {
     });
 
     $.ajax({
-        url: "/springProject/getMarList",
+        url: "/saleforce/getMarList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -244,7 +244,7 @@ function empList() {
 
 function tna() {
     $.ajax({
-        url: "/springProject/getDlList",
+        url: "/saleforce/getDlList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -262,7 +262,7 @@ function tna() {
     });
 
     $.ajax({
-        url: "/springProject/getHuList",
+        url: "/saleforce/getHuList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -282,7 +282,7 @@ function tna() {
 
 function wage() {
     $.ajax({
-        url: "/springProject/getPayList",
+        url: "/saleforce/getPayList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -300,7 +300,7 @@ function wage() {
     });
 
     $.ajax({
-        url: "/springProject/getCaList",
+        url: "/saleforce/getCaList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -318,7 +318,7 @@ function wage() {
     });
 
     $.ajax({
-        url: "/springProject/getDatgrpList",
+        url: "/saleforce/getDatgrpList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -338,7 +338,7 @@ function wage() {
 
 function approval() {
     $.ajax({
-        url: "/springProject/getAprformList",
+        url: "/saleforce/getAprformList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -356,7 +356,7 @@ function approval() {
     });
 
     $.ajax({
-        url: "/springProject/getAprcaList",
+        url: "/saleforce/getAprcaList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -374,7 +374,7 @@ function approval() {
     });
 
     $.ajax({
-        url: "/springProject/getAprsingList",
+        url: "/saleforce/getAprsingList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -392,7 +392,7 @@ function approval() {
     });
 
     $.ajax({
-        url: "/springProject/getReasonList",
+        url: "/saleforce/getReasonList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -412,7 +412,7 @@ function approval() {
 
 function load() {
  	 $.ajax({
-		        url: "/springProject/getBuseoList",
+		        url: "/saleforce/getBuseoList",
 		        type: "POST",
 		        data: "",
 		        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
@@ -430,7 +430,7 @@ function load() {
 		    });
 		    
 	$.ajax({
-		        url: "/springProject/getGradeList",
+		        url: "/saleforce/getGradeList",
 		        type: "POST",
 		        data: "",
 		        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식

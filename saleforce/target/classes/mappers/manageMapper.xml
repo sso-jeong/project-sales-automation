@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="manage">
+
+	<sql id="search">
+		<choose>
+			<when test="words == ''">
+
+			</when>
+			<when test="searchOpt=='all'">
+				AND (empnm LIKE CONCAT('%', #{words},'%') OR
+				empid
+				LIKE CONCAT('%', #{words},'%'))
+			</when>
+			<otherwise>
+				AND ${searchOpt} LIKE CONCAT('%', #{words},'%')
+			</otherwise>
+		</choose>
+	</sql>
+
+	<select id="getAuthList" parameterType="hashmap"
+		resultType="empvo">
+		SELECT
+		empid,
+		empnm,
+		deptid,
+		buseo_name AS buseoname,
+		grade,
+		grade_name AS gradename,
+		empauth
+		FROM emp_tbl E, buseo_tbl B, grade_tbl G
+		WHERE empid != 'admin' AND E.deptid
+		= B.buseo_id AND E.grade = G.grade_id
+		<include refid="search"></include>
+		ORDER BY buseo_name DESC LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="getAuthCount" resultType="int">
+		SELECT COUNT(empid) 
+		FROM emp_tbl E, buseo_tbl B, grade_tbl G 
+		WHERE empid != 'admin' AND E.deptid
+		= B.buseo_id AND E.grade = G.grade_id
+		<include refid="search"></include>
+		ORDER BY regdate DESC	
+	</select>
+
+	<select id="getAuthListOne" parameterType="String"
+		resultType="empvo">
+		SELECT
+		empid, 
+		empnm, 
+		deptid,
+		buseo_name AS buseoname, 
+		grade,
+		grade_name AS gradename
+		FROM emp_tbl E, buseo_tbl B, grade_tbl G 
+		WHERE E.deptid = B.buseo_id AND E.grade = G.grade_id AND empid = #{empid}
+	</select>
+	
+	<update id="setAuthChange" parameterType="empvo">
+		UPDATE emp_tbl 
+		SET deptid = #{deptid}, grade = #{grade} WHERE empid = #{empid}
+	</update>
+
+	<update id="setConfirmChange" parameterType="hashmap">
+		UPDATE emp_tbl
+		SET empauth = #{empAuth} WHERE empid = #{empID}
+	</update>
+	
+	<delete id="setAuthDel" parameterType="String">
+		DELETE FROM emp_tbl WHERE empid = #{empid}
+	</delete>
+
+</mapper>

@@ -1,5 +1,6 @@
 package com.project.saleforce.service;
 
+
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -46,27 +47,23 @@ public class EmpSrv {
 		return empDao.pwdFind(evo);
 	}
 	
-	public List<EmpVO> getEmpList(int start, int end, String searchOpt,String words) {
-		return empDao.getEmpList(start, end, searchOpt, words);
-	}
-	
-	public int getEmpCount(String searchOpt,String words) {
-		return empDao.getEmpCount(searchOpt, words);
-	}
-	
-	public EmpVO getOneEmp(String empid) {
-		return empDao.getOneEmp(empid);
-	}
-	
-	public void updateEmpAuth(EmpVO evo) {
-		empDao.updateEmpAuth(evo);
-	}
+	// ################################# 사원목록 소스 시작   #################################
 
-	public void deleteEmpAuth(String empid) {
-		empDao.deleteEmpAuth(empid);
-	}
 	
-	public void updateAuth(String empauth, String empid) {
-		empDao.updateAuth(empauth, empid);
-	}
+		public List<EmpVO> getEmpList(int start, int end, String searchOpt, String words) {
+			return empDao.getEmpList(start, end, searchOpt, words);
+		}
+
+	
+		public EmpVO getEmpListOne(String empID) {
+			return empDao.getEmpListOne(empID);
+		}
+
+	
+		public void setEmpOthers(EmpVO empvo) {
+			empDao.setEmpOthers(empvo);
+			
+		}
+
+		// ################################# 사원목록 소스 끝   #################################
 }

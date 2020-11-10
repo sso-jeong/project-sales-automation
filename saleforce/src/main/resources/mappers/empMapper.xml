@@ -65,15 +65,14 @@
 	</select>
 	<!-- 로그인 -->
 
-	<!-- 사원목록 -->
-	<sql id="search">
+	<!-- <sql id="search">
 		<choose>
 			<when test="words == ''">
 			</when>
 			<when test="searchOpt=='all'">
 				AND empnm LIKE CONCAT('%', #{words}, '%')
-				<!-- (OR empid LIKE CONCAT('%', #{words} ,'%') OR buseo_name LIKE CONCAT('%', 
-					#{words} , '%')) -->
+				(OR empid LIKE CONCAT('%', #{words} ,'%') OR buseo_name LIKE CONCAT('%', 
+					#{words} , '%'))
 			</when>
 			<otherwise>
 				AND ${searchOpt} LIKE CONCAT('%', #{words} ,'%')
@@ -147,7 +146,146 @@
 		SET empauth
 		= #{empauth}
 		WHERE empid = #{empid}
-	</update>
+	</update> -->
+	
+	<!-- ################################# 사원목록 소스 시작  ################################# -->
+	
+	<sql id="search">
+		<choose>
+			<when test="words == ''">
 
-	<!-- 사원목록 -->
+			</when>
+			<when test="searchOpt=='all'">
+				AND (empnm LIKE CONCAT('%', #{words},'%') OR
+				buseo_name LIKE CONCAT('%', #{words},'%') OR 
+				grade_name LIKE CONCAT('%', #{words},'%'))
+			</when>
+			<otherwise>
+				AND ${searchOpt} LIKE CONCAT('%', #{words},'%')
+			</otherwise>
+		</choose>
+	</sql>
+
+	<select id="getEmpList" parameterType="hashmap"
+		resultType="empvo">
+		SELECT
+		empid,
+		empnm,
+		deptid,
+		buseo_name AS buseoName,
+		grade,
+		grade_name AS gradeName,
+		birth,
+		gender,
+		regnum,
+		empaddr,
+		emphp,
+		email,
+		accountnum,
+		joindate
+		FROM emp_tbl
+		E, buseo_tbl B, grade_tbl G
+		WHERE grade != 7 AND E.deptid
+		= B.buseo_id
+		AND E.grade = G.grade_id
+		<include refid="search"></include>
+		ORDER BY regdate desc LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="getEmpListOne" parameterType="String" resultType="empvo">
+		SELECT
+		empid,
+		empnm,
+		deptid,
+		buseo_name AS buseoName,
+		grade,
+		grade_name AS gradeName,
+		birth,
+		gender,
+		regnum,
+		empaddr,
+		emphp,
+		email,
+		accountnum,
+		joindate
+		FROM emp_tbl
+		E, buseo_tbl B, grade_tbl G
+		WHERE grade != 7 AND E.deptid = B.buseo_id AND E.grade = G.grade_id AND empid = #{empid}
+	</select>
+	
+	<insert id="setRegAll" parameterType="empvo">
+		<selectKey keyProperty="seq" order="BEFORE" resultType="int">
+			SELECT CASE WHEN empid IS NULL THEN 1
+			ELSE right(empid,
+			char_length(empid)-7) +1 END
+			FROM emp_tbl
+			WHERE deptid = #{deptid}
+			ORDER BY regdate DESC LIMIT 1
+		</selectKey>
+
+		INSERT INTO emp_tbl SET
+		deptid			= #{deptid},
+		grade			= #{grade},
+		empnm			= #{empnm},
+		emppwd			= #{emppwd},
+		empaddr			= #{empaddr},
+		emphp			= #{emphp},
+		email			= #{email},
+		regdate			= now(),
+		empid 			= CONCAT(#{empid}, #{seq}),
+		gender			= #{gender},
+		birth			= #{birth},
+		birthtype		= #{birthtype},
+		regnum			= #{regnum},
+		empaddr			= #{empaddr},
+		emphp			= #{emphp},
+		empcp			= #{empcp},
+		accountnum		= #{accountnum},
+		hope			= #{hope},
+		licence			= #{licence},
+		hobby			= #{hobby},
+		forte			= #{forte},
+		chagubun		= #{chagubun},
+		miligubun		= #{miligubun},
+		impediment		= #{impediment},
+		patriotism		= #{patriotism},
+		religion		= #{religion},
+		marrygubun		= #{marrygubun},
+		linguistic		= #{linguistic},
+		reward			= #{reward},
+		joindate		= #{joindate},
+		insert_person	= #{empid}
+		
+	</insert>
+
+	<update id="setEmpOthers" parameterType="empvo">
+		UPDATE emp_tbl SET 
+		gender			= #{gender},
+		birth			= #{birth},
+		birthtype		= #{birthtype},
+		regnum			= #{regnum},
+		empaddr			= #{empaddr},
+		emphp			= #{emphp},
+		empcp			= #{empcp},
+		accountnum		= #{accountnum},
+		hope			= #{hope},
+		licence			= #{licence},
+		hobby			= #{hobby},
+		forte			= #{forte},
+		chagubun		= #{chagubun},
+		miligubun		= #{miligubun},
+		impediment		= #{impediment},
+		patriotism		= #{patriotism},
+		religion		= #{religion},
+		marrygubun		= #{marrygubun},
+		linguistic		= #{linguistic},
+		reward			= #{reward},
+		joindate		= #{joindate},
+		insert_person	= #{empid}
+		WHERE empid = #{empid}
+	</update>
+	
+	<!--  ################################# 사원목록 소스 끝   ################################# -->
+	
+	
 </mapper>

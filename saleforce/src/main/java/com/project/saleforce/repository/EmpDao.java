@@ -30,41 +30,27 @@ public class EmpDao {
 		return sql.selectOne("emp.pwdFind", evo);
 	}
 	
-	public List<EmpVO> getEmpList(int start, int end, String searchOpt,String words) {
-		HashMap<String, Object> hs = new HashMap<String, Object>();
-		hs.put("searchOpt", searchOpt);
-		hs.put("words", words);
-		hs.put("start", start);
-		hs.put("end", end);
-		return sql.selectList("emp.getEmpList", hs);
-	}
+	// ################################# 사원목록 소스 시작   #################################
 
-	public int getEmpCount(String searchOpt,String words) {
-		HashMap<String, String> hs = new HashMap<String, String>();
-		hs.put("searchOpt", searchOpt);
-		hs.put("words", words);
-		return sql.selectOne("emp.getEmpCount", hs);
-	}
-	
-	public EmpVO getOneEmp(String empid) {
-		return sql.selectOne("emp.getOneEmp", empid);
-	}
-	
-	public void updateEmpAuth(EmpVO evo) {
-		sql.update("emp.updateEmpAuth", evo);
-	}
-	
-	public void deleteEmpAuth(String empid) {
-		sql.delete("emp.deleteEmpAuth", empid);
-	}
-	
-	public void updateAuth(String empauth, String empid) {
-		HashMap<String, String> hs = new HashMap<String, String>();
-		hs.put("empauth", empauth);
-		hs.put("empid", empid);
-		sql.update("emp.updateAuth", hs);
-	}
-	
-	
-	
+		public List<EmpVO> getEmpList(int start, int end, String searchOpt, String words) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("searchOpt", searchOpt);
+			map.put("words", words);
+			map.put("start", start);
+			map.put("end", end); 
+			
+			return sql.selectList("emp.getEmpList", map);
+		}
+
+		public EmpVO getEmpListOne(String empID) {
+			return sql.selectOne("emp.getEmpListOne", empID);
+		}
+
+		public void setEmpOthers(EmpVO empvo) {
+			sql.update("emp.setRegAll", empvo);
+			
+		}
+
+		
+		// ################################# 사원목록 소스 끝   #################################
 }
