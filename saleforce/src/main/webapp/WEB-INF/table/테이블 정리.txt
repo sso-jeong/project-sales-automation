@@ -1,0 +1,268 @@
+[영업관리]
+순번 SQL
+SET @row_num = 0;
+SELECT @row_num := @row_num + 1 as seq FROM 테이블이름
+
+거래처 
+create table company_tbl(
+	comcd varchar(10) not null,		[거래처코드]  업태에 따라서 코드 부여
+	comnm varchar(50) not null, 		[거래처명]
+	reprenm varchar(10) not null,	[대표이름]
+	type varchar(2) not null,		[업태] 제조업
+	dttype varchar(2) not null,		[종목] 제조
+	addr varchar(100) not null,		[주소]
+	tel varchar(13) not null,		[전화]
+	fax varchar(13),			[팩스]
+	homepg varchar(50),		[홈페이지]
+	customer varchar(10) ,		[담당자]
+	custtel varchar(13),			[담당자연락처]
+	remark varchar(300),		[비고]
+	seq int,				[순번]
+	insert_person varchar(10),		[등록자]
+	regdate datetime,			[등록시간]
+	primary key(comcd)
+);
+품목 
+create table item_tbl(
+	itemcd varchar(10) not null, 		[품목코드] 품목그룹에 따라서 코드 부여
+	itemnm varchar(50) not null, 	[품목명]
+	itemdiv varchar(2) not null,		[품목구분] 제품, 반제품 등등
+	itemgrp varchar(2) not null,		[품목그룹명] 기계부품, 금속부픔 등등
+	price int default 0, 		[출고단가]
+	std varchar(50),			[규격]
+	remark varchar(300),		[비고]
+	seq int,				[순번]
+	insert_person varchar(10),		[등록자]
+	regdate datetime,			[등록시간]
+	primary key(itemcd) 
+);
+수주 
+create table order_tbl(
+	ordnum varchar(11) not null, 	[수주번호] 20-09240001
+	orddt varchar(10) not null,		[수주일자] 2020-01-01
+	dlvdt varchar(10) not null,		[납기일자] 2020-01-02
+	itemcd varchar(10) not null,		[품목코드]
+	itemnm <- 필요하면 넣는걸로
+	comcd varchar(10) not null,		[거래처코드]
+	comnm <- 필요하면 넣는걸로
+	projectnm varchar(30), 		[프로젝트명]
+	ordperson varchar(10),		[프로젝트담당자]	
+	qty int not null,			[수량]
+	price int not null,			[단가]
+	remark varchar(300),		[비고]
+	seq int,				[순번]		
+	insert_person varchar(10),		[등록자]
+	regdate datetime,			[등록시간]
+	primary key(ordnum),
+	foreign key (itemcd) references item_tbl(itemcd),
+	foreign key (comcd) references company_tbl(comcd)	
+);
+판매 
+create table sale_tbl(
+	salenum varchar(10) not null,		[판매번호]
+	saledt varchar(10) not null,		[판매일자]2020-01-01	
+	ordnum varchar(10) not null,		[수주번호]
+	itemcd varchar(10) not null,		[품목코드]
+	comcd int not null, 		[거래처코드]
+	projectnm varchar(30), 		[프로젝트명]
+	ordperson varchar(10),		[프로젝트담당자]
+	qty int not null,			[수량]
+	price int not null,			[단가]
+	remark varchar(300),		[비고]
+	seq int,				[순번]
+	insert_person varchar(10),		[등록자]
+	regdate datetime,			[등록시간]
+	primary key(salenum),
+	foreign key(ordnum) references order_tbl(ordnum) 
+);
+
+재고 테이블 
+create table stock_tbl (
+	stkcd varchar(12) not null,		[재고코드]
+	itemcd varchar(50) not null ,  	[품목코드]
+	indt char(10),			[입고일자]
+	outdt char(10),			[출고일자]
+	stktype char(2) not null,		[유형]
+	inqty int default 0 , 		[입고량]
+	outqty int default 0,		[출고량]
+	janqty int,			[잔량]
+	remark varchar(300),		[비고]
+	seq int,				[순번]
+	insert_person varchar(10),		[등록자]
+	regdate datetime,			[등록일자]
+	primary key(stkcd),
+	foreign key(itemcd) references item_tbl(itemcd)
+);
+
+[ 판매출고 선택시 팝업창 띄워서 판매리스트중 하나를 골라와
+해당 데이터를 품목코드, 품목명, 규격, 수량, 출고일자에 바인
+딩하는쪽으로 ] 
+
+///////////////////////////////////////////////////////////// 인사
+
+인사 
+사원 
+create table EMP_TBL(
+	EMPID int not null,				[사원번호]
+	DEPTID int not null,			[부서코드 - 100/200 - 인사총무부/영업부]
+	DEPTNM varchar(5),			[부서명]
+	GRADE char(8) not null,			[직급 - 관리자/영업부관리자/인사총무부관리자/...]
+	EMPAUTH CHAR(1) NOT NULL,		[권한 - A/B ... ]
+	EMPNM varchar(14) not null,			[사원명]
+	EMPPWD varchar(14) not null,		[비밀번호]
+	GENDER char(1),				[성별 - M/W]
+	BIRTH char(10) not null,			[생년월일 - 1990-01-01]
+	BIRTHTYPE char(1) not null,			[양력/음력 - A/B]
+	REGNUM varchar(14) not null,		[주민등록번호]
+	EMPADDR varchar(50) not null,		[주소]
+	EMPHP varchar(12) not null,			[H.P - 010-1234-5678]
+	EMPCP varchar(12) not null,			[내선번호 C.P - 070-1234-5678]
+	EMAIL varchar(25) default(''),			[이메일]
+	ACCOUNTNUM varchar(20),			[계좌번호]
+	HOPE varchar(10),				[희망직무]
+	LICENCE varchar(20),			[보유자격]
+	HOBBY varchar(20),				[취미]
+	FORTE varchar(20),				[특기]
+	CHAGUBUN char(1),			[채용형태 - A/B/C - 공개채용/수시채용/특별채용]
+	MILIGUBUN char(1),			[채용형태 - A/B/C - 병역필/병역미필/병역무관]
+	IMPEDIMENT char(1),			[장애여부 - A/B - 대상/비대상]
+	PATRIOTISM char(1),			[보훈대상 - A/B - 대상/비대상]
+	RELIGION char(1),				[종교 - A/B/C/D - 무교/불교/기독교/천주교/기타]
+	MARRYGUBUN char(1),			[결혼여부 - A/B - 미혼/기혼]
+	LINGUISTIC varchar(20),			[어학사항]	
+	REWARD	varchar(20),			[상벌사항]
+	JOINDATE char(10),				[입사일자]
+	REGDATE datetime,			[등록일자]
+	seq int,					[순번]
+	insert_person varchar(10),			[등록자]
+	primary key(empid)
+);
+
+근태
+CREATE TABLE DL_TAL (
+	DLNUM INT NOT NULL,				[근태번호]
+	EMPID INT NOT NULL,				[사원번호]
+	DLGUBUN CHAR(1) NOT NULL,			[근태유형 - A/B/C/D/E - 내근/외근/휴가/오전반차/오후반차]
+	DLDATE DATE NOT NULL,				[근태일자]
+	ONTIME TIME,					[출근시간]
+	OFFTIME TIME,					[퇴근시간]
+	EXTIME TIME DEFAULT('00:00'),			[연장시간]
+	TOTTIME TIME,					[총근무시간]
+	REMARK VARCHAR(30),				[비고]
+	seq int,						[순번]
+	insert_person varchar(10),				[등록자]
+regdate datetime,			[등록일자]
+	PRIMARY KEY(DLNUM),
+	FOREIGN KEY(EMPID) REFERENCES EMP_TAL(EMPID)
+);
+
+급여
+CREATE TABLE HU_TBL(
+	HUNUM INT NOT NULL,				[급여코드]
+	HUGUBUN CHAR(1) NOT NULL DEFAULT('A'),		[급여구분 - A/B - 급여/상여]
+	PAYGUBUN CHAR(1) NOT NULL DEFAULT('A'),		[급여형태 - A/B/C - 월급직/일반직/시간직]
+	PAYNM VARCHAR(10) NOT NULL,			[급여지급명] 예시 - 2020-08 정기급여 월급
+	EMPID INT NOT NULL,				[사원번호]
+	HUSTDATE DATE NOT NULL,				[급여적용기간-시작일]
+	HUENDDATE DATE NOT NULL,			[급여적용기간-종료일]
+	PAYYA INT,					[야근수당]
+	PAYHU INT,					[휴일수당]
+	PAYYEON INT,					[연차수당]
+	PAYGI INT,					[기타수당]
+	PAYDATE DATE,					[지급일]
+	TOTPAY INT,					[지급총액]
+	seq int,						[순번]
+	insert_person varchar(10),				[등록자]
+regdate datetime,			[등록일자]
+	PRIMARY KEYHUNUM,
+	FOREIGN KEY(EMPID) REFERENCES EMP_TAL(EMPID)
+);
+급여구분/급상여종류를 합치고 내용을 급여/상여로 변경
+근태기간없애고 사전작업버튼과 같은 근태불러오기 팝업창 만들기
+만든 후 근태유형에 따라 야근수당, 휴일수당, 연차수당, 기타수당 불러오기 혹은 입력
+
+////////////////////////////////////////////////////////////////////// 전자결재
+//결재 테이블
+CREATE TABLE APPROVAL_TAL(
+	APRNUM INT NOT NULL,			[결재문서번호]
+	APRFORM CHAR(1) NOT NULL,		[결재양식 -A/B/C/D.... - 업무일지/연차처리/수주처리...]
+	APRCATEGORY CHAR(1) NOT NULL,		[결재문서분류 - A/B - 일반/긴급]
+	APRSINGGUBUN CHAR(1) NOT NULL,		[결재문서구분 - A/B - 결재진행중/결재완료]
+	APRTITLE VARCHAR(20) NOT NULL,		[결재제목]
+	CONTENTS TEXT,				[결재내용]
+	APRDATE DATE NOT NULL,			[결재시행일자]
+	ATTDATNUM VARCHAR(30),			[첨부파일번호]
+	ATTDATEXFILE VARCHAR(10),		[확장자]
+	EMPID INT NOT NULL,			[사원번호]
+	DEPTNM varchar(5),			[부서명]
+	GRADE char(8) not null,			[직급 - 관리자/영업부관리자/인사총무부관리자/...]
+	EMPNM varchar(14) not null,			[사원명]
+	REASON VRCHAR(20),			[부재/위임사유]
+	REASONCHK CHAR(1),			[부재/위임사용체크 - A/B - 사용중/완료]
+	STADATE DATE,				[부재/위임시작일]
+	ENDDATE DATE,				[부재/위임종료일]
+	FILEREGDATE DATE,				[문서등록일]
+	seq int,					[순번]
+	insert_person varchar(10),			[등록자]
+	regdate datetime,			[등록일자]
+	PRIMARY APPNUM, 
+	FOREIGN KEY(EMPID) REFERENCES EMP_TAL(EMPID),
+	foreign key(attdatnum) references ATTACH_TBL (attdatnum)
+
+);
+
+///////////////////////////////////////////////////////////////////// 시스템 관리
+ 
+게시판 테이블 
+create table notice_tbl (
+	datnum varchar(10) not null,		[게시글 번호]
+	category char(2) not null,		[게시글 분류 - 공지사항, 일반글]
+	datgrp char(2) not null,		[게시판 그룹 - 일반공지, 영업공지, 인사공지]
+	title varchar(100) not null,		[게시글 제목]
+	sctchk char(1) not null,		[비밀글 여부] 
+	contents text,			[내용]
+	person varchar(10) not null,		[작성자]
+	attdatnum varchar(30),		[첨부파일번호]
+	seq int,				[순번]
+	insert_person varchar(10),		[등록자]
+ 	regdate datetime,			[등록일자]
+	primary key(datnum),
+	foreign key(attdatnum) references ATTACH_TBL (attdatnum)
+);
+영업게시판관리자, 인사게시판관리자, 영업부원, 인사부원, 관리자
+create table notice_auth (
+	grpnum varchar(10) not null,		[게시판 그룹번호]
+	grpnm varchar(30) not null,		[그룹 이름]
+	grpman char(10) not null,		[그룹 관리자]
+	readauth int(3) default '0'		[읽기 권한]
+	writeauth int(3) default '0'		[쓰기 권한]
+	commauth int(3) default '0'		[댓글 권한]
+	downauth int(3) default '0'		[다운 권한]
+	seq int,				[순번]
+	insert_person varchar(10)		[등록자]
+);
+
+일정관리 테이블
+create table todo_tbl (
+	todonum VARCHAR(10) auto_increment not null,	[일정번호]
+	todo varchar(100),					[일정리스트]
+	empid int not null,				
+	todoyn varchar(1),
+	STRDATE DATE,					[시작일자]
+	ENDDATE DATE,					[종료일자]
+	regdate datetime,					[등록일자]
+	seq int,						[순번]
+	insert_person varchar(10),				[등록자]
+	primary key(todonum),
+	foreign key(empid) references emp_tbl(empid)
+);
+
+첨부파일
+CREATE TABLE ATTACH_TBL (
+	ATTDATNUM VARCHAR(30),		[첨부파일번호]
+	ATTNM VARCHAR(100),		[첨부파일명]
+	ATTSIZE VARCHAR(30),		[첨부파일크기]
+	ATTORINM VAHRCHAR(300),		[첨부파일경로]
+	ATTDATE DATETIME,		[첨부파일등록일자]
+	PRIMARY KEY(ATTDATNUM) 
+);

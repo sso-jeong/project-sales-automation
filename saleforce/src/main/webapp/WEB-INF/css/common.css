@@ -1,0 +1,564 @@
+@charset 'utf-8';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500;700&display=swap');
+
+body {
+    font-family: '맑은 고딕';
+    font-size: 12px;
+}
+
+/* font */
+.noto {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.pop {
+    font-family: 'Poppins', sans-serif;
+}
+
+.roboto {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* font size */
+.font14 {
+    font-size: 14px;
+}
+
+.font16 {
+    font-size: 16px;
+}
+
+.font20 {
+    font-size: 20px;
+}
+
+.font22 {
+    font-size: 22px;
+}
+
+.font24 {
+    font-size: 24px;
+}
+
+.font26 {
+    font-size: 26px;
+}
+
+/* font color */
+.f6 {
+    color: #fff;
+}
+
+.blue {
+    color: #D2D2D2;
+}
+
+.weight300 {
+    font-weight: 300;
+}
+
+.weight500 {
+    font-weight: 500;
+}
+
+.weight700 {
+    font-weight: 700;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+/* bgcolor */
+.bg-white {
+    background-color: #fff;
+}
+
+.bg-gray {
+    background-color: #eee;
+}
+
+.bg-green {
+    background-color: rgba(219, 228, 232, 0.8);
+}
+
+/* button */
+.btn-normal {
+    display: inline-block;
+    padding: 9.5px 10px;
+    /* 가변 타입 */
+    background-color: #0C4A60;
+    border-radius: 2px;
+    color: #fff;
+    font-weight: 700;
+}
+
+.btn-cancel {
+    display: inline-block;
+    padding: 9.5px 10px;
+    /* 가변 타입 */
+    background-color: #edeff5;
+    border-radius: 2px;
+    color: #000;
+    font-weight: 700;
+}
+
+.button {
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-red {
+    display: inline-block;
+    padding: 9.5px 10px;
+    /* 가변 타입 */
+    background-color: #d92550;
+    border-radius: 2px;
+    color: #fff;
+    font-weight: 700;
+}
+
+.btn-count {
+    display: inline-block;
+    padding: 9.5px 10px;
+    background-color: #0C4A60;
+    border-radius: 2px;
+    color: #fff;
+}
+
+/* 버튼 활성화 */
+.btn-on {
+    display: inline-block;
+    width: 75px;
+    height: 35px;
+    text-align: center;
+    line-height: 37px;
+    border-radius: 2px;
+    background-color: #0C4A60;
+    border: 1px solid transparent;
+    color: #fff;
+}
+
+/* 버튼 비활성화 */
+.btn-off {
+    display: inline-block;
+    width: 75px;
+    height: 35px;
+    text-align: center;
+    line-height: 37px;
+    border-radius: 2px;
+    background-color: #edeff5;
+    border: 1px solid #d4d4d4;
+    color: #000;
+}
+
+.s-btn-on {
+    display: inline-block;
+    width: 35px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    border-radius: 2px;
+    background-color: #0C4A60;
+    border: 1px solid transparent;
+    color: #fff;
+}
+
+.s-btn-off {
+    display: inline-block;
+    width: 35px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    border-radius: 2px;
+    background-color: #edeff5;
+    border: 1px solid #d4d4d4;
+    color: #000;
+}
+
+/* flex */
+.flex {
+    display: flex;
+}
+
+.flex-justify {
+    justify-content: space-between;
+}
+
+.flex-direction {
+    flex-direction: row-reverse;
+}
+
+.flex-content {
+    justify-content: space-around;
+}
+
+/* float */
+.float-l {
+    float: left;
+}
+
+.float-r {
+    float: right;
+}
+
+.clearfix {
+    clear: both;
+}
+
+/* input */
+input {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 150px;
+    height: 35px;
+    font-size: 12px;
+}
+
+input:focus {
+    border: 1px solid #0C4A60;  
+}
+
+.input-27 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 26.5%;
+    height: 35px;
+    font-size: 12px;
+}
+
+.input-35 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 35%;
+    height: 35px;
+    font-size: 12px;
+}
+
+.input-38 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 38%;
+    height: 35px;
+    font-size: 12px;
+}
+
+.input-40 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 40%;
+    height: 35px;
+    font-size: 12px;
+}
+
+.input-50 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 50%;
+    height: 35px;
+    font-size: 12px;
+}
+
+.input-58 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 58%;
+    height: 35px;
+    font-size: 12px;
+}
+
+.input-60 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 64%;
+    height: 35px;
+    font-size: 12px;
+}
+
+.input-49 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 49%;
+    height: 35px;
+    font-size: 12px;
+}
+
+.input-24 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 24%;
+    height: 35px;
+    font-size: 12px;
+}
+
+.input-74 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 74%;
+    height: 35px;
+    font-size: 12px;
+}
+
+.input-73 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 73%;
+    height: 35px;
+    font-size: 12px;
+}
+
+.input-75 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 75%;
+    height: 35px;
+    font-size: 12px;
+}
+
+.input-100 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 100%;
+    height: 35px;
+    font-size: 12px;
+}
+
+/* select */
+select {
+    font-size: 12px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 150px;
+    height: 35px;
+}
+
+.sel-25 {
+    font-size: 12px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 25%;
+    height: 35px;
+}
+
+.sel-50 {
+    padding: 5px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 49%;
+    height: 35px;
+    font-size: 12px;
+}
+
+
+.sel-55 {
+    font-size: 12px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 55%;
+    height: 35px;
+}
+
+.sel-100 {
+    font-size: 12px;
+    border-radius: 2px;
+    border: 1px solid #d5d5d5;
+    width: 100%;
+    height: 35px;
+}
+
+/* margin : 개체 개체 사이를 띄울 때 */
+.m-t5 {
+    margin-top: 5px;
+}
+
+.m-t10 {
+    margin-top: 10px;
+}
+
+.m-t15 {
+    margin-top: 15px;
+}
+
+.m-t20 {
+    margin-top: 20px;
+}
+
+.m-t30 {
+    margin-top: 30px;
+}
+
+.m-t45 {
+    margin-top: 45px;
+}
+
+.m-b5 {
+    margin-bottom: 5px;
+}
+
+.m-b10 {
+    margin-bottom: 10px;
+}
+
+.m-b15 {
+    margin-bottom: 15px;
+}
+
+.m-b20 {
+    margin-bottom: 20px;
+}
+
+.m-tb10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.m-tb15 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.m-tb20 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.m-tb30 {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.m-l5 {
+    margin-left: 5px;
+}
+
+.m-lr10 {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.m-lr15 {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.m-lr20 {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.m-lr30 {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+/* padding */
+.p-tb10 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.p-tb20 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.p-lr3 {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.p-lr5 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.p-lr10 {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.p-lr18 {
+    padding-left: 18px;
+    padding-right: 18px;
+}
+
+.p-lr20 {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.p10 {
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.p20 {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+.p30 {
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+}
+
+/* align */
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.center {
+    text-align: center;
+}
+
+/* unerline */
+.under {
+    text-decoration: underline;
+}
+
+/* paging design */
+.page {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.page-active {
+    background-color: #0C4A60;
+    border: 1px solid transparent;
+
+}
+
+.cursor {
+    cursor: pointer;
+}

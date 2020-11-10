@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="item">
+	<!-- 품목관리 데이터 INSERT -->
+	<insert id="setItem" parameterType="itemvo">
+
+		<selectKey keyProperty="seq" order="BEFORE" resultType="String">
+			SELECT CASE
+			WHEN MAX(itemcd) IS NULL THEN '01'
+			WHEN CONVERT(SUBSTR(MAX(itemcd),9,2),UNSIGNED) + 1 <![CDATA[<]]>
+			10
+			THEN
+			CONCAT('0',RIGHT(CAST(MAX(CONVERT(SUBSTR(itemcd,3),UNSIGNED)) AS CHAR(8)), 1) +1)
+			ELSE RIGHT(CAST(MAX(CONVERT(SUBSTR(itemcd,3),UNSIGNED)) AS CHAR(8)),
+			CHAR_LENGTH(MAX(CONVERT(SUBSTR(itemcd,3),UNSIGNED)))-6)
+			+1
+			END as seq
+			FROM item_tbl
+			WHERE itemdiv = #{itemdiv}
+			AND itemgrp = #{itemgrp}
+			AND SUBSTR(regdate, 6,2) = #{regdate}
+		</selectKey>
+
+		INSERT INTO item_tbl
+		SET itemcd = CONCAT(#{itemcd},#{seq}),
+		itemnm = #{itemnm},
+		itemdiv = #{itemdiv},
+		itemgrp = #{itemgrp},
+		price = #{price},
+		std = #{std},
+		remark = #{remark},
+		insert_person =
+		#{insert_person},
+		attdatnum = #{attdatnum},
+		regdate = now()
+	</insert>
+
+	<!-- 품목관리 데이터 INSERT -->
+
+	<!-- 품목관리 데이터 SELECT -->
+
+	<sql id="search">
+		<choose>
+			<when test="words == ''">
+			</when>
+			<when test="searchOpt=='all'">
+				WHERE (itemcd LIKE CONCAT('%', #{words}, '%')
+				OR itemnm LIKE CONCAT('%', #{words} ,'%')
+				OR divnm LIKE CONCAT('%', #{words} , '%')
+				OR grpnm LIKE CONCAT('%', #{words} , '%'))
+			</when>
+			<otherwise>
+				WHERE ${searchOpt} LIKE CONCAT('%', #{words} ,'%')
+			</otherwise>
+		</choose>
+	</sql>
+
+	<select id="getItemList" parameterType="hashmap" resultType="itemvo">
+		SELECT
+		itemcd,
+		itemnm,
+		d.divnm as itemdivname,
+		itemdiv,
+		g.grpnm as itemgrpname,
+		itemgrp,
+		price,
+		remark,
+		std,
+		regdate,
+		attdatnum
+		FROM item_tbl
+		LEFT JOIN (SELECT divcd, divnm FROM comCode WHERE NOT divnm IS NULL)D ON itemdiv = D.divcd
+		LEFT JOIN (SELECT grpcd, grpnm
+		FROM comCode WHERE NOT grpnm IS NULL)G ON itemgrp = G.grpcd
+		<include refid="search"></include>
+		ORDER BY itemcd DESC LIMIT #{start}, #{end}
+	</select>
+
+	<select id="getItemCount" resultType="int">
+		SELECT COUNT(itemcd)
+		FROM item_tbl
+		LEFT JOIN (SELECT divcd, divnm FROM comCode WHERE NOT divnm IS NULL)D ON itemdiv = D.divcd
+		LEFT JOIN (SELECT grpcd, grpnm FROM comCode WHERE NOT grpnm IS NULL)G ON
+		itemgrp = G.grpcd
+		<include refid="search"></include>
+		ORDER BY itemcd DESC
+	</select>
+
+	<select id="getOneItem" parameterType="String" resultType="itemvo">
+		SELECT
+		itemcd,
+		itemnm,
+		itemdiv,
+		itemgrp,
+		price,
+		remark,
+		std,
+		attdatnum
+		FROM item_tbl
+		WHERE itemcd= #{itemcd}
+	</select>
+
+	<!-- 품목관리 데이터 SELECT -->
+
+	<!-- 품목관리 데이터 UPDATE -->
+
+	<update id="updateItemInfo" parameterType="itemvo">
+		UPDATE item_tbl
+		SET itemdiv = #{itemdiv},
+		itemgrp = #{itemgrp},
+		price = #{price},
+		std = #{std},
+		remark = #{remark}
+		<!-- attdatnum = #{attdatnum} -->
+		WHERE itemcd = #{itemcd}
+	</update>
+
+	<!-- 품목관리 데이터 UPDATE -->
+
+	<!-- 품목관리 데이터 DELETE -->
+
+	<delete id="deleteItemInfo" parameterType="String">
+		DELETE FROM item_tbl
+		WHERE itemcd = #{itemcd}
+	</delete>
+
+	<!-- 품목관리 데이터 DELETE -->
+
+
+
+
+</mapper>

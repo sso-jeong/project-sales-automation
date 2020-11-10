@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases><!-- type 실제 경로  alias 별명 -->
+		<typeAlias type="com.project.saleforce.model.BuseoVO" alias="buseovo" />
+		<typeAlias type="com.project.saleforce.model.GradeVO" alias="gradevo" />
+		<typeAlias type="com.project.saleforce.model.EmpVO" alias="empvo" />
+		<typeAlias type="com.project.saleforce.model.ItemVO" alias="itemvo" />
+		<typeAlias type="com.project.saleforce.model.CodeVO" alias="codevo" />
+	</typeAliases>
+</configuration>

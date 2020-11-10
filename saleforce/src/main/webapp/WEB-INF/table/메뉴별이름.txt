@@ -1,0 +1,26 @@
+[관리자 메뉴]
+권한관리 : sfa_auth.html
+게시판 관리 : sfa_notice_manage.html
+
+[시스템]
+거래처 지도 : sfa_map.html
+일정 : sfa_schedule.html
+공지사항 : sfa_notice.html
+
+[인사/급여]
+급여관리 : sfa_wage.html
+근태관리 : sfa_tna_manage.html
+사원목록 : sfa_emp_list.html
+
+[영업]
+
+재고관리 : sfa_stock_manage.html
+판매관리 : sfa_sale_manage.html
+수주관리 : sfa_order_manage.html
+거래처등록 : sfa_company_manage.html
+품목관리 : sfa_item_manage.html
+
+[회사소개]
+
+찾아오시는길 : sfa_com_direct.html
+기업 소개 : sfa_com_intro.html

@@ -1,0 +1,258 @@
+// 영업관리
+순번 SQL
+SET @row_num = 0;
+SELECT @row_num := @row_num + 1 as seq FROM 테이블이름
+
+거래처 
+create table company_tbl(
+	comcd varchar(10) not null,		
+	comnm varchar(50) not null, 		
+	reprenm varchar(10) not null,		
+	type varchar(2) not null,		
+	dttype varchar(2) not null,		
+	addr varchar(100) not null,	
+	tel varchar(13) not null,		
+	fax varchar(13) ,			
+	homepg varchar(50),		
+	customer varchar(10) ,		
+	custtel varchar(13)	,		
+	remark varchar(300),		
+	seq int,				
+	insert_person varchar(10),		
+	regdate datetime,		
+	primary key(comcd)
+);
+
+품목 
+create table item_tbl(
+	itemcd varchar(10) not null, 		
+	itemnm varchar(50) not null, 		
+	itemdiv varchar(2) not null,		
+	itemgrp varchar(2) not null,		
+	price int default 0, 			
+	std varchar(50),			
+	remark varchar(300),		
+	seq int,				
+	insert_person varchar(10),		
+	regdate datetime,			
+	primary key(itemcd) 
+);
+수주 
+create table order_tbl(
+	ordnum varchar(11) not null, 		
+	orddt varchar(10) not null,		
+	dlvdt varchar(10) not null,		
+	itemcd varchar(10) not null,		
+	itemnm <- 필요하면 넣는걸로
+	comcd int not null, 			
+	comnm <- 필요하면 넣는걸로
+	projectnm varchar(30), 		
+	ordperson varchar(10),		
+	qty int not null,			
+	price int not null,			
+	remark varchar(300),		
+	seq int,						
+	insert_person varchar(10),		
+	regdate datetime,			
+	primary key(ordnum),
+	foreign key (itemcd) references item_tbl(itemcd)	
+);
+판매 
+create table sale_tbl(
+	salenum varchar(10) not null,		
+	saledt varchar(10) not null,			
+	ordnum varchar(10) not null,		
+	itemcd varchar(10) not null,		
+	comcd int not null, 			
+	projectnm varchar(30), 		
+	ordperson varchar(10),		
+	qty int not null,			
+	price int not null,			
+	remark varchar(300),		
+	seq int,				
+	insert_person varchar(10),	
+	regdate datetime,			
+	primary key(salenum),
+	foreign key(ordnum) references order_tbl(ordnum) 
+);
+
+재고 테이블 
+create table stock_tbl (
+	stkcd varchar(12) not null,		
+	itemcd varchar(50) not null ,  		
+	indt char(10),			
+	outdt char(10),			
+	stktype char(2) not null,		
+	inqty int default 0 , 		
+	outqty int default 0,		
+	janqty int,				
+	remark varchar(300),		
+	insert_person varchar(10),		
+	regdate datetime,			
+	primary key(stkcd),
+	foreign key(itemcd) references item_tbl(itemcd)
+);
+
+[ 판매출고 선택시 팝업창 띄워서 판매리스트중 하나를 골라와
+해당 데이터를 품목코드, 품목명, 규격, 수량, 출고일자에 바인
+딩하는쪽으로 ] 
+
+/////////////////////////////////////////////////////////////////////////인사/급여
+//사원
+create table EMP_TBL(
+	EMPID int not null,				
+	DEPTID int not null,			
+	DEPTNM varchar(5),			
+	GRADE char(8) not null,	
+	EMPAUTH CHAR(1) NOT NULL,			
+	EMPNM varchar(14) not null,			
+	EMPPWD varchar(14) not null,		
+	GENDER char(1),			
+	BIRTH char(10) not null,			
+	BIRTHTYPE char(1) not null,			
+	REGNUM varchar(14) not null,		
+	EMPADDR varchar(50) not null,		
+	EMPHP varchar(12) not null,			
+	EMPCP varchar(12) not null,			
+	EMAIL varchar(25) default(''),			
+	ACCOUNTNUM varchar(20),			
+	HOPE varchar(10),				
+	LICENCE varchar(20),			
+	HOBBY varchar(20),				
+	FORTE varchar(20),				
+	CHAGUBUN char(1),			
+	MILIGUBUN char(1),			
+	IMPEDIMENT char(1),			
+	PATRIOTISM char(1),			
+	RELIGION char(1),				
+	MARRYGUBUN char(1),			
+	LINGUISTIC varchar(20),				
+	REWARD	varchar(20),			
+	JOINDATE char(10),			
+	seq int,				
+	insert_person varchar(10),		
+	regdate datetime,				
+	primary key(EMPID) 
+);
+
+// 근태
+CREATE TABLE DL_TAL (
+	DLNUM INT NOT NULL,				
+	EMPID INT NOT NULL,				
+	DLGUBUN CHAR(1) NOT NULL,			
+	DLDATE DATE NOT NULL,				
+	ONTIME TIME,					
+	OFFTIME TIME,					
+	EXTIME TIME DEFAULT('00:00'),			
+	TOTTIME TIME,	
+	seq int,				
+	insert_person varchar(10),		
+	regdate datetime,						
+	REMARK VARCHAR(30),				
+	PRIMARY KEY(DLNUM),
+	FOREIGN KEY(EMPID), REFERENCES EMP_TAL(EMPID)
+);
+
+급여
+CREATE TABLE HU_TBL(
+	HUNUM INT NOT NULL,				
+	HUGUBUN CHAR(1) NOT NULL DEFAULT('A'),		
+	PAYGUBUN CHAR(1) NOT NULL DEFAULT('A'),		
+	PAYNM VARCHAR(10) NOT NULL,			
+	EMPID INT NOT NULL,				
+	HUSTDATE DATE NOT NULL,				
+	HUENDDATE DATE NOT NULL,			
+	PAYYA INT,					
+	PAYHU INT,					
+	PAYYEON INT,					
+	PAYGI INT,					
+	PAYDATE DATE,					
+	TOTPAY INT,	
+	seq int,				
+	insert_person varchar(10),		
+	regdate datetime,						
+	PRIMARY KEYHUNUM 
+	FOREIGN KEY(EMPID), REFERENCES EMP_TAL(EMPID)
+);
+
+///////////////////////////////////////////////////////////// 전자결재
+
+CREATE TABLE APPROVAL_TAL(
+	APRNUM INT NOT NULL,			
+	APRFORM CHAR(1) NOT NULL,		
+	APRCATEGORY CHAR(1) NOT NULL,		
+	APRSINGGUBUN CHAR(1) NOT NULL,		
+	APRTITLE VARCHAR(20) NOT NULL,		
+	CONTENTS TEXT,				
+	APRDATE DATE NOT NULL,			
+	ATTDATNUM VARCHAR(30),			
+	ATTDATEXFILE VARCHAR(10),		
+	EMPID INT NOT NULL,			
+	DEPTNM varchar(5),			
+	GRADE char(8) not null,			
+	EMPNM varchar(14) not null,			
+	REASON VRCHAR(20),			
+	REASONCHK CHAR(1),			
+	STADATE DATE,				
+	ENDDATE DATE,				
+	FILEREGDATE DATE,
+	seq int,				
+	insert_person varchar(10),		
+	regdate datetime,						
+	PRIMARY APPNUM, 
+	FOREIGN KEY(EMPID) REFERENCES EMP_TAL(EMPID),
+	foreign key(attdatnum ) references ATTACH_TBL (attdatnum)
+
+);
+
+//////////////////////////////////////////////////////////// 시스템
+게시판 테이블 
+create table notice_tbl (
+	datnum varchar(10) not null,		
+	category char(2) not null,		
+	datgrp char(2) not null,		
+	title varchar(100) not null,		
+	sctchk char(1) not null,		
+	contents text,			
+	person varchar(10) not null,		
+	attdatnum varchar(30),		
+	insert_person varchar(10),		
+ 	regdate datetime,			
+	primary key(datnum)
+);
+영업게시판관리자, 인사게시판관리자, 영업부원, 인사부원, 관리자
+create table notice_auth (
+	grpnum varchar(10) not null,		
+	grpnm varchar(30) not null,		
+	grpman char(10) not null,		
+	readauth int(3) default '0'		
+	writeauth int(3) default '0'		
+	commauth int(3) default '0'		
+	downauth int(3) default '0'		
+);
+
+일정관리 테이블
+create table todo_tbl (
+	todonum VARCHAR(10) auto_increment not null,	
+	todo varchar(100),					
+	empid int not null,
+	todoyn varchar(1),
+	STRDATE DATE,
+	ENDDATE DATE,
+	seq int,
+	regdate datetime,
+	insert_person varchar(10),	
+	primary key(todonum),
+	foreign key(empid) references emp_tbl(empid)
+);
+
+
+첨부파일
+CREATE TABLE ATTACH_TBL (
+	ATTDATNUM VARCHAR(30),		
+	ATTNM VARCHAR(100),		
+	ATTSIZE VARCHAR(30),		
+	ATTORINM VAHRCHAR(300),		
+	ATTDATE DATETIME,		
+	PRIMARY KEY(ATTDATNUM) 
+);
