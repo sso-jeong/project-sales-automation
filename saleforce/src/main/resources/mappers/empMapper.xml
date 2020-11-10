@@ -4,11 +4,17 @@
 
 	<!-- 회원가입 -->
 	<insert id="setEmp" parameterType="empvo">
-		<selectKey keyProperty="seq" order="BEFORE" resultType="int">
-			SELECT CASE WHEN MAX(CONVERT(empid, UNSIGNED)) IS NULL THEN 1
-			ELSE right( CAST(MAX(CONVERT(empid, UNSIGNED)) AS CHAR(10)),
-			char_length(MAX(CONVERT(empid, UNSIGNED))) - 7 ) +1 END as seq
-			FROM emp_tbl
+		<selectKey keyProperty="seq" order="BEFORE" resultType="String">
+			SELECT CASE
+			WHEN MAX(empid) IS NULL THEN '001'
+			WHEN CONVERT(SUBSTR(MAX(empid),8,3), UNSIGNED) + 1  <![CDATA[<]]>
+			10
+			THEN CONCAT('00', RIGHT(CAST(MAX(CONVERT(empid, UNSIGNED) ) AS CHAR(10)),
+			1) + 1)
+			ELSE RIGHT(CAST(MAX(CONVERT(empid, UNSIGNED)) AS CHAR(10)),
+			CHAR_LENGTH(MAX(CONVERT(empid , UNSIGNED)))-7) + 1 END as seq
+			FROM
+			emp_tbl
 			WHERE deptid = #{deptid}
 		</selectKey>
 		INSERT INTO emp_tbl SET
@@ -42,7 +48,8 @@
 		deptid,
 		grade,
 		empauth,
-		SUBSTR(now(),1,10) as regdate
+		SUBSTR(now(),1,10)
+		as regdate
 		FROM emp_tbl
 		WHERE
 		empid = #{empid}
@@ -57,7 +64,7 @@
 		AND email = #{email}
 	</select>
 	<!-- 로그인 -->
-	
+
 	<!-- 사원목록 -->
 	<sql id="search">
 		<choose>
@@ -65,22 +72,24 @@
 			</when>
 			<when test="searchOpt=='all'">
 				AND empnm LIKE CONCAT('%', #{words}, '%')
-<!-- 				(OR empid LIKE CONCAT('%', #{words} ,'%')
-				OR buseo_name LIKE CONCAT('%', #{words} , '%')) -->
+				<!-- (OR empid LIKE CONCAT('%', #{words} ,'%') OR buseo_name LIKE CONCAT('%', 
+					#{words} , '%')) -->
 			</when>
 			<otherwise>
 				AND ${searchOpt} LIKE CONCAT('%', #{words} ,'%')
 			</otherwise>
 		</choose>
 	</sql>
-	
-	<select id="getEmpList" parameterType="hashmap" resultType="empvo">
+
+	<select id="getEmpList" parameterType="hashmap"
+		resultType="empvo">
 		SELECT
 		empid,
 		deptid,
 		buseo_name as buseoname,
 		grade,
-		grade_name as gradename,
+		grade_name as
+		gradename,
 		empnm,
 		joindate,
 		regdate,
@@ -91,7 +100,8 @@
 		empauth
 		FROM emp_tbl
 		LEFT JOIN buseo_tbl ON deptid = buseo_id
-		LEFT JOIN grade_tbl ON grade = grade_id
+		LEFT JOIN
+		grade_tbl ON grade = grade_id
 		WHERE empid != 'admin'
 		<include refid="search"></include>
 		ORDER BY buseo_name DESC, grade DESC LIMIT #{start}, #{end}
@@ -100,13 +110,14 @@
 	<select id="getEmpCount" resultType="int">
 		SELECT COUNT(empid)
 		FROM emp_tbl
-		INNER JOIN buseo_tbl ON deptid = buseo_id
-		INNER JOIN grade_tbl ON grade = grade_id 
-		WHERE empid != 'admin' 
-		<include refid="search"></include> 
+		INNER JOIN buseo_tbl ON deptid =
+		buseo_id
+		INNER JOIN grade_tbl ON grade = grade_id
+		WHERE empid != 'admin'
+		<include refid="search"></include>
 		ORDER BY regdate DESC
 	</select>
-	
+
 	<select id="getOneEmp" parameterType="String" resultType="empvo">
 		SELECT
 		empid,
@@ -116,25 +127,27 @@
 		FROM emp_tbl
 		WHERE empid = #{empid}
 	</select>
-	
+
 	<update id="updateEmpAuth" parameterType="empvo">
 		UPDATE emp_tbl
-		SET deptid = #{deptid},
-			grade = #{grade} 
+		SET
+		deptid = #{deptid},
+		grade = #{grade}
 		WHERE empid = #{empid}
 	</update>
-	
+
 	<delete id="deleteEmpAuth" parameterType="String">
 		DELETE
 		FROM emp_tbl
 		WHERE empid = #{empid}
 	</delete>
-	
+
 	<update id="updateAuth" parameterType="hashmap">
 		UPDATE emp_tbl
-		SET empauth = #{empauth}
+		SET empauth
+		= #{empauth}
 		WHERE empid = #{empid}
 	</update>
-	
+
 	<!-- 사원목록 -->
 </mapper>
