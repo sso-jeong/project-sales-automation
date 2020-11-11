@@ -110,12 +110,12 @@
 									<tr style="height: 50px;">
 										<td class="td-7 under center bg-green weight700">품목구분</td>
 										<td class="td-13 p-lr3">
-											<select tabindex="4" class="sel-100" name="itemdiv" id="itemdiv" required></select>
+											<select tabindex="4" class="sel-100" name="itemdiv" id="divnm" required></select>
 										</td>
 										
 										<td class="td-7 under center bg-green weight700">품목타입</td>
 										<td class="td-13 p-lr3">
-											<select tabindex="5" class="sel-100" name="itemgrp" id="itemgrp" required></select>
+											<select tabindex="5" class="sel-100" name="itemgrp" id="grpnm" required></select>
 										</td>
 
 										
@@ -289,14 +289,14 @@
 	</main>
 
 </body>
-<script src="${pageContext.request.contextPath}/js/item.js"></script>
 <script>
 	$(function() {
 		var flag;
 		$("tr:nth-child(n)").addClass("tr-even");
 		
 		//구분코드, 타입코드
-		loaditem();
+		load();
+		item();
 		
 		var td2 = $(".item-list tr:eq(1)").children();
 		var item_cd = td2.eq(2).text();	

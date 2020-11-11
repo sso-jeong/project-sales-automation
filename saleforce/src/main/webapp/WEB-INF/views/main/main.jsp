@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -7,14 +6,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Main Home</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/reset.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/common.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/fullpage.css">
-<script src="https://kit.fontawesome.com/b1cadc3305.js"
-	crossorigin="anonymous"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/fullpage.css">
+<script src="https://kit.fontawesome.com/b1cadc3305.js" crossorigin="anonymous"></script>
 <style>
 .bg {
 	background-repeat: no-repeat;
@@ -48,13 +43,13 @@
 	margin-top: 300px;
 }
 
-@
-keyframes run { 100% {
+@keyframes run { 
+	100% {
 	opacity: 1;
 	margin: 0;
+	}
 }
 
-}
 .firstPage-contant h3 {
 	font-size: 25px;
 	margin-bottom: 20px;
@@ -147,15 +142,8 @@ keyframes run { 100% {
 }
 </style>
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/fullpage.js"></script>
-<!-- <script type="text/javascript">
-	function doSomething() {
-		alert(window.location.href.split('#')[0]);
-	}
-	window.onhashchange = doSomething;
-</script> -->
 </head>
 
 <body>
@@ -164,35 +152,28 @@ keyframes run { 100% {
 		<div class="flex flex-justify">
 			<div class="logo">
 				<h2>
-					<a class="roboto font22" href="${pageContext.request.contextPath}/"
-						title="HOME">SALE FORCE </a>
+					<a class="roboto font22" href="${pageContext.request.contextPath}/" title="HOME">SALE FORCE </a>
 				</h2>
-				<a class="roboto font20" href="${pageContext.request.contextPath}/"
-					title="HOME">AUTOMATION</a>
+				<a class="roboto font20" href="${pageContext.request.contextPath}/" title="HOME">AUTOMATION</a>
 			</div>
 			<div class="navbar">
 				<ul id="menu" class="flex flex-justify">
-					<li class="noto weight700 font20" style="margin: 0 30px;"
-						data-menuanchor="2ndPage"><a
-						href="${pageContext.request.contextPath}/#2ndPage">회사소개</a></li>
+					<li class="noto weight700 font20" style="margin: 0 30px;" data-menuanchor="2ndPage"><a href="${pageContext.request.contextPath}/#2ndPage">회사소개</a></li>
 				</ul>
 			</div>
 			<div class="login">
 				<h2>
-					<a class="noto weight700 font18 f6"
-						href="${pageContext.request.contextPath}/login" title="HOME">그룹웨어
-						로그인</a>
+					<a class="noto weight700 font18 f6" href="${pageContext.request.contextPath}/login" title="HOME">그룹웨어 로그인</a>
 				</h2>
 			</div>
 		</div>
 	</div>
 	<div id="fullpage">
 		<!-- section1 -->
-		<div class="section bg"
-			style="background-image: url(${pageContext.request.contextPath}/images/main/main.jpg);">
+		<div class="section bg" style="background-image: url(${pageContext.request.contextPath}/images/main/main.jpg);">
 			<div class="firstPage-wrap">
 				<div class="firstPage-contant">
-					<h3 class="noto f6">영업 시스템의 혁신적인 플랫폼</h3>
+					 <h3 class="noto f6">영업 시스템의 혁신적인 플랫폼</h3> 
 					<h2 class="roboto f6">SALE FORCE AUTOMATION</h2>
 				</div>
 			</div>
@@ -203,34 +184,26 @@ keyframes run { 100% {
 				<div class="main-left">
 					<div class="">
 						<span class="main-title noto weight300">
-							<h2 style="font-size: 30px; margin-bottom: 15px;">1. 당신의 고객은
-								몇 명인가요?</h2>
+							<h2 style="font-size: 30px; margin-bottom: 15px;">1. 당신의 고객은 몇 명인가요?</h2>
 						</span> <span class="main-body noto">
 							<h3 style="font-size: 18px;">고객의 수를 정확히 알고 계시나요?</h3>
 							<h3 style="font-size: 18px;">당신의 매출이 새지 않도록 고객을 철저히 관리하세요.</h3>
-							<h3 style="font-size: 18px; margin-bottom: 15px;">SFA가 한눈에
-								보이는 고객관리로 매출향상을 돕겠습니다.</h3>
+							<h3 style="font-size: 18px; margin-bottom: 15px;">SFA가 한눈에 보이는 고객관리로 매출향상을 돕겠습니다.</h3>
 						</span>
 						<div class="main-bottom">
-							<img class="img"
-								src="${pageContext.request.contextPath}/images/main/main_customer.png"
-								style="padding-top: 20px;" />
+							<img class="img" src="${pageContext.request.contextPath}/images/main/main_customer.png" style="padding-top: 20px;" />
 						</div>
 					</div>
 				</div>
 				<div class="main-right">
 					<div class="">
 						<span class="main-title noto weight300">
-							<h2 style="font-size: 30px; margin-bottom: 15px;">2. 스토리가 있는
-								영업을 해보세요.</h2>
+							<h2 style="font-size: 30px; margin-bottom: 15px;">2. 스토리가 있는 영업을 해보세요.</h2>
 						</span> <span class="main-body noto">
 							<h3 style="font-size: 18px;">목적만을 위한 영업활동은 고객이 먼저 느낍니다.</h3>
-							<h3 style="font-size: 18px;">고객과의 스토리를 위해서는 만날 때마다의 일들을 기록하고
-								인지해야 합니다.</h3>
-							<h3 style="font-size: 18px; margin-bottom: 15px;">스토리가 있는
-								고객이 진정한 당신의 고객입니다.</h3>
-						</span> <span class="main-bottom"> <img class="img"
-							src="${pageContext.request.contextPath}/images/main/main_sales.png" />
+							<h3 style="font-size: 18px;">고객과의 스토리를 위해서는 만날 때마다의 일들을 기록하고 인지해야 합니다.</h3>
+							<h3 style="font-size: 18px; margin-bottom: 15px;">스토리가 있는 고객이 진정한 당신의 고객입니다.</h3>
+						</span> <span class="main-bottom"> <img class="img" src="${pageContext.request.contextPath}/images/main/main_sales.png" />
 						</span>
 					</div>
 				</div>
@@ -243,8 +216,7 @@ keyframes run { 100% {
 					<span class="main-title noto weight300">
 						<h2 style="font-size: 30px; margin-bottom: 15px;">제품소개</h2>
 					</span> <span class="main-body noto">
-						<h3 style="font-size: 18px; margin-bottom: 30px;">영업 요소가 철저히
-							관리됩니다.</h3>
+						<h3 style="font-size: 18px; margin-bottom: 30px;">영업 요소가 철저히 관리됩니다.</h3>
 					</span>
 					<div class="flex" style="justify-content: space-around;">
 						<div class="list noto" style="font-size: 18px;">
@@ -291,8 +263,7 @@ keyframes run { 100% {
 					</div>
 					<div class="btn-wrap noto">
 
-						<a class="btn" href="${pageContext.request.contextPath}/register"
-							target="_blank">체험하기</a>
+						<a class="btn" href="${pageContext.request.contextPath}/register" target="_blank">체험하기</a>
 
 					</div>
 				</div>
@@ -310,7 +281,7 @@ keyframes run { 100% {
 		menu : '#menu',
 		anchors : [ '1stPage', '2ndPage', '3rdPage' ],
 		scrollingSpeed : 600,
-		
+
 		afterLoad : function(origin, destination) {
 			if (destination.anchor != '1stPage') {
 				$(".nav a").css('color', '#000');

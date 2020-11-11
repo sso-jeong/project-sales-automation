@@ -7,5 +7,6 @@
 		<typeAlias type="com.project.saleforce.model.EmpVO" alias="empvo" />
 		<typeAlias type="com.project.saleforce.model.ItemVO" alias="itemvo" />
 		<typeAlias type="com.project.saleforce.model.ComcodeVO" alias="comcodevo" />
+		<typeAlias type="com.project.saleforce.model.CompanyVO" alias="comvo" />
 	</typeAliases>
 </configuration>

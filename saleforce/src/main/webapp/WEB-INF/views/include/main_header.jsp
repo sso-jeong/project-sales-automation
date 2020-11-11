@@ -17,6 +17,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script src="${pageContext.request.contextPath}/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/js/appr.js"></script>
+<script src="${pageContext.request.contextPath}/js/human.js"></script>
+<script src="${pageContext.request.contextPath}/js/sale.js"></script>
+<script src="${pageContext.request.contextPath}/js/comcode.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.ztree.core.js"></script>
 
 <script>

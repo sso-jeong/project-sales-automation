@@ -7,7 +7,7 @@
 	</select>
 	
 	<select id="getDivList" resultType="comcodevo">
-		SELECT divcd, divnm FROM comcode WHERE grpnm IS NOT NULL ORDER BY divcd;
+		SELECT divcd, divnm FROM comcode WHERE divnm IS NOT NULL ORDER BY divcd;
 	</select>
 	
 	<select id="getTypeList" resultType="comcodevo">

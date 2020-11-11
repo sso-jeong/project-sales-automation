@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.project.saleforce.model.ComcodeVO;
 import com.project.saleforce.model.ItemVO;
 import com.project.saleforce.paging.Pager;
 import com.project.saleforce.service.ComcodeSrv;
@@ -56,28 +55,14 @@ public class saleCtr {
 		mav.addObject("curPage", pager.getCurPage());
 		mav.addObject("totalPage", pager.getTotPage());
 		
-		//�럹�씠吏� 踰덊샇瑜� �겢由��뻽�쓣 �븣 css active �겢�옒�뒪 泥섎━
+		//占쎈읂占쎌뵠筌욑옙 甕곕뜇�깈�몴占� 占쎄깻�뵳占쏙옙六쏙옙�뱽 占쎈르 css active 占쎄깻占쎌삋占쎈뮞 筌ｌ꼶�봺
 		mav.addObject("selected", pager.getCurPage());
 		
 		mav.setViewName("sale/SFA_item_manage");
 		return mav;
 	}
-	
-	@RequestMapping("/getDivList")
-	@ResponseBody
-	public List<ComcodeVO> getDivList() {
-		List<ComcodeVO> list = cSrv.getDivList();
-		return list;
-	}
-	
-	@RequestMapping("/getGrpList")
-	@ResponseBody
-	public List<ComcodeVO> getGrpList(){
-		List<ComcodeVO> list = cSrv.getGrpList();
-		return list;
-	}
 
-	@RequestMapping(value = "insert_item", method = RequestMethod.POST) //�꽌踰� �떎�뻾�떆 泥� �솕硫�
+	@RequestMapping(value = "insert_item", method = RequestMethod.POST) //占쎄퐣甕곤옙 占쎈뼄占쎈뻬占쎈뻻 筌ｏ옙 占쎌넅筌롳옙
 	public String setItem(@ModelAttribute ItemVO ivo) {
 		String div = ivo.getItemdiv();
 		String grp = ivo.getItemgrp();

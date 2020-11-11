@@ -63,8 +63,8 @@
 									</td>
 									<td class="under center bg-green weight700" style="width: 11%;">부서명/직급</td>
 									<td class="p-lr3" style="width: 22%;">									
-									<select name="" class="dptnm" id="seldeptid" tabindex="3" autofocus style="width: 48%;"></select>
-									<select name="" class="gradenm" id="selgrade" tabindex="4" style="width: 48%;"></select>
+									<select name="" class="dptnm" id="deptid" tabindex="3" autofocus style="width: 48%;"></select>
+									<select name="" class="gradenm" id="grade" tabindex="4" style="width: 48%;"></select>
 									</td>
 								</tr>
 							</table>
@@ -251,8 +251,8 @@
 		$('#up').click(function() {		
 			var msg = $("#empnm").val() + "의 정보를 변경하시겠습니까?";
 			var empid = $("#empid").val();
-			var deptid = $("#seldeptid").val();
-			var grade = $("#selgrade").val();  
+			var deptid = $("#deptid").val();
+			var grade = $("#grade").val();  
 			
 			if(confirm(msg)) {
 				var formData = { empid : empid, deptid : deptid, grade : grade};
@@ -305,8 +305,8 @@
 	        success: function(manage) {
 	        	$("#empnm").val(manage.empnm);
 	        	$("#empid").val(manage.empid);
-	        	$("#seldeptid").val(manage.deptid);
-	        	$("#selgrade").val(manage.grade);	        	     
+	        	$("#deptid").val(manage.deptid);
+	        	$("#grade").val(manage.grade);	        	     
 	        },
 	        error: function(request) {
 	            alert("message:"+request.responseText);
@@ -347,43 +347,6 @@
 				}
 			});
 		}
-	}
-
-	function load() {
-	    $.ajax({
-	        url: "/saleforce/getBuseoList",
-	        type: "POST",
-	        data: "",
-	        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
-	        dataType: "json", // 수신 데이터 타입
-	        success: function (resData) {
-	        
-	            $.each(resData, function(key, value){
-	            	$("#seldeptid").append("<option value="+ value.buseo_id + ">"+value.buseo_name+"</option>");
-	            });
-	            
-	        },
-	        error: function () {
-	            alert("시스템 에러");
-	        }
-	    });
-	    
-	     $.ajax({
-	        url: "/saleforce/getGradeList",
-	        type: "POST",
-	        data: "",
-	        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
-	        dataType: "json", // 수신 데이터 타입
-	        success: function (resData) {
-	            $.each(resData, function(key, value){
-	            	$("#selgrade").append("<option value="+ value.grade_id + ">"+value.grade_name+"</option>");
-	            });
-	            
-	        },
-	        error: function () {
-	            alert("시스템 에러");
-	        }
-	    });
 	}	
 </script>
 

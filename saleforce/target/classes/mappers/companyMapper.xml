@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="company">
+	<!-- 거래처관리 데이터 INSERT -->
+	<insert id="setCom" parameterType="comvo">
+	
+		INSERT INTO company_tbl
+		SET comcd = CONCATE(#{comcd}, #{seq}),
+		comnm = #{comnm},
+		reprenm = #{reprenm},
+		type = #{type},
+		dttype = #{dttype},
+		addr = #{addr},
+		tel = #{tel},
+		fax = #{fax},
+		homepg = #{homepg},
+		customer = #{customer},
+		custtel = #{custtel},
+		remark = #{remark},
+		insert_person = #{insert_person},
+		regdate = now()
+		
+	</insert>
+	
+	<!-- 거래처관리 데이터 INSERT -->
+
+	<!-- 거래처관리 데이터 SELECT -->
+	
+	<sql id="search">
+		<choose>
+			<when test="words == ''">
+			</when>
+			<when test="searchOpt=='all'">
+				AND (comcd LIKE CONCAT('%', #{words}, '%')
+				OR comnm LIKE CONCAT('%', #{words} ,'%')
+				OR type LIKE CONCAT('%', #{words} , '%')
+				OR dttype LIKE CONCAT('%', #{words} , '%')
+				OR addr LIKE CONCAT('%', #{words} , '%'))
+			</when>
+			<otherwise>
+				AND ${searchOpt} LIKE CONCAT('%', #{words} ,'%')
+			</otherwise>
+		</choose>
+	</sql>
+
+	<select id="getComList" parameterType="hashmap" resultType="comvo">
+		SELECT
+		comcd,
+		comnm,
+		typenm
+		reprenm,
+		dttypenm,
+		addr,
+		tel,
+		fax,
+		homepg,
+		customer,
+		custtel,
+		remark
+		FROM company_tbl, 
+		(SELECT divcd, divnm FROM comcode WHERE divcd IS NOT NULL) d, 
+		(SELECT grpcd, grpnm FROM comcode WHERE grpcd IS NOT NULL) g
+		<include refid="search"></include>
+		ORDER BY itemcd DESC LIMIT #{start}, #{end}
+	</select>
+
+	<select id="getItemCount" resultType="int">
+		SELECT COUNT(itemcd)
+		FROM item_tbl
+		LEFT JOIN (SELECT divcd, divnm FROM comCode WHERE NOT divnm IS NULL)D ON itemdiv = D.divcd
+		LEFT JOIN (SELECT grpcd, grpnm FROM comCode WHERE NOT grpnm IS NULL)G ON
+		itemgrp = G.grpcd
+		<include refid="search"></include>
+		ORDER BY itemcd DESC
+	</select>
+</mapper>

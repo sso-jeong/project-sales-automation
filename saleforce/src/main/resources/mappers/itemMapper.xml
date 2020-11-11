@@ -44,13 +44,13 @@
 			<when test="words == ''">
 			</when>
 			<when test="searchOpt=='all'">
-				WHERE (itemcd LIKE CONCAT('%', #{words}, '%')
+				AND (itemcd LIKE CONCAT('%', #{words}, '%')
 				OR itemnm LIKE CONCAT('%', #{words} ,'%')
 				OR divnm LIKE CONCAT('%', #{words} , '%')
 				OR grpnm LIKE CONCAT('%', #{words} , '%'))
 			</when>
 			<otherwise>
-				WHERE ${searchOpt} LIKE CONCAT('%', #{words} ,'%')
+				AND ${searchOpt} LIKE CONCAT('%', #{words} ,'%')
 			</otherwise>
 		</choose>
 	</sql>
@@ -59,29 +59,29 @@
 		SELECT
 		itemcd,
 		itemnm,
-		d.divnm as itemdivname,
+		divnm as itemdivname,
 		itemdiv,
-		g.grpnm as itemgrpname,
+		grpnm as itemgrpname,
 		itemgrp,
 		price,
 		remark,
 		std,
 		regdate,
 		attdatnum
-		FROM item_tbl
-		LEFT JOIN (SELECT divcd, divnm FROM comCode WHERE NOT divnm IS NULL)D ON itemdiv = D.divcd
-		LEFT JOIN (SELECT grpcd, grpnm
-		FROM comCode WHERE NOT grpnm IS NULL)G ON itemgrp = G.grpcd
+		FROM item_tbl, 
+		(SELECT divcd, divnm FROM comcode WHERE divcd IS NOT NULL) d, 
+		(SELECT grpcd, grpnm FROM comcode WHERE grpcd IS NOT NULL) g
+		WHERE itemdiv = d.divcd AND itemgrp = g.grpcd
 		<include refid="search"></include>
 		ORDER BY itemcd DESC LIMIT #{start}, #{end}
 	</select>
 
 	<select id="getItemCount" resultType="int">
 		SELECT COUNT(itemcd)
-		FROM item_tbl
-		LEFT JOIN (SELECT divcd, divnm FROM comCode WHERE NOT divnm IS NULL)D ON itemdiv = D.divcd
-		LEFT JOIN (SELECT grpcd, grpnm FROM comCode WHERE NOT grpnm IS NULL)G ON
-		itemgrp = G.grpcd
+		FROM item_tbl, 
+		(SELECT divcd, divnm FROM comcode WHERE divcd IS NOT NULL) d, 
+		(SELECT grpcd, grpnm FROM comcode WHERE grpcd IS NOT NULL) g
+		WHERE itemdiv = d.divcd AND itemgrp = g.grpcd
 		<include refid="search"></include>
 		ORDER BY itemcd DESC
 	</select>
