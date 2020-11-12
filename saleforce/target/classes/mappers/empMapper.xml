@@ -260,6 +260,9 @@
 
 	<update id="setEmpOthers" parameterType="empvo">
 		UPDATE emp_tbl SET 
+		deptid			= #{deptid},
+		grade			= #{grade},
+		empnm			= #{empnm},
 		gender			= #{gender},
 		birth			= #{birth},
 		birthtype		= #{birthtype},

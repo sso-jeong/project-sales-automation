@@ -47,8 +47,10 @@
 		SELECT
 		comcd,
 		comnm,
-		typenm
+		type,
+		typenm,
 		reprenm,
+		dttype,
 		dttypenm,
 		addr,
 		tel,
@@ -58,19 +60,20 @@
 		custtel,
 		remark
 		FROM company_tbl, 
-		(SELECT divcd, divnm FROM comcode WHERE divcd IS NOT NULL) d, 
-		(SELECT grpcd, grpnm FROM comcode WHERE grpcd IS NOT NULL) g
+		(SELECT typenm, typecd FROM comcode WHERE typecd IS NOT NULL) t, 
+		(SELECT dttypenm, dttypecd FROM comcode WHERE dttypecd IS NOT NULL) d
+		WHERE type = t.typecd AND dttype = d.dttypecd
 		<include refid="search"></include>
 		ORDER BY itemcd DESC LIMIT #{start}, #{end}
 	</select>
 
-	<select id="getItemCount" resultType="int">
-		SELECT COUNT(itemcd)
-		FROM item_tbl
-		LEFT JOIN (SELECT divcd, divnm FROM comCode WHERE NOT divnm IS NULL)D ON itemdiv = D.divcd
-		LEFT JOIN (SELECT grpcd, grpnm FROM comCode WHERE NOT grpnm IS NULL)G ON
-		itemgrp = G.grpcd
+	<!-- <select id="getComCount" resultType="int">
+		SELECT COUNT(comcd)
+		FROM company_tbl, 
+		(SELECT typenm, typecd FROM comcode WHERE typecd IS NOT NULL) t, 
+		(SELECT dttypenm, dttypecd FROM comcode WHERE dttypecd IS NOT NULL) d
+		WHERE type = t.typecd AND dttype = d.dttypecd
 		<include refid="search"></include>
 		ORDER BY itemcd DESC
-	</select>
+	</select> -->
 </mapper>

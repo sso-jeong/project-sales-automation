@@ -135,7 +135,8 @@
 
 				<div class="search-wrap flex flex-justify">
 					<div class="">
-						<span class="btn-normal m-b15 m-lr15">전체 업체 수 10 / PAGE</span>
+						<button type="button" class="btn-on m-lr15 m-b15" id="deleteAll">선택삭제</button>
+						<span class="btn-normal">검색 된 업체수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
 					</div>
 					<div class="form-wrap">
 						<form method="post" action="" style="margin: 0 15px;" autocomplete="off">
@@ -168,32 +169,96 @@
 							<td class="td-10">담당자/연락처</td>
 							<td class="td-5">비고</td>
 						</tr>
-
-						<tr class="center font14">
-							<td class="td-3"><input type="checkbox" style="width: 20px; height: 20px;" /></td>
-							<td class="td-3">10</td>
-							<td class="td-5">4</td>
-							<td class="left p-lr5">(재)부산테크노파크</td>
-							<td class="td-7">박승완</td>
-							<td class="td-7">제조업</td>
-							<td class="td-7">제조</td>
-							<td class="td-10">051-720-8926/720-8927</td>
-							<td class="left p-lr5">부산광역시 기장군 일광면 횡계길 7 (해양생물산업육성센터)</td>
-							<td class="left p-lr5">http://www.btp.or.kr</td>
-							<td class="td-10">김승완/010-7789-4456</td>
-							<td class="center p-lr5">-</td>
-						</tr>
+						
+						<c:if test="${count == 0}">
+							<tr>
+								<td class="weight700 center font14 " colspan="9">등록된 품목이 없습니다.</td>
+							</tr>
+						</c:if>
+					
+						<c:forEach items="${comlist}" var="com" varStatus="status">
+							<tr class="center font14">
+								<td class="td-3">
+								<input type="checkbox" name="chk" class="chk" data-uid="${com.comcd}" style="width: 20px; height: 20px;" />
+								</td>
+								<td class="td-3">${ (count - status.index) - ( (curPage - 1) * end ) }</td>
+								<td class="td-5">${com.comcd}</td>
+								<td class="left p-lr5">${com.comnm}</td>
+								<td class="td-7">${com.reprenm}</td>
+								<td class="td-7">${com.type}</td>
+								<td class="td-7">${com.dttype}</td>
+								<td class="td-10">${com.tel}/${com.fax}</td>
+								<td class="left p-lr5">${com.addr}</td>
+								<td class="left p-lr5">${com.homepg}</td>
+								<td class="td-10">${com.customer}/${com.custtel}</td>
+								<td class="center p-lr5">${com.remark}</td>
+							</tr>				
+						</c:forEach>
 					</table>
 				</div>
-				<div class="page-grp center m-t15">
-					<span class="page"> <a href=""><i class="fas fa-angle-double-left"></i></a>
-					</span> <span class="page"> <a href=""><i class="fas fa-angle-left"></i></a>
-					</span> <span class="page page-active"> <a href="" class="f6">1</a>
-					</span> <span class="page"><a href="">2</a></span> <span class="page"><a href="">3</a></span> <span class="page"><a href="">4</a></span> <span class="page"><a href="">5</a></span> <span class="page">
-						<a href=""><i class="fas fa-angle-right"></i></a>
-					</span> <span class="page"> <a href=""><i class="fas fa-angle-double-right"></i></a>
-					</span>
-				</div>
+				<!--  페이징 ui -->
+					<c:if test="${count > 0}">
+						<div class="page-grp center m-t10">
+							<!-- 맨 앞으로 -->
+							<c:choose>
+								<c:when test="${curPage > 1}">
+									<a href="${pageContext.request.contextPath}/SFA_item_manage?curPage=1&searchOpt=${searchOpt}&words=${words}"> <span class="page"> <i class="fas fa-angle-double-left"></i>
+									</span>
+									</a>
+									<!-- 한칸 앞으로 -->
+									<a href="${pageContext.request.contextPath}/SFA_item_manage?curPage=${curPage-1}&searchOpt=${searchOpt}&words=${words}"> <span class="page"> <i class="fas fa-angle-left"></i>
+									</span>
+									</a>
+									<!-- 한칸 앞으로 -->
+								</c:when>
+								<c:otherwise>
+									<span class="page" style="cursor: default"> <i class="fas fa-angle-double-left"></i>
+									</span>
+									<!-- 한칸 앞으로 -->
+									<span class="page" style="cursor: default"> <i class="fas fa-angle-left"></i>
+									</span>
+									<!-- 한칸 앞으로 -->
+								</c:otherwise>
+							</c:choose>
+							<!-- 맨 앞으로 -->
+					
+					
+					
+							<!-- 페이지 번호 출력 -->
+							<c:forEach begin="${blockBegin}" end="${blockEnd}" var="num">
+								<c:if test="${selected == num}">
+									<span class="page page-active"> <a href="" class="f6">${num}</a>
+									</span>
+								</c:if>
+								<c:if test="${selected != num}">
+									<a href="${pageContext.request.contextPath}/SFA_item_manage?curPage=${num}&searchOpt=${searchOpt}&words=${words}"> <span class="page"> ${num} </span>
+									</a>
+								</c:if>
+					
+							</c:forEach>
+							<!-- 페이지 번호 출력 -->
+					
+							<c:choose>
+								<c:when test="${curPage != totalPage}">
+									<a href="${pageContext.request.contextPath}/SFA_item_manage?curPage=${curPage+1}&searchOpt=${searchOpt}&words=${words}"> <span class="page"> <i class="fas fa-angle-right"></i>
+									</span>
+									</a>
+					
+									<a href="${pageContext.request.contextPath}/SFA_item_manage?curPage=${totalPage}&searchOpt=${searchOpt}&words=${words}"> <span class="page"> <i class="fas fa-angle-double-right"></i>
+									</span>
+									</a>
+								</c:when>
+								<c:otherwise>
+									<span class="page" style="cursor: default"> <i class="fas fa-angle-right"></i>
+									</span>
+									<span class="page" style="cursor: default"> <i class="fas fa-angle-double-right"></i>
+									</span>
+								</c:otherwise>
+							</c:choose>
+					
+						</div>
+					</c:if>
+				<!--  페이징 ui -->
 			</div>
 		</div>
 	</main>
@@ -202,6 +267,7 @@
 <script>
 	$(function() {
 		$("tr:nth-child(n)").addClass("tr-even");
+		company();
 	})
 </script>
 

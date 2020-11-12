@@ -79,12 +79,10 @@ public class EmpCtr {
 	@RequestMapping(value = "SFA_setEmpOthers", method = RequestMethod.POST)
 	@ResponseBody
 	public String setEmpOthers(@ModelAttribute EmpVO empvo) {
-		//System.out.println(empvo);
 		//System.out.println(empvo.getEmpid());
 		
 		eSrv.setEmpOthers(empvo);
-		//System.out.println(empvo.getEmpid());
-		return "redirect:/SFA_empList";
+		return "employee/SFA_empList";
 
 	}
 	

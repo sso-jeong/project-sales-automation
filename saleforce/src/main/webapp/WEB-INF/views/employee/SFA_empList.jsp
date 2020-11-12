@@ -402,227 +402,30 @@
 			empload(empID);
 
 		});
+
+		$('#up').click(function() {		
+			alert("성공");
+			var msg = $("#empnm").val() + "의 정보를 수정하시겠습니까?";
+			
+			if(confirm(msg)) {
+				
+				$.ajax({
+					url: "${pageContext.request.contextPath}/updateEmpAuth",
+			        type: "post",
+			        data: $('#frm').serialize(),
+			        success : function(manage) {
+				        window.location.reload();
+			        },
+			        error: function() {
+			            alert("시스템 에러");
+			        },
+				});
+			}
+		});
 	});
 	
 </script>
-<script>
-function updateOne(empid){
-	alert("성공");
-	
-	/* var empnm = document.getElementById("empnm").value;
-	
-	var msg = "선택하신 " +empnm+"의 정보를 삭제하시겠습니까?\n삭제 후에는 복원할 수 없습니다.";
 
-	if (confirm(msg)) {
-		
-		var formData = {
-				empid 	: $("#empid").val()
-			};
-
-		$.ajax({
-			url		: "${pageContext.request.contextPath}/authDel",
-			type	: "POST",
-			data	: formData,
-			success	: function(resData) {
-				alert("선택하신 정보가 삭제되었습니다.");
-			},
-			error	: function(request) {
-				alert("message:" + request.responseText + "\n");
-			},
-			complete : function() {
-				window.location.reload();
-			}
-		}); */
-	}
-</script>
-<script>
-function load() {
- 	$.ajax({
-        url: "${pageContext.request.contextPath}/getBuseoList",
-        type: "POST",
-        data: "",
-        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
-        dataType: "json", // 수신 데이터 타입
-        success: function (resData) {
-        
-            $.each(resData, function(key, value){
-            	$("#deptid").append("<option value="+ value.buseo_id + ">"+value.buseo_name+"</option>");
-            });
-            
-        },
-        error: function () {
-            alert("시스템 에러");
-        }
-    });
-    
-     $.ajax({
-        url: "${pageContext.request.contextPath}/getGradeList",
-        type: "POST",
-        data: "",
-        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
-        dataType: "json", // 수신 데이터 타입
-        success: function (resData) {
-        
-            $.each(resData, function(key, value){
-            	$("#grade").append("<option value="+ value.grade_id + ">"+value.grade_name+"</option>");
-            });
-            
-        },
-        error: function () {
-            alert("시스템 에러");
-        }
-    });
-}
-</script>
-<script>
-function empList() {
-    $.ajax({
-        url: "${pageContext.request.contextPath}/getGenderList",
-        type: "POST",
-        data: "",
-        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
-        dataType: "json", // 수신 데이터 타입
-        success: function (resData) {
-
-            $.each(resData, function (key, value) {
-                $("#gendernm").append("<option value=" + value.gendercd + ">" + value.gendernm + "</option>");
-            });
-
-        },
-        error: function () {
-            alert("시스템 에러");
-        }
-    });
-    
-     $.ajax({
-        url: "${pageContext.request.contextPath}/getbirthtype",
-        type: "POST",
-        data: "",
-        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
-        dataType: "json", // 수신 데이터 타입
-        success: function (resData) {
-
-            $.each(resData, function (key, value) {
-                $("#birttypenm").append("<option value=" + value.birttypecd + ">" + value.birttypenm + "</option>");
-            });
-
-        },
-        error: function () {
-            alert("시스템 에러");
-        }
-    });
-
-    $.ajax({
-        url: "${pageContext.request.contextPath}/getChaList",
-        type: "POST",
-        data: "",
-        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
-        dataType: "json", // 수신 데이터 타입
-        success: function (resData) {
-
-            $.each(resData, function (key, value) {
-                $("#chanm").append("<option value=" + value.chacd + ">" + value.chanm + "</option>");
-            });
-
-        },
-        error: function () {
-            alert("시스템 에러");
-        }
-    });
-
-    $.ajax({
-        url: "${pageContext.request.contextPath}/getMiliList",
-        type: "POST",
-        data: "",
-        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
-        dataType: "json", // 수신 데이터 타입
-        success: function (resData) {
-
-            $.each(resData, function (key, value) {
-                $("#milinm").append("<option value=" + value.milicd + ">" + value.milinm + "</option>");
-            });
-
-        },
-        error: function () {
-            alert("시스템 에러");
-        }
-    });
-
-    $.ajax({
-        url: "${pageContext.request.contextPath}/getImpList",
-        type: "POST",
-        data: "",
-        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
-        dataType: "json", // 수신 데이터 타입
-        success: function (resData) {
-
-            $.each(resData, function (key, value) {
-                $("#impnm").append("<option value=" + value.impcd + ">" + value.impnm + "</option>");
-            });
-
-        },
-        error: function () {
-            alert("시스템 에러");
-        }
-    });
-
-    $.ajax({
-        url: "${pageContext.request.contextPath}/getPatrList",
-        type: "POST",
-        data: "",
-        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
-        dataType: "json", // 수신 데이터 타입
-        success: function (resData) {
-
-            $.each(resData, function (key, value) {
-                $("#patrnm").append("<option value=" + value.patrcd + ">" + value.patrnm + "</option>");
-            });
-
-        },
-        error: function () {
-            alert("시스템 에러");
-        }
-    });
-
-    $.ajax({
-        url: "${pageContext.request.contextPath}/getReliList",
-        type: "POST",
-        data: "",
-        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
-        dataType: "json", // 수신 데이터 타입
-        success: function (resData) {
-
-            $.each(resData, function (key, value) {
-                $("#relinm").append("<option value=" + value.relicd + ">" + value.relinm + "</option>");
-            });
-
-        },
-        error: function () {
-            alert("시스템 에러");
-        }
-    });
-
-    $.ajax({
-        url: "${pageContext.request.contextPath}/getMarList",
-        type: "POST",
-        data: "",
-        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
-        dataType: "json", // 수신 데이터 타입
-        success: function (resData) {
-
-            $.each(resData, function (key, value) {
-                $("#marnm").append("<option value=" + value.marcd + ">" + value.marnm + "</option>");
-            });
-
-        },
-        error: function () {
-            alert("시스템 에러");
-        }
-    });
-    
-   
-}
-</script>
 <script>
 function empload(empID){
 	
