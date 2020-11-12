@@ -165,7 +165,7 @@
 				<div class="search-wrap flex flex-justify">
 					<div class="">
 						<button type="button" class="btn-on m-lr15 m-b15" id="deleteAll">선택삭제</button>
-						<span class="btn-normal ">검색 된 품목수 : ${count}명 | ${curPage}/${totalPage} PAGE</span>					
+						<span class="btn-normal ">검색 된 품목수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>					
 					</div>
 					<div class="form-wrap">
 						<form method="post" action="${pageContext.request.contextPath}/SFA_item_manage" style="margin: 0 15px;" autocomplete="off">

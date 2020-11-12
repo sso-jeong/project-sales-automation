@@ -1,7 +1,7 @@
 package com.project.saleforce.model;
 
 public class CompanyVO {
-	String comcd, comnm, reprenm, type, dttype, addr, tel, fax, homepg, customer, custtel, remark, seq, insert_person, regdate;
+	String comcd, comnm, reprenm, type, typenm, dttype, dttypenm, addr, tel, fax, homepg, customer, custtel, remark, seq, insert_person, regdate;
 
 	public String getComcd() {
 		return comcd;
@@ -123,5 +123,21 @@ public class CompanyVO {
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
+
+	public String getTypenm() {
+		return typenm;
+	}
+
+	public void setTypenm(String typenm) {
+		this.typenm = typenm;
+	}
+
+	public String getDttypenm() {
+		return dttypenm;
+	}
+
+	public void setDttypenm(String dttypenm) {
+		this.dttypenm = dttypenm;
+	}	
 	
 }

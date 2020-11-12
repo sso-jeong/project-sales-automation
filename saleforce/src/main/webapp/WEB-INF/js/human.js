@@ -12,8 +12,8 @@ function empList() {
             });
 
         },
-        error: function () {
-            alert("시스템 에러");
+		error	: function(request) {
+				alert("message:" + request.responseText + "\n");
         }
     });
     
@@ -30,9 +30,9 @@ function empList() {
             });
 
         },
-        error: function () {
-            alert("시스템 에러");
-        }
+        error	: function(request) {
+			alert("message:" + request.responseText + "\n");
+		}
     });
 
     $.ajax({
