@@ -80,7 +80,7 @@
 						<div class="member-info flex flex-justify">
 							<div class="item-left">
 								<div class="photo-area">
-									<img id="img" name="img" src="${pageContext.request.contextPath}/images/no.jpg" alt="" />
+									<img id="img" name="img" src="${pageContext.request.contextPath}/images/noImage.jpg" alt="" />
 								</div>
 							</div>
 							<div class="item-right">
@@ -88,7 +88,7 @@
 									<tr style="height: 50px;">
 										<td class="td-7 under center bg-green weight700">품목코드</td>
 										<td class="td-13 p-lr3">
-											<input type="text" name="itemcd" id="itemcd" class="input-100" readonly placeholder="품목코드는 자동 생성입니다.">
+											<input type="text" name="itemcd" id="itemcd" class="input-100 inputbg" readonly placeholder="품목코드는 자동 생성입니다.">
 										</td>
 
 										<td class="td-7 under center bg-green weight700">품목명</td>
@@ -301,8 +301,6 @@
 		var td2 = $(".item-list tr:eq(1)").children();
 		var item_cd = td2.eq(2).text();	
 		if(item_cd != "") getOneItem(item_cd); 
-	
-		
 
 		//테이블 열 클릭시 품목코드 Search
 		$(".item-list tr").click(function() {

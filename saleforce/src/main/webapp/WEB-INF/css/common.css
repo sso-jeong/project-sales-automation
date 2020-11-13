@@ -562,3 +562,7 @@ select {
 .cursor {
     cursor: pointer;
 }
+
+.inputbg{
+	background-color: #F3F4F4;
+}

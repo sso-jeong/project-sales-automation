@@ -24,7 +24,7 @@ public class EmpCtr {
 	@Autowired
 	ManageSrv mSrv;
 
-	// ################################# »ç¿ø¸ñ·Ï ¼Ò½º ½ÃÀÛ   #################################	
+	// ################################# ì‚¬ì›ëª©ë¡ ì†ŒìŠ¤ ì‹œì‘   #################################	
 	
 	@RequestMapping("SFA_empList")
 	public ModelAndView getEmpList(@RequestParam(defaultValue = "1") int curPage, 
@@ -46,8 +46,8 @@ public class EmpCtr {
 		mav.addObject("searchOpt", searchOpt);
 		mav.addObject("words", words);
 		
-		mav.addObject("start", start); // °Ô½Ã¹° °³¼ö ÀÚ¸¦ ½ÃÀÛ¹øÈ£
-		mav.addObject("end", end); // °Ô½Ã¹° ÀÚ¸¦ ³¡¹øÈ£
+		mav.addObject("start", start); // ê²Œì‹œë¬¼ ê°œìˆ˜ ìë¥¼ ì‹œì‘ë²ˆí˜¸
+		mav.addObject("end", end); // ê²Œì‹œë¬¼ ìë¥¼ ëë²ˆí˜¸
 		
 		mav.addObject("blockBegin", pager.getBlockBegin());
 		mav.addObject("blockEnd", pager.getBlockEnd());
@@ -59,7 +59,7 @@ public class EmpCtr {
 		mav.addObject("curPage", pager.getCurPage());
 		mav.addObject("totalPage", pager.getTotPage());
 		
-		// ÆäÀÌÁö ¹øÈ£¸¦ Å¬¸¯ÇßÀ» ¶§ css active Å¬·¡½º Ã³¸®
+		// í˜ì´ì§€ ë²ˆí˜¸ë¥¼ í´ë¦­í–ˆì„ ë•Œ css active í´ë˜ìŠ¤ ì²˜ë¦¬
 		mav.addObject("selected", pager.getCurPage());
 		
 		//System.out.println(searchOpt);
@@ -79,12 +79,48 @@ public class EmpCtr {
 	@RequestMapping(value = "SFA_setEmpOthers", method = RequestMethod.POST)
 	@ResponseBody
 	public String setEmpOthers(@ModelAttribute EmpVO empvo) {
-		//System.out.println(empvo.getEmpid());
+		System.out.println(empvo.getEmpid());
 		
 		eSrv.setEmpOthers(empvo);
 		return "employee/SFA_empList";
 
 	}
 	
+	@RequestMapping(value = "setRegAll", method = RequestMethod.POST)
+	public String getEmpDO(@ModelAttribute EmpVO evo) {
+		int enter = Integer.parseInt(evo.getJoindate().substring(0,4));
+		String dept = evo.getDeptid();
+		String empid = enter + dept;
+		evo.setEmpid(empid);
+		
+		eSrv.setRegAll(evo);
+		
+		return "redirect:/SFA_empList";
+	}
+	
+	@RequestMapping(value="/deleteEmpList", method =RequestMethod.POST)
+	@ResponseBody
+	public String setEmpDel(String empid) {
+		mSrv.setAuthDel(empid);
+		return "success";
+	}
+	
+	@RequestMapping("/deleteEmpAll")
+	@ResponseBody
+	public String deleteEmpAll(@RequestParam(value = "chkArr[]") List<String> chkArr){
+		
+		String msg = "";
+		//System.out.println(chkArr);
+		if(chkArr != null) {
+			
+			for(String empid : chkArr ) {
+				mSrv.setAuthDel(empid);
+			}
+			msg="success";
+			
+		}else msg="fail";
+		
+		return msg;
+	}		
 
 }
