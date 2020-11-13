@@ -1,11 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="company">
-	<!-- 거래처관리 데이터 INSERT -->
-	<insert id="setCom" parameterType="comvo">
-	
+	<select id="getCompanyList" resultType="companyvo">
+		SELECT
+		comcd,
+		comnm,
+		reprenm,
+		type,
+		typenm,
+		dttype,
+		dttypenm,
+		addr,
+		tel,
+		fax,
+		homepg,
+		customer,
+		custtel,
+		remark
+		FROM company_tbl,
+		(SELECT typecd, typenm FROM comcode WHERE typenm IS NOT NULL) t, 
+		(SELECT dttypecd, dttypenm FROM comcode WHERE dttypenm IS NOT NULL) d
+		WHERE type = t.typecd AND dttype = d.dttypecd
+		ORDER BY comcd DESC
+	</select>
+
+	<insert id="setCompany" parameterType="companyvo">
+		<selectKey keyProperty="seq" order="BEFORE" resultType="String">
+			SELECT CASE
+			WHEN MAX(comcd) IS NULL THEN '001'
+			WHEN CONVERT(SUBSTR(MAX(comcd),3),UNSIGNED) + 1 <![CDATA[<]]> 10
+			THEN CONCAT('00',RIGHT(CAST(MAX(CONVERT(SUBSTR(comcd,3),UNSIGNED)) AS CHAR(3)), 1) +1)
+			WHEN CHAR_LENGTH(CAST(MAX(CONVERT(SUBSTR(comcd,3),UNSIGNED)) AS CHAR(3)) + 1) = 2
+			THEN CONCAT('0',CAST(MAX(CONVERT(SUBSTR(comcd,3),UNSIGNED)) AS CHAR(2)) + 1)
+			ELSE CAST(MAX(CONVERT(SUBSTR(comcd,3),UNSIGNED)) AS CHAR(3)) + 1
+			END as seq
+			FROM company_tbl
+			WHERE type = #{type}
+			AND dttype = #{dttype}
+		</selectKey>
 		INSERT INTO company_tbl
-		SET comcd = CONCATE(#{comcd}, #{seq}),
+		SET comcd = CONCAT(#{comcd}, #{seq}),
 		comnm = #{comnm},
 		reprenm = #{reprenm},
 		type = #{type},
@@ -18,62 +52,6 @@
 		custtel = #{custtel},
 		remark = #{remark},
 		insert_person = #{insert_person},
-		regdate = now()
-		
+		regdate = now();
 	</insert>
-	
-	<!-- 거래처관리 데이터 INSERT -->
-
-	<!-- 거래처관리 데이터 SELECT -->
-	
-	<sql id="search">
-		<choose>
-			<when test="words == ''">
-			</when>
-			<when test="searchOpt=='all'">
-				AND (comcd LIKE CONCAT('%', #{words}, '%')
-				OR comnm LIKE CONCAT('%', #{words} ,'%')
-				OR type LIKE CONCAT('%', #{words} , '%')
-				OR dttype LIKE CONCAT('%', #{words} , '%')
-				OR addr LIKE CONCAT('%', #{words} , '%'))
-			</when>
-			<otherwise>
-				AND ${searchOpt} LIKE CONCAT('%', #{words} ,'%')
-			</otherwise>
-		</choose>
-	</sql>
-
-	<select id="getComList" parameterType="hashmap" resultType="comvo">
-		SELECT
-		comcd,
-		comnm,
-		type,
-		typenm,
-		reprenm,
-		dttype,
-		dttypenm,
-		addr,
-		tel,
-		fax,
-		homepg,
-		customer,
-		custtel,
-		remark
-		FROM company_tbl, 
-		(SELECT typenm, typecd FROM comcode WHERE typecd IS NOT NULL) t, 
-		(SELECT dttypenm, dttypecd FROM comcode WHERE dttypecd IS NOT NULL) d
-		WHERE type = t.typecd AND dttype = d.dttypecd
-		<include refid="search"></include>
-		ORDER BY itemcd DESC LIMIT #{start}, #{end}
-	</select>
-
-	<!-- <select id="getComCount" resultType="int">
-		SELECT COUNT(comcd)
-		FROM company_tbl, 
-		(SELECT typenm, typecd FROM comcode WHERE typecd IS NOT NULL) t, 
-		(SELECT dttypenm, dttypecd FROM comcode WHERE dttypecd IS NOT NULL) d
-		WHERE type = t.typecd AND dttype = d.dttypecd
-		<include refid="search"></include>
-		ORDER BY itemcd DESC
-	</select> -->
 </mapper>

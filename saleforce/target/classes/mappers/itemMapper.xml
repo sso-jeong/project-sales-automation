@@ -69,8 +69,8 @@
 		regdate,
 		attdatnum
 		FROM item_tbl, 
-		(SELECT divcd, divnm FROM comcode WHERE divcd IS NOT NULL) d, 
-		(SELECT grpcd, grpnm FROM comcode WHERE grpcd IS NOT NULL) g
+		(SELECT divcd, divnm FROM comcode WHERE divnm IS NOT NULL) d, 
+		(SELECT grpcd, grpnm FROM comcode WHERE grpnm IS NOT NULL) g
 		WHERE itemdiv = d.divcd AND itemgrp = g.grpcd
 		<include refid="search"></include>
 		ORDER BY itemcd DESC LIMIT #{start}, #{end}
@@ -79,8 +79,8 @@
 	<select id="getItemCount" resultType="int">
 		SELECT COUNT(itemcd)
 		FROM item_tbl, 
-		(SELECT divcd, divnm FROM comcode WHERE divcd IS NOT NULL) d, 
-		(SELECT grpcd, grpnm FROM comcode WHERE grpcd IS NOT NULL) g
+		(SELECT divcd, divnm FROM comcode WHERE divnm IS NOT NULL) d, 
+		(SELECT grpcd, grpnm FROM comcode WHERE grpnm IS NOT NULL) g
 		WHERE itemdiv = d.divcd AND itemgrp = g.grpcd
 		<include refid="search"></include>
 		ORDER BY itemcd DESC

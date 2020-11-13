@@ -52,7 +52,7 @@
 					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">업체관리 > 업체 등록</p>
 				</div>
 				<div class="company-insert m-b15 m-lr15">
-					<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/SFA_company_manage" autocomplete="off">
+					<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setCompany" autocomplete="off">
 						<table>
 							<tr>
 								<td class="td-7 under center bg-green weight700">거래처코드</td>
@@ -70,7 +70,7 @@
 								
 								<td class="td-7 under center bg-green weight700">전화/FAX</td>
 								<td class="td-13 p-lr3">
-									<input type="tel" name="tel" id="tel" class="input-49" pattern="\d{3}-\d{3,4}-\d{4}" placeholder="000-000(0)-0000" tabindex="6"> 
+									<input type="tel" name="tel" id="tel" class="input-49" pattern="\d{3}-\d{3,4}-\d{4}" placeholder="000-000(0)-0000" tabindex="6" required> 
 									<input type="tel" name="fax" id="fax" class="input-49" pattern="\d{3}-\d{3,4}-\d{4}" placeholder="000-000(0)-0000" tabindex="7">
 								</td>
 
@@ -84,29 +84,30 @@
 							<tr>
 								<td class="td-7 under center bg-green weight700">업태</td>
 								<td class="td-13 p-lr3">
-									<select class="sel-100" name="type" id="type" tabindex="3" required>
-											<option>제조업</option>
-											<option>운수업</option>
-											<option>광업</option>
+									<select class="sel-100" name="type" id="typenm" tabindex="3" required>
 									</select>
 								</td>
 								<td class="td-7 under center bg-green weight700">종목</td>
 								<td class="td-13 p-lr3">
-									<select class="sel-100" name="dttype" id="dttype" tabindex="4" required>
-											<option>제조</option>
-											<option>도금</option>
-											<option>기타</option>
+									<select class="sel-100" name="dttype" id="dttypenm" tabindex="4" required>
 									</select>
 								</td>
 
 								<td class="td-7 under center bg-green weight700">주소</td>
-								<td class="td-13 p-lr3"><input type="text" name="addr" id="addr" class="input-100" tabindex="5" required></td>
+								<td class="td-13 p-lr3">
+									<input type="text" name="addr" id="addr" class="input-100" tabindex="5" placeholder="http://www.example.com" required>
+								</td>
 
 								<td class="td-7 under center bg-green weight700">홈페이지</td>
-								<td class="td-13 p-lr3"><input type="url" name="homepg" id="homepg" class="input-100" tabindex="9" required></td>
+								<td class="td-13 p-lr3">
+									<input type="url" name="homepg" id="homepg" class="input-100" tabindex="9">
+								</td>
 
 								<td class="td-7 under center bg-green weight700">비고</td>
-								<td class="td-13 p-lr3"><input type="text" name="remark" id="remark" class="input-100" tabindex="10"></td>
+								<td class="td-13 p-lr3">
+									<input type="text" name="remark" id="remark" class="input-100" tabindex="10">
+									<input type="text" name="insert_person" id="insert_person" value="${sessionScope.empname}" style="display: none;" />
+								</td>
 							</tr>
 						</table>
 						<div class="flex flex-justify">
@@ -144,8 +145,8 @@
 								<option <c:if test="${searchOpt eq 'all'}">selected</c:if> value="all">ALL</option>
 								<option <c:if test="${searchOpt eq 'comcd'}">selected</c:if> value="comcd">거래처코드</option>
 								<option <c:if test="${searchOpt eq 'comnm'}">selected</c:if> value="comnm">거래처명</option>
-								<option <c:if test="${searchOpt eq 'type'}">selected</c:if> value="type">업태</option>
-								<option <c:if test="${searchOpt eq 'dttype'}">selected</c:if> value="dttype">종목</option>
+								<option <c:if test="${searchOpt eq 'typenm'}">selected</c:if> value="type">업태</option>
+								<option <c:if test="${searchOpt eq 'dttypenm'}">selected</c:if> value="dttype">종목</option>
 								<option <c:if test="${searchOpt eq 'addr'}">selected</c:if> value="addr">주소</option>
 							</select> <input type="text" name="words" tabindex="13" required />
 							<button type="submit" class="btn-on">검색</button>
@@ -176,7 +177,7 @@
 							</tr>
 						</c:if>
 					
-						<c:forEach items="${comlist}" var="com" varStatus="status">
+						<c:forEach items="${companylist}" var="com" varStatus="status">
 							<tr class="center font14">
 								<td class="td-3">
 								<input type="checkbox" name="chk" class="chk" data-uid="${com.comcd}" style="width: 20px; height: 20px;" />
@@ -185,12 +186,12 @@
 								<td class="td-5">${com.comcd}</td>
 								<td class="left p-lr5">${com.comnm}</td>
 								<td class="td-7">${com.reprenm}</td>
-								<td class="td-7">${com.type}</td>
-								<td class="td-7">${com.dttype}</td>
-								<td class="td-10">${com.tel}/${com.fax}</td>
+								<td class="td-7">${com.typenm}</td>
+								<td class="td-7">${com.dttypenm}</td>
+								<td class="td-10">${com.tel}<c:if test="${com.fax ne ''}">/${com.fax}</c:if></td>
 								<td class="left p-lr5">${com.addr}</td>
 								<td class="left p-lr5">${com.homepg}</td>
-								<td class="td-10">${com.customer}/${com.custtel}</td>
+								<td class="td-10">${com.customer}<c:if test="${com.custtel ne ''}">/${com.custtel}</c:if></td>
 								<td class="center p-lr5">${com.remark}</td>
 							</tr>				
 						</c:forEach>

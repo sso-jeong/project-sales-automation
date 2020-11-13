@@ -10,21 +10,15 @@ import com.project.saleforce.repository.CompanyDao;
 
 @Service
 public class CompanySrv {
-
 	@Autowired
-	CompanyDao comDao;
+	CompanyDao companyDao;
 	
-	public void setCom(CompanyVO comvo) {
-		comDao.setCom(comvo);
+	public List<CompanyVO> getCompanyList(){
+		return companyDao.getCompanyList();
 	}
 	
-	public List<CompanyVO> getComList(int start, int end, String searchOpt,String words) {
-		return comDao.getComList(start, end, searchOpt, words);
+	public void setCompany(CompanyVO comvo) {
+		companyDao.setCompany(comvo);
 	}
-	
-	
-	public int getComCount(String searchOpt,String words) { return
-			comDao.getComCount(searchOpt, words); 
-	}
-	 
+
 }
