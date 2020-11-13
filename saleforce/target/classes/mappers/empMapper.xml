@@ -64,89 +64,6 @@
 		AND email = #{email}
 	</select>
 	<!-- 로그인 -->
-
-	<!-- <sql id="search">
-		<choose>
-			<when test="words == ''">
-			</when>
-			<when test="searchOpt=='all'">
-				AND empnm LIKE CONCAT('%', #{words}, '%')
-				(OR empid LIKE CONCAT('%', #{words} ,'%') OR buseo_name LIKE CONCAT('%', 
-					#{words} , '%'))
-			</when>
-			<otherwise>
-				AND ${searchOpt} LIKE CONCAT('%', #{words} ,'%')
-			</otherwise>
-		</choose>
-	</sql>
-
-	<select id="getEmpList" parameterType="hashmap"
-		resultType="empvo">
-		SELECT
-		empid,
-		deptid,
-		buseo_name as buseoname,
-		grade,
-		grade_name as
-		gradename,
-		empnm,
-		joindate,
-		regdate,
-		emphp,
-		email,
-		empauth,
-		gender,
-		empauth
-		FROM emp_tbl
-		LEFT JOIN buseo_tbl ON deptid = buseo_id
-		LEFT JOIN
-		grade_tbl ON grade = grade_id
-		WHERE empid != 'admin'
-		<include refid="search"></include>
-		ORDER BY buseo_name DESC, grade DESC LIMIT #{start}, #{end}
-	</select>
-
-	<select id="getEmpCount" resultType="int">
-		SELECT COUNT(empid)
-		FROM emp_tbl
-		INNER JOIN buseo_tbl ON deptid =
-		buseo_id
-		INNER JOIN grade_tbl ON grade = grade_id
-		WHERE empid != 'admin'
-		<include refid="search"></include>
-		ORDER BY regdate DESC
-	</select>
-
-	<select id="getOneEmp" parameterType="String" resultType="empvo">
-		SELECT
-		empid,
-		empnm,
-		deptid,
-		grade
-		FROM emp_tbl
-		WHERE empid = #{empid}
-	</select>
-
-	<update id="updateEmpAuth" parameterType="empvo">
-		UPDATE emp_tbl
-		SET
-		deptid = #{deptid},
-		grade = #{grade}
-		WHERE empid = #{empid}
-	</update>
-
-	<delete id="deleteEmpAuth" parameterType="String">
-		DELETE
-		FROM emp_tbl
-		WHERE empid = #{empid}
-	</delete>
-
-	<update id="updateAuth" parameterType="hashmap">
-		UPDATE emp_tbl
-		SET empauth
-		= #{empauth}
-		WHERE empid = #{empid}
-	</update> -->
 	
 	<!-- ################################# 사원목록 소스 시작  ################################# -->
 	
@@ -177,19 +94,19 @@
 		grade_name AS gradeName,
 		birth,
 		gender,
+		gendernm,
 		regnum,
 		empaddr,
 		emphp,
 		email,
 		accountnum,
 		joindate
-		FROM emp_tbl
-		E, buseo_tbl B, grade_tbl G
-		WHERE grade != 7 AND E.deptid
-		= B.buseo_id
-		AND E.grade = G.grade_id
+		FROM emp_tbl E, buseo_tbl B, grade_tbl G, comcode C
+		WHERE grade != 7 AND E.deptid = B.buseo_id
+						AND E.grade = G.grade_id
+						AND E.gender = C.gendercd
 		<include refid="search"></include>
-		ORDER BY regdate desc LIMIT #{start}, #{end}
+		ORDER BY buseo_name  desc LIMIT #{start}, #{end}
 	</select>
 	
 	<select id="getEmpListOne" parameterType="String" resultType="empvo">
@@ -205,52 +122,70 @@
 		regnum,
 		empaddr,
 		emphp,
+		empcp,
 		email,
 		accountnum,
-		joindate
-		FROM emp_tbl
-		E, buseo_tbl B, grade_tbl G
-		WHERE grade != 7 AND E.deptid = B.buseo_id AND E.grade = G.grade_id AND empid = #{empid}
+		hope,
+		licence,
+		hobby,
+		forte,
+		joindate,
+		birthtype,
+		chagubun,
+		miligubun,
+		impediment,
+		patriotism,
+		religion,
+		marrygubun,
+		linguistic,
+		reward
+		FROM emp_tbl E, buseo_tbl B, grade_tbl G
+		WHERE grade != 7 AND E.deptid = B.buseo_id
+						AND E.grade = G.grade_id 
+						AND empid = #{empid}
 	</select>
 	
 	<insert id="setRegAll" parameterType="empvo">
-		<selectKey keyProperty="seq" order="BEFORE" resultType="int">
-			SELECT CASE WHEN empid IS NULL THEN 1
-			ELSE right(empid,
-			char_length(empid)-7) +1 END
-			FROM emp_tbl
+		<selectKey keyProperty="seq" order="BEFORE" resultType="String">
+			SELECT CASE
+			WHEN MAX(empid) IS NULL THEN '001'
+			WHEN CONVERT(SUBSTR(MAX(empid),8,3), UNSIGNED) + 1  <![CDATA[<]]>
+			10
+			THEN CONCAT('00', RIGHT(CAST(MAX(CONVERT(empid, UNSIGNED) ) AS CHAR(10)),
+			1) + 1)
+			ELSE RIGHT(CAST(MAX(CONVERT(empid, UNSIGNED)) AS CHAR(10)),
+			CHAR_LENGTH(MAX(CONVERT(empid , UNSIGNED)))-7) + 1 END as seq
+			FROM
+			emp_tbl
 			WHERE deptid = #{deptid}
-			ORDER BY regdate DESC LIMIT 1
 		</selectKey>
 
 		INSERT INTO emp_tbl SET
 		deptid			= #{deptid},
 		grade			= #{grade},
 		empnm			= #{empnm},
-		emppwd			= #{emppwd},
+		emppwd			= #{birth},
 		empaddr			= #{empaddr},
 		emphp			= #{emphp},
 		email			= #{email},
 		regdate			= now(),
 		empid 			= CONCAT(#{empid}, #{seq}),
-		gender			= #{gender},
+		gender			= #{gendernm},
 		birth			= #{birth},
-		birthtype		= #{birthtype},
+		birthtype		= #{birttypenm},
 		regnum			= #{regnum},
-		empaddr			= #{empaddr},
-		emphp			= #{emphp},
 		empcp			= #{empcp},
 		accountnum		= #{accountnum},
 		hope			= #{hope},
 		licence			= #{licence},
 		hobby			= #{hobby},
 		forte			= #{forte},
-		chagubun		= #{chagubun},
-		miligubun		= #{miligubun},
-		impediment		= #{impediment},
-		patriotism		= #{patriotism},
-		religion		= #{religion},
-		marrygubun		= #{marrygubun},
+		chagubun		= #{chanm},
+		miligubun		= #{milinm},
+		impediment		= #{impnm},
+		patriotism		= #{patrnm},
+		religion		= #{relinm},
+		marrygubun		= #{marnm},
 		linguistic		= #{linguistic},
 		reward			= #{reward},
 		joindate		= #{joindate},
@@ -263,9 +198,9 @@
 		deptid			= #{deptid},
 		grade			= #{grade},
 		empnm			= #{empnm},
-		gender			= #{gender},
+		gender			= #{gendernm},
 		birth			= #{birth},
-		birthtype		= #{birthtype},
+		birthtype		= #{birttypenm},
 		regnum			= #{regnum},
 		empaddr			= #{empaddr},
 		emphp			= #{emphp},
@@ -275,12 +210,12 @@
 		licence			= #{licence},
 		hobby			= #{hobby},
 		forte			= #{forte},
-		chagubun		= #{chagubun},
-		miligubun		= #{miligubun},
-		impediment		= #{impediment},
-		patriotism		= #{patriotism},
-		religion		= #{religion},
-		marrygubun		= #{marrygubun},
+		chagubun		= #{chanm},
+		miligubun		= #{milinm},
+		impediment		= #{impnm},
+		patriotism		= #{patrnm},
+		religion		= #{relinm},
+		marrygubun		= #{marnm},
 		linguistic		= #{linguistic},
 		reward			= #{reward},
 		joindate		= #{joindate},

@@ -64,6 +64,10 @@ public class EmpSrv {
 			empDao.setEmpOthers(empvo);
 			
 		}
+		
+		public void setRegAll(EmpVO evo) {
+			empDao.setRegAll(evo);
+		}
 
 		// ################################# 사원목록 소스 끝   #################################
 }

@@ -1,3 +1,7 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
+=======
+encoding//src/main/java/com/project/saleforce/controller/emp/EmpCtr.java=UTF-8
+>>>>>>> branch 'master' of https://github.com/yeongil4764/project.git
 encoding//src/main/java/com/project/saleforce/controller/sale/saleCtr.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/login/SFA_login.jsp=UTF-8

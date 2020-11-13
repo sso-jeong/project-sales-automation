@@ -63,35 +63,36 @@
 						등록</p>
 				</div>
 				<div class="emp-insert m-b15 m-lr15">
-					<form name="" method="post" action="${pageContext.request.contextPath}/SFA_setEmpOthers"
+					<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setRegAll"
 						autocomplete="off">
 						<div class="emp-info flex flex-justify">
 							<div class="emp-left">
-								<div class="photo-area" style="padding-right: 10px;">
-									<img src="images/emp001.jpg" alt="" />
+								<div class="photo-area" style="margin-right:5px;">
+									<img id="img" name="img" src="${pageContext.request.contextPath}/images/noImage2.jpg" alt="" />
 								</div>
 
 							</div>
 							<div class="emp-right" style="width: 94%;">
+							
 								<table>
 									<tr>
 										<td class="td-7 under center bg-green weight700">사원번호</td>
 										<td class="td-13 p-lr3"><input type="text" name="empid" id="empid" 
-											class="input-100" disabled="true"></td>
+											class="input-100 inputbg" placeholder="사원번호는  자동 생성입니다." readonly ></td>
 										<td class="td-7 under center bg-green weight700">사원명/성별</td>
 										<td class="td-13 p-lr3"><input type="text" name="empnm" id="empnm"
-											class="input-73" tabindex="1" autofocus required> 
+											class="input-73" tabindex="1" maxlength="14" autofocus required> 
 											<select	name="gendernm" class="sel-25" id="gendernm" tabindex="2">
 										</select></td>
 										<td class="td-7 under center bg-green weight700">생년월일</td>
 										<td class="td-13 p-lr3"><input type="text" name="birth" id="birth"
-											class="input-73" tabindex="3" required>
+											class="input-73" tabindex="3"  maxlength="10" required>
 											<select	name="birttypenm" class="sel-25" id="birttypenm" tabindex="2">
 											</select>
 										</td>
 										<td class="td-7 under center bg-green weight700">주민등록번호</td>
 										<td class="td-7 p-lr3"><input type="text" name="regnum" id="regnum"
-											class="input-100" tabindex="5" required></td>
+											class="input-100" tabindex="5"  maxlength="14" required></td>
 										<td class="td-7 under center bg-green weight700">채용형태</td>
 										<td class="p-lr3"><select name="chanm" class="sel-100" id="chanm">
 										</select></td>
@@ -110,7 +111,7 @@
 
 										<td class="td-7 under center bg-green weight700">주소</td>
 										<td class="p-lr3" colspan="3"><input type="text" name="empaddr"
-											id="empaddr" tabindex="9" class="input-100" required></td>
+											id="empaddr" tabindex="9" class="input-100"  maxlength="50" required></td>
 											
 										<td class="td-7 under center bg-green weight700">입사일자</td>
 										<td class="p-lr3"><input type="date" name="joindate"
@@ -137,11 +138,11 @@
 											placeholder="000-000(0)-0000" required></td>
 										<td class="td-7 under center bg-green weight700">이메일</td>
 										<td class="p-lr3"><input type="email" name="email" id="email"
-											tabindex="11" class="input-100" placeholder="abc@abc.com"
+											tabindex="11" class="input-100" placeholder="abc@sfa.com"  maxlength="25" 
 											required></td>
 										<td class="td-7 under center bg-green weight700">계좌번호</td>
 										<td class="p-lr3"><input type="text" name="accountnum" id="accountnum"
-											tabindex="12" class="input-100" required></td>
+											tabindex="12" class="input-100"  maxlength="20" required></td>
 
 										<td class="td-7 under center bg-green weight700">종교</td>
 										<td class="p-lr3"><select name="relinm" class="sel-100" id="relinm">
@@ -155,33 +156,40 @@
 									<tr>
 										<td class="td-7 under center bg-green weight700">희망직무</td>
 										<td class="p-lr3"><input type="text" name="hope" id="hope"
-											class="input-100" required></td>
+											class="input-100"  maxlength="10" required></td>
 										<td class="td-7 under center bg-green weight700">보유자격</td>
 										<td class="p-lr3"><input type="text" name="licence" id="licence"
-											class="input-100" required></td>
+											class="input-100"  maxlength="20" required></td>
 										<td class="td-7 under center bg-green weight700">취미</td>
 										<td class="p-lr3"><input type="text" name="hobby" id="hobby"
-											class="input-100" required></td>
+											class="input-100" maxlength="20" required></td>
 
 										<td class="td-7 under center bg-green weight700">특기</td>
 										<td class="p-lr3"><input type="text" name="forte" id="forte"
-											class="input-100" required></td>
+											class="input-100" maxlength="20" required></td>
 
 										<td class="td-7 under center bg-green weight700">어학/상벌사항</td>
 										<td class="p-lr3" colspan="3"><input type="text" name="linguistic"
 											id="linguistic" class="input-49" required> <input type="text"
-											name="reward" id="reward" class="input-49" required></td>
+											name="reward" id="reward" class="input-49" maxlength="20" required></td>
 
 									</tr>
+									
+									
 								</table>
 							</div>
 						</div>
 						<div class="flex flex-justify">
-							<div class="photo-btn center p-lr18 m-t15">
+							<!-- <div class="photo-btn center p-lr18 m-t15">
 								<button class="s-btn-on">수정</button>
-								<button class="s-btn-off">삭제</button>
-							</div>
+								<button class="s-btn-off del">삭제</button>
+							</div> -->
+							<div class="photo-btn center m-t15">
+                                <input type="file" style="width: 120px;" class="file" id="file" />
+                            	<button type="button" class="btn-on picsave" id="picsave">저장</button>
+                            </div>
 							<div>
+							
 							<!-- 1. 등록된 사원이 있을 때
 								[초기화], [등록], [삭제]
 								2. 등록된 사원이 없을 때
@@ -193,12 +201,9 @@
 									<button type="submit" class="btn-off center m-t15 m-l5 insert">신규등록</button>
 								</c:if>
 								<c:if test="${count != 0}">
-									<button type="reset" class="btn-on center m-t15 m-l5 new"
-										>초기화</button>
-									<button type="button" title="UPDATE" class="btn-on center m-t15 m-l5 up" id="up"
-										>수정</button>
-									<button type="submit" class="btn-off center m-t15 m-l5 del"
-										>삭제</button>	
+									<button type="reset" class="btn-on center m-t15 m-l5 new">초기화</button>
+									<button type="button" title="UPDATE" class="btn-on center m-t15 m-l5 up" id="up">수정</button>
+									<button type="button" class="btn-off center m-t15 m-l5 del" id="del">삭제</button>	
 									<button type="submit" title="INSERT" style="display:none;" class="btn-on center m-t15 m-l5 insert">신규등록</button>
 								</c:if>
 							</div>
@@ -217,8 +222,8 @@
 
 				<div class="search-wrap flex flex-justify">
 					<div class="">
-						<span class="btn-normal m-b15 m-lr15">전체 사원목록 ${count}명
-							${curPage}PAGE / ${totalPage}PAGE</span>
+						<button type="button" class="btn-on m-lr15 m-b15" id="deleteAll">선택삭제</button>
+						<span class="btn-normal ">검색 된 품목수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>					
 					</div>
 					<div class="form-wrap">
 						<form method="post"
@@ -242,8 +247,9 @@
 				<div class="emp-list m-b15 m-lr15">
 					<table class="list center empList" id="empList" style="table-layout: fixed;">
 						<tr class="weight700 center font14">
-							<td class="td-3"><input type="checkbox"
-								style="width: 20px; height: 20px;" /></td>
+							<td class="td-3">
+								<input type="checkbox" style="width: 20px; height: 20px;" class="chk" onClick="chkAll();" id="chkAll"/>
+							</td>
 
 							<td class="td-3">순번</td>
 							<td class="td-7" style="display: none;">부서코드</td>
@@ -269,8 +275,9 @@
 						</c:if>
 						<c:forEach items="${list}" var="emp" varStatus="status">
 							<tr>
-								<td class="td-3"><input type="checkbox"
-									style="width: 20px; height: 20px;" /></td>
+								<td class="td-3">
+								<input type="checkbox" id="chk2" name="chk" class="chk" data-uid="${emp.empid}" style="width: 20px; height: 20px;" />
+								</td>
 								<td>${ (count - status.index) - ( (curPage - 1) * end ) }</td>
 								<td style="display: none;">${emp.deptid}</td>
 								<td>${emp.buseoname}</td>
@@ -280,7 +287,8 @@
 								<td>${emp.empnm}</td>
 								<td>${emp.birth}</td>
 								<td>${emp.regnum}</td>
-								<td>${emp.gender}</td>
+								<td style="display: none;">${emp.gender}</td>
+								<td>${emp.gendernm}</td>
 								<td>${emp.empaddr}</td>
 								<td>${emp.emphp}</td>
 								<td>${emp.email}</td>
@@ -404,24 +412,85 @@
 		});
 
 		$('#up').click(function() {		
-			alert("성공");
+			//alert("성공");
 			var msg = $("#empnm").val() + "의 정보를 수정하시겠습니까?";
 			
 			if(confirm(msg)) {
 				
 				$.ajax({
-					url: "${pageContext.request.contextPath}/updateEmpAuth",
+					url: "${pageContext.request.contextPath}/SFA_setEmpOthers",
 			        type: "post",
 			        data: $('#frm').serialize(),
-			        success : function(manage) {
+			        success : function(data) {
 				        window.location.reload();
 			        },
-			        error: function() {
-			            alert("시스템 에러");
+			        error: function(request) {
+			            alert("message:"+request.responseText);
 			        },
 				});
 			}
 		});
+
+		$('#del').click(function(){
+			var msg = $("#empnm").val() + "의 정보를 삭제하시겠습니까?"
+			var empid = $('#empid').val();
+
+			if(confirm(msg)) {
+				var formData = { empid : empid};
+				$.ajax({
+					url: "${pageContext.request.contextPath}/deleteEmpList",
+			        type: "post",
+			        data: formData,
+			        success : function(data) {
+				        if(data == "success") window.location.reload();
+				        else alert("삭제 오류!!!\n관리자에게 문의 하세요")
+			        },
+			        error: function(request) {
+			            alert("message:"+request.responseText);
+			        }
+				});
+			}
+		});
+
+		$("#deleteAll").click(function(){
+			//alert("성공");
+			var msg = "선택하신 정보를 삭제합니다.\n삭제 후에는 복원할 수 없습니다.";
+			
+	         if ( confirm(msg) ) {
+		        var chkArray = new Array();
+		        $(".chk:checked").each(function() { //each = 향상된 for
+		        	chkArray.push( $(this).attr("data-uid") );
+			    });
+
+		        $.ajax({
+	                url: "${pageContext.request.contextPath}/deleteEmpAll",
+	                type: "POST",
+	                data: {chkArr : chkArray}, //controller <- chkArr
+	                success: function (resData) {
+		                if(resData == "success"){
+		                	window.location.reload();
+			            }else alert("선택된 사원이없습니다.");
+	                    
+	                },
+	                error: function (request) {
+	                	alert("message:"+request.responseText);
+	                },
+	                complete: function () {
+	                    
+	                }
+	            });
+	        }
+		});
+
+/* 		// 한 개의 체크박스 선택 해제 시 전체 선택 체크박스도 해제
+		$(".chk").click(function(){
+			if($("input[name='chk']:checked").length == 3){
+				$("#chkAll").prop("checked", true);
+			} else {
+				$("#chkAll").prop("checked", false);
+			}
+		});  */
+		
 	});
 	
 </script>
@@ -437,24 +506,60 @@ function empload(empID){
 		url : "${pageContext.request.contextPath}/SFA_empOne",
 		type : "POST",
 		data : formData,
-		success : function(resData) {
-			$('#empid').val(resData.empid);
-			$('#empnm').val(resData.empnm);
-			$('#deptid').val(resData.deptid);
-			$('#grade').val(resData.grade);
-			$('#birth').val(resData.birth);
-			$('#regnum').val(resData.regnum);
-			$('#gendernm').val(resData.gender);
-			$('#empaddr').val(resData.empaddr);
-			$('#emphp').val(resData.emphp);
-			$('#email').val(resData.email);
-			$('#accountnum').val(resData.accountnum);
-			$('#joindate').val(resData.joindate);
+		success : function(emp) {
+		 	$('#empid').val(emp.empid);
+			$('#empnm').val(emp.empnm);
+			$('#deptid').val(emp.deptid);
+			$('#grade').val(emp.grade);
+			$('#birth').val(emp.birth);
+			$('#regnum').val(emp.regnum);
+			$('#gendernm').val(emp.gender);
+			$('#empaddr').val(emp.empaddr);
+			$('#emphp').val(emp.emphp);
+			$('#email').val(emp.email);
+			$('#accountnum').val(emp.accountnum);
+			$('#joindate').val(emp.joindate);
+			$('#empcp').val(emp.empcp);
+			$('#hope').val(emp.hope);
+			$('#licence').val(emp.licence);
+			$('#hobby').val(emp.hobby);
+			$('#forte').val(emp.forte);
+			$('#birttypenm').val(emp.birthtype);
+			$('#chanm').val(emp.chagubun);
+			$('#milinm').val(emp.miligubun);
+			$('#impnm').val(emp.impediment);
+			$('#patrnm').val(emp.patriotism);
+			$('#relinm').val(emp.religion);
+			$('#linguistic').val(emp.linguistic);
+			$('#marnm').val(emp.marrygubun);
+			$('#reward').val(emp.reward); 
 		},
 		error : function(request) {
 			alert("message:" + request.responseText + "\n");
 		}
 	});	
+
+	
+}
+
+var flag = false;
+function chkAll() {
+	
+    var chk = document.getElementsByName("chk");
+    if (flag == false) { //선택 x
+        flag = true;
+
+        for (var i = 0; i < chk.length; i++) {
+            chk[i].checked = true;
+        }
+
+    } else {
+        flag = false;
+        for (var i = 0; i < chk.length; i++) {
+            chk[i].checked = false;
+        }
+    }
+
 }
 </script>
 

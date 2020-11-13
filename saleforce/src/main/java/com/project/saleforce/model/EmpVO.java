@@ -9,12 +9,14 @@ public class EmpVO {
 	private String empnm;
 	private String emppwd;
 	private String gender;
+	private String gendernm;
 	private String empaddr;
 	private String emphp;
 	private String email;
 	private String empauth;
 	private String birth;
 	private String birthtype;
+	private String birttypenm;
 	private String regnum;
 	private String accountnum;
 	private String joindate;
@@ -25,11 +27,17 @@ public class EmpVO {
 	private String hobby;
 	private String forte;
 	private String chagubun;
+	private String chanm;
 	private String miligubun;
+	private String milinm;
 	private String impediment;
+	private String impnm;
 	private String patriotism;
+	private String patrnm;
 	private String religion;
+	private String relinm;
 	private String marrygubun;
+	private String marnm;
 	private String linguistic;
 	private String reward;
 	private String insert_person;
@@ -297,6 +305,70 @@ public class EmpVO {
 
 	public void setSeq(String seq) {
 		this.seq = seq;
+	}
+
+	public String getGendernm() {
+		return gendernm;
+	}
+
+	public void setGendernm(String gendernm) {
+		this.gendernm = gendernm;
+	}
+
+	public String getBirttypenm() {
+		return birttypenm;
+	}
+
+	public void setBirttypenm(String birttypenm) {
+		this.birttypenm = birttypenm;
+	}
+
+	public String getChanm() {
+		return chanm;
+	}
+
+	public void setChanm(String chanm) {
+		this.chanm = chanm;
+	}
+
+	public String getMilinm() {
+		return milinm;
+	}
+
+	public void setMilinm(String milinm) {
+		this.milinm = milinm;
+	}
+
+	public String getImpnm() {
+		return impnm;
+	}
+
+	public void setImpnm(String impnm) {
+		this.impnm = impnm;
+	}
+
+	public String getPatrnm() {
+		return patrnm;
+	}
+
+	public void setPatrnm(String patrnm) {
+		this.patrnm = patrnm;
+	}
+
+	public String getRelinm() {
+		return relinm;
+	}
+
+	public void setRelinm(String relinm) {
+		this.relinm = relinm;
+	}
+
+	public String getMarnm() {
+		return marnm;
+	}
+
+	public void setMarnm(String marnm) {
+		this.marnm = marnm;
 	}
 
 }

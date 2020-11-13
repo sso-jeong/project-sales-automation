@@ -49,7 +49,7 @@
 		<div class="page-wrap m-tb15">
 			<div class="container">
 				<div class="title">
-					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">권한관리 > 회사원권한 등록</p>
+					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">권한관리 > 사원권한 등록</p>
 				</div>
 				<div class="auth-insert m-b15 m-lr15">
 					<form name="" method="post" autocomplete="off">
@@ -86,7 +86,7 @@
 				</div>
 
 				<div class="title">
-					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">권한관리 > 회사원권한 목록</p>
+					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">권한관리 > 사원권한 목록</p>
 				</div>
 
 				<div class="search-wrap flex flex-justify">
