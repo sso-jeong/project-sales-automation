@@ -14,8 +14,8 @@
 			value="com.mysql.cj.jdbc.Driver" />
 		<property name="url"
 			value="jdbc:mysql://localhost:3306/sfa?serverTimezone=UTC" />
-		<property name="username" value="root" />
-		<property name="password" value="root" />
+		<property name="username" value="ubuntu" />
+		<property name="password" value="ubuntu" />
 	</bean>
 
 	<bean id="sqlSessionFactory"

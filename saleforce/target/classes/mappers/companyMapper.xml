@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="company">
-	<select id="getCompanyList" resultType="companyvo">
+	<sql id="search">
+		<choose>
+			<when test="words == ''">
+			</when>
+			<when test="searchOpt=='all'">
+				AND (comcd LIKE CONCAT('%', #{words}, '%')
+				OR comnm LIKE CONCAT('%', #{words} ,'%')
+				OR typenm LIKE CONCAT('%', #{words} , '%')
+				OR dttypenm LIKE CONCAT('%', #{words} , '%')
+				OR addr LIKE CONCAT('%', #{words} , '%'))
+			</when>
+			<otherwise>
+				AND ${searchOpt} LIKE CONCAT('%', #{words} ,'%')
+			</otherwise>
+		</choose>
+	</sql>
+
+	<select id="getCompanyList" parameterType="hashmap" resultType="companyvo">
 		SELECT
 		comcd,
 		comnm,
@@ -21,8 +38,38 @@
 		(SELECT typecd, typenm FROM comcode WHERE typenm IS NOT NULL) t, 
 		(SELECT dttypecd, dttypenm FROM comcode WHERE dttypenm IS NOT NULL) d
 		WHERE type = t.typecd AND dttype = d.dttypecd
-		ORDER BY comcd DESC
+		<include refid="search"></include>
+		ORDER BY comnm DESC LIMIT #{start}, #{end}
 	</select>
+	
+	<select id="getCompanyCount" parameterType="hashmap" resultType="int">
+		SELECT COUNT(comcd)
+		FROM company_tbl,
+		(SELECT typecd, typenm FROM comcode WHERE typenm IS NOT NULL) t, 
+		(SELECT dttypecd, dttypenm FROM comcode WHERE dttypenm IS NOT NULL) d
+		WHERE type = t.typecd AND dttype = d.dttypecd
+		<include refid="search"></include>
+	</select>
+	
+	
+	<select id="getOneCompany" parameterType="String" resultType="companyvo">
+		SELECT
+		comcd,
+		comnm,
+		reprenm,
+		tel,
+		fax,
+		customer,
+		custtel,
+		type,
+		dttype,
+		addr,
+		homepg,
+		remark
+		FROM company_tbl
+		WHERE comcd = #{comcd}
+	</select>
+	
 
 	<insert id="setCompany" parameterType="companyvo">
 		<selectKey keyProperty="seq" order="BEFORE" resultType="String">
@@ -54,4 +101,25 @@
 		insert_person = #{insert_person},
 		regdate = now();
 	</insert>
+	
+	<update id="updateCompanyInfo" parameterType="companyvo">
+		UPDATE company_tbl
+		SET comnm = #{comnm},
+		reprenm = #{reprenm},
+		tel = #{tel},
+		fax = #{fax},
+		customer = #{customer},
+		custtel = #{custtel},
+		type = #{type},
+		dttype = #{dttype},
+		addr = #{addr},
+		homepg = #{homepg},
+		remark = #{remark}
+		WHERE comcd = #{comcd}
+	</update>
+	
+	<delete id="deleteCompanyInfo" parameterType="String">
+		DELETE FROM company_tbl
+		WHERE comcd = #{comcd}
+	</delete>
 </mapper>
