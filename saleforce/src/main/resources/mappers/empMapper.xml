@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="emp">
 
-	<!-- 회원가입 -->
+	<!-- 회원가입- -->
 	<insert id="setEmp" parameterType="empvo">
 		<selectKey keyProperty="seq" order="BEFORE" resultType="String">
 			SELECT CASE
@@ -47,9 +47,32 @@
 		empnm,
 		deptid,
 		grade,
+		emppwd,
 		empauth,
+		email,
 		SUBSTR(now(),1,10)
-		as regdate
+		as regdate,
+		birth,
+		gender,
+		regnum,
+		empaddr,
+		emphp,
+		empcp,
+		accountnum,
+		hope,
+		licence,
+		hobby,
+		forte,
+		joindate,
+		birthtype,
+		chagubun,
+		miligubun,
+		impediment,
+		patriotism,
+		religion,
+		marrygubun,
+		linguistic,
+		reward
 		FROM emp_tbl
 		WHERE
 		empid = #{empid}
@@ -109,11 +132,32 @@
 		ORDER BY buseo_name  desc LIMIT #{start}, #{end}
 	</select>
 	
+	<select id="getEmpContactList" parameterType="hashmap"
+		resultType="empvo">
+		SELECT 
+		empid, 
+		empnm, 
+		deptid,
+		buseo_name AS buseoname,
+		grade,
+		grade_name AS gradename,
+		emphp, 
+		empcp, 
+		email 
+		FROM emp_tbl E, buseo_tbl B, grade_tbl G
+		WHERE grade != 7 AND E.deptid = B.buseo_id
+						AND E.grade = G.grade_id
+		<include refid="search"></include>
+		ORDER BY buseo_name  desc LIMIT #{start}, #{end}
+	
+	</select>
+	
 	<select id="getEmpListOne" parameterType="String" resultType="empvo">
 		SELECT
 		empid,
 		empnm,
 		deptid,
+		emppwd,
 		buseo_name AS buseoName,
 		grade,
 		grade_name AS gradeName,
@@ -197,6 +241,7 @@
 		UPDATE emp_tbl SET 
 		deptid			= #{deptid},
 		grade			= #{grade},
+		emppwd			= #{emppwd},
 		empnm			= #{empnm},
 		gender			= #{gendernm},
 		birth			= #{birth},

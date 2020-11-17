@@ -56,5 +56,16 @@ public class EmpDao {
 			sql.insert("emp.setRegAll", evo);
 		}
 		
-		// ################################# 사원목록 소스 끝   #################################
+		// ################################# 사원목록 소스 끝   ##################################
+		
+	// ### 사내연락망
+		public List<EmpVO> getEmpContactList(int start, int end, String searchOpt, String words) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("searchOpt", searchOpt);
+			map.put("words", words);
+			map.put("start", start);
+			map.put("end", end); 
+			
+			return sql.selectList("emp.getEmpContactList", map);
+		}
 }
