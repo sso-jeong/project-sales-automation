@@ -17,7 +17,7 @@ import com.project.saleforce.service.ComcodeSrv;
 import com.project.saleforce.service.ItemSrv;
 
 @Controller
-public class saleCtr {
+public class ItemCtr {
 
 	@Autowired
 	ItemSrv iSrv;

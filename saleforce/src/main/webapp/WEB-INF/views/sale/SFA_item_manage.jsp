@@ -422,12 +422,10 @@
 	            alert("message:"+request.responseText);
 	        }
 	    });
-	}	
-	
-
+	}
+		
 	var flag = false;
     function chkAll() {
-    	
         var chk = document.getElementsByName("chk");
         if (flag == false) { //선택 x
             flag = true;

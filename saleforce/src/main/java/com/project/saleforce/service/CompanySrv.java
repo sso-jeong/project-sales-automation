@@ -13,12 +13,28 @@ public class CompanySrv {
 	@Autowired
 	CompanyDao companyDao;
 	
-	public List<CompanyVO> getCompanyList(){
-		return companyDao.getCompanyList();
+	public List<CompanyVO> getCompanyList(int start, int end, String searchOpt, String words){
+		return companyDao.getCompanyList(start, end, searchOpt, words);
+	}
+	
+	public int getCompanyCount(String searchOpt, String words) {
+		return companyDao.getCompanyCount(searchOpt, words);
+	}
+	
+	public CompanyVO getOneCompany(String comcd) {
+		return companyDao.getOneCompany(comcd);
 	}
 	
 	public void setCompany(CompanyVO comvo) {
 		companyDao.setCompany(comvo);
+	}
+	
+	public void updateCompanyInfo(CompanyVO comvo) {
+		companyDao.updateCompanyInfo(comvo);
+	}
+	
+	public void deleteCompanyInfo(String comcd) {
+		companyDao.deleteCompanyInfo(comcd);
 	}
 
 }

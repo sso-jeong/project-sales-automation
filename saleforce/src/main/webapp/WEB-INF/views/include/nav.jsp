@@ -74,7 +74,7 @@
 								<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_stock_manage" title="재고관리" alt="">재고관리</a></li>
 								<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_sale_manage" title="판매관리" alt="">판매관리</a></li>
 								<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_order_manage" title="수주관리" alt="">수주관리</a></li>
-								<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_company_manage2" title="거래처등록" alt="">거래처관리</a></li>
+								<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_company_manage" title="거래처등록" alt="">거래처관리</a></li>
 								<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_item_manage" title="품목관리" alt="">품목관리</a></li>
 							</ul></li>
 					</ul>
