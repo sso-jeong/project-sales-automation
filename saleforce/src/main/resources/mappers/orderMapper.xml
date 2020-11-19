@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="order">
+
+	<sql id="search">
+		<choose>
+			<when test="words == ''">
+			</when>
+			<when test="searchOpt=='all'">
+				AND (ordnum LIKE CONCAT('%', #{words}, '%')
+				OR orddt LIKE CONCAT('%', #{words} ,'%')
+				OR i.itemcd LIKE CONCAT('%', #{words} , '%')
+				OR c.comcd LIKE CONCAT('%', #{words} , '%'))
+			</when>
+			<otherwise>
+				AND ${searchOpt} LIKE CONCAT('%', #{words} ,'%')
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<select id="getOrderList" parameterType="hashmap" resultType="ordervo">
+		SELECT
+		ordnum,
+		orddt,
+		dlvdt,
+		i.itemcd as itemcd,
+		itemnm,
+		divnm,
+		c.comcd as comcd,
+		comnm,
+		projectnm,
+		ordperson,
+		qty,
+		i.price as uprice,
+		o.price as price,
+		o.price / 10 as tax,
+		o.regdate as regdate,
+		o.remark as remark
+		FROM order_tbl o, item_tbl i, company_tbl c, comcode d
+		WHERE o.itemcd = i.itemcd AND o.comcd = c.comcd AND itemdiv = divcd		
+		<include refid="search"></include>
+		ORDER BY ordnum DESC LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="getOrderCount" resultType="int">
+		SELECT COUNT(ordnum)
+		FROM order_tbl o, item_tbl i, company_tbl c, comcode d
+		WHERE o.itemcd = i.itemcd AND o.comcd = c.comcd AND itemdiv = divcd
+		<include refid="search"></include>
+	</select>
+	
+	<select id="getItemInf" parameterType="String" resultType="ordervo">
+		SELECT itemnm,
+		std,
+		price as uprice
+		FROM item_tbl
+		WHERE itemcd = #{itemcd} 
+	</select>
+	
+	<select id="getCompanynm" parameterType="String" resultType="String">
+		SELECT comnm
+		FROM company_tbl
+		WHERE comcd = #{comcd}
+	</select>
+	
+	<select id="getOneOrder" parameterType="String" resultType="ordervo">
+		SELECT
+		ordnum,
+		orddt,
+		dlvdt,
+		i.itemcd as itemcd,
+		itemnm,
+		divnm,
+		c.comcd as comcd,
+		comnm,
+		projectnm,
+		ordperson,
+		qty,
+		i.std as std,
+		i.price as uprice,
+		o.price as price,
+		(o.price / 10) as tax,
+		o.remark as remark
+		FROM order_tbl o, item_tbl i, company_tbl c, comcode 
+		WHERE o.itemcd = i.itemcd AND o.comcd = c.comcd AND itemdiv = divcd AND ordnum= #{ordnum}
+	</select>
+	
+	<insert id="setOrder" parameterType="ordervo">
+
+		<selectKey keyProperty="seq" order="BEFORE" resultType="String">
+			SELECT CASE
+			WHEN MAX(ordnum) IS NULL THEN '001'
+			WHEN CONVERT(SUBSTR(MAX(ordnum),9,3),UNSIGNED) + 1 <![CDATA[<]]> 10
+			THEN CONCAT('00',RIGHT(CAST(MAX(CONVERT(SUBSTR(ordnum,9,3),UNSIGNED)) AS CHAR(8)), 1) +1)
+			WHEN CHAR_LENGTH(CAST(MAX(CONVERT(SUBSTR(ordnum,9, 3),UNSIGNED)) AS CHAR(3)) + 1) = 2
+			THEN CONCAT('0',CAST(MAX(CONVERT(SUBSTR(ordnum,9, 3),UNSIGNED)) AS CHAR(2)) + 1)		
+			ELSE CAST(MAX(CONVERT(SUBSTR(ordnum,9,3),UNSIGNED)) AS CHAR(3)) + 1
+			END as seq
+			FROM order_tbl
+			WHERE SUBSTR(regdate,1,10) = #{regdate}
+		</selectKey>
+
+		INSERT INTO order_tbl
+		SET ordnum = CONCAT(#{ordnum},#{seq}),
+		itemcd = #{itemcd},
+		qty = #{qty},
+		orddt = #{orddt},
+		dlvdt = #{dlvdt},
+		projectnm = #{projectnm},
+		ordperson = #{ordperson},
+		comcd = #{comcd},
+		price = #{price},
+		remark = #{remark},
+		insert_person = #{insert_person},
+		regdate = now()
+	</insert>
+	
+	<update id="updateOrderInfo" parameterType="ordervo">
+		UPDATE order_tbl
+		SET itemcd = #{itemcd},
+		qty = #{qty},
+		orddt = #{orddt},
+		dlvdt = #{dlvdt},
+		projectnm = #{projectnm},
+		comcd = #{comcd},
+		price = #{price},
+		remark = #{remark}
+		WHERE ordnum = #{ordnum}
+	</update>
+
+	<delete id="deleteOrderInfo" parameterType="String">
+		DELETE FROM order_tbl
+		WHERE ordnum = #{ordnum}
+	</delete>
+</mapper>
