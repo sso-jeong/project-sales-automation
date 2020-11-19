@@ -55,7 +55,6 @@ public class ItemCtr {
 		mav.addObject("curPage", pager.getCurPage());
 		mav.addObject("totalPage", pager.getTotPage());
 		
-		//占쎈읂占쎌뵠筌욑옙 甕곕뜇�깈�몴占� 占쎄깻�뵳占쏙옙六쏙옙�뱽 占쎈르 css active 占쎄깻占쎌삋占쎈뮞 筌ｌ꼶�봺
 		mav.addObject("selected", pager.getCurPage());
 		
 		mav.setViewName("sale/SFA_item_manage");
