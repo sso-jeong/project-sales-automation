@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.saleforce.model.ItemVO;
+import com.project.saleforce.model.StockVO;
 import com.project.saleforce.repository.ItemDao;
 
 @Service
@@ -16,6 +17,10 @@ public class ItemSrv {
 	
 	public void setItem(ItemVO ivo) {
 		itemDao.setItem(ivo);
+	}
+	
+	public void setStock(StockVO svo) {
+		itemDao.setStock(svo);
 	}
 	
 	public List<ItemVO> getItemList(int start, int end, String searchOpt,String words) {

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.project.saleforce.model.ItemVO;
+import com.project.saleforce.model.StockVO;
 
 @Repository
 public class ItemDao {
@@ -17,6 +18,11 @@ public class ItemDao {
 	
 	public void setItem(ItemVO ivo) {
 		sql.insert("item.setItem", ivo);
+	}
+	
+	public void setStock(StockVO svo) {
+		sql.insert("item.setStock", svo);
+		sql.insert("item.setStockD", svo);
 	}
 	
 	public List<ItemVO> getItemList(int start, int end, String searchOpt,String words) {

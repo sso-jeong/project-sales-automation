@@ -34,6 +34,25 @@
 		attdatnum = #{attdatnum},
 		regdate = now()
 	</insert>
+	
+	<insert id="setStock" parameterType="stockvo">
+		INSERT INTO stock_tbl
+		SET itemcd = #{itemcd},
+		itemnm = #{itemnm},
+		std = #{std},
+		qty = 0,
+		regdate = now();
+	</insert>
+	
+	<insert id="setStockD" parameterType="stockvo">
+		INSERT INTO stockInfo_tbl
+		SET itemcd = #{itemcd},
+		seq=0,
+		type = 'D',
+		inqty=0,
+		outqty=0,
+		regdate = now();
+	</insert>
 
 	<!-- 품목관리 데이터 INSERT -->
 

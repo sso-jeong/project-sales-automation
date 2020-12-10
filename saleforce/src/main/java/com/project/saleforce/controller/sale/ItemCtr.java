@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.saleforce.model.ItemVO;
+import com.project.saleforce.model.StockVO;
 import com.project.saleforce.paging.Pager;
 import com.project.saleforce.service.ComcodeSrv;
 import com.project.saleforce.service.ItemSrv;
@@ -75,8 +76,14 @@ public class ItemCtr {
 		
 		iSrv.setItem(ivo);
 		
+		StockVO svo = new StockVO(); 
+		svo.setItemcd(ivo.getItemcd() + ivo.getSeq());
+		svo.setItemnm(ivo.getItemnm()); 
+		svo.setStd(ivo.getStd()); 
+		iSrv.setStock(svo);		 
+		
 		return "redirect:/SFA_item_manage";
-	}
+	}	
 	
 	@RequestMapping("/getOneItem")
 	@ResponseBody

@@ -35,6 +35,7 @@
 			</div>
 
 			<div class="pos">
+			
 				<span class="form-icon fisp"> <i class="fas fa-user-tie"></i>
 				</span> <select id="grade" name="grade" class="sel" tabindex="4" required >
 				<option value=""> 직급을 입력해주세요</option>
@@ -53,7 +54,6 @@
 					tabindex="6" placeholder="비밀번호를 한번 더 입력해주세요" required /> <span
 					class="right"> <i class="fas fa-check" id="pwdcheck"></i>
 				</span>
-
 			</div>
 
 			<div class="pos">
