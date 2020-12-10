@@ -21,6 +21,7 @@ public class EmpVO {
 	private String accountnum;
 	private String joindate;
 	private String regdate;
+	private String regtime;
 	private String empcp;
 	private String hope;
 	private String licence;
@@ -370,5 +371,14 @@ public class EmpVO {
 	public void setMarnm(String marnm) {
 		this.marnm = marnm;
 	}
+
+	public String getRegtime() {
+		return regtime;
+	}
+
+	public void setRegtime(String regtime) {
+		this.regtime = regtime;
+	}
+	
 
 }

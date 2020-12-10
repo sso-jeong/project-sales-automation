@@ -41,7 +41,6 @@
 		WHERE empid != 'admin' AND E.deptid
 		= B.buseo_id AND E.grade = G.grade_id
 		<include refid="search"></include>
-		ORDER BY regdate DESC	
 	</select>
 
 	<select id="getAuthListOne" parameterType="String"

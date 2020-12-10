@@ -9,5 +9,6 @@
 		<typeAlias type="com.project.saleforce.model.ComcodeVO" alias="comcodevo" />
 		<typeAlias type="com.project.saleforce.model.CompanyVO" alias="companyvo" />
 		<typeAlias type="com.project.saleforce.model.OrderVO" alias="ordervo" />
+		<typeAlias type="com.project.saleforce.model.CommuteManageVO" alias="commutevo" />
 	</typeAliases>
 </configuration>

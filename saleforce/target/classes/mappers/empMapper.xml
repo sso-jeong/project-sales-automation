@@ -52,6 +52,7 @@
 		email,
 		SUBSTR(now(),1,10)
 		as regdate,
+		SUBSTR(now(),12,20) as regtime,
 		birth,
 		gender,
 		regnum,
@@ -125,7 +126,7 @@
 		accountnum,
 		joindate
 		FROM emp_tbl E, buseo_tbl B, grade_tbl G, comcode C
-		WHERE grade != 7 AND E.deptid = B.buseo_id
+		WHERE grade != 777 AND E.deptid = B.buseo_id
 						AND E.grade = G.grade_id
 						AND E.gender = C.gendercd
 		<include refid="search"></include>
@@ -184,7 +185,7 @@
 		linguistic,
 		reward
 		FROM emp_tbl E, buseo_tbl B, grade_tbl G
-		WHERE grade != 7 AND E.deptid = B.buseo_id
+		WHERE grade != 777 AND E.deptid = B.buseo_id
 						AND E.grade = G.grade_id 
 						AND empid = #{empid}
 	</select>

@@ -22,7 +22,6 @@
 <script src="${pageContext.request.contextPath}/js/sale.js"></script>
 <script src="${pageContext.request.contextPath}/js/comcode.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.ztree.core.js"></script>
-
 <script>
 	$(function() {
 		$(".popup").click(function() {
@@ -30,96 +29,5 @@
 		});
 	});
 </script>
-<SCRIPT type="text/javascript">
-	var aTree;
-	var formIframe;
 
-	var setting = {
-		view : {
-			dblClickExpand : false,
-			showLine : true,
-			selectedMulti : false
-		},
-
-		data : {
-			simpleData : {
-				enable : true,
-				idKey : "id",
-				pIdKey : "pId",
-				rootPId : ""
-			}
-		},
-		callback : {
-			beforeClick : function(treeId, treeNode) {
-				var zTree = $.fn.zTree.getZTreeObj("tree");
-				if (treeNode.isParent) {
-					zTree.expandNode(treeNode);
-					return false;
-				} else {
-					formIframe.attr("src", treeNode.file + ".html");
-					return true;
-				}
-			}
-		}
-	};
-
-	var zNodes = [ {
-		id : 1,
-		pId : 0,
-		name : "[인사총무부 문서양식]",
-		open : true
-	}, {
-		id : 101,
-		pId : 1,
-		name : "업무일지",
-		file : "${pageContext.request.contextPath}/file/b_log"
-	}, {
-		id : 102,
-		pId : 1,
-		name : "연차처리",
-		file : "${pageContext.request.contextPath}/file/day_off"
-	}, {
-		id : 103,
-		pId : 1,
-		name : "급여명세서",
-		file : "${pageContext.request.contextPath}/file/payslip"
-	},
-
-	{
-		id : 2,
-		pId : 0,
-		name : "[영업부 문서양식]",
-		open : true
-	}, {
-		id : 201,
-		pId : 2,
-		name : "수주처리",
-		file : "${pageContext.request.contextPath}/file/order_manager"
-	}, {
-		id : 202,
-		pId : 2,
-		name : "판매처리",
-		file : "${pageContext.request.contextPath}/file/sale_manager"
-	} ];
-
-	$(document).ready(function() {
-		var t = $("#ztree");
-		t = $.fn.zTree.init(t, setting, zNodes);
-		formIframe = $("#formIframe");
-		formIframe.bind("load", loadReady);
-		var zTree = $.fn.zTree.getZTreeObj("tree");
-		zTree.selectNode(zTree.getNodeByParam("id", 101));
-
-	});
-
-	function loadReady() {
-		var bodyH = formIframe.contents().find("body").get(0).scrollHeight, htmlH = formIframe
-				.contents().find("html").get(0).scrollHeight, maxH = Math.max(
-				bodyH, htmlH), minH = Math.min(bodyH, htmlH), h = formIframe
-				.height() >= maxH ? minH : maxH;
-		if (h < 760)
-			h = 760;
-		formIframe.height(h);
-	}
-</SCRIPT>
 </head>

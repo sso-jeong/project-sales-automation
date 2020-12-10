@@ -338,6 +338,13 @@ input:focus {
     font-size: 12px;
 }
 
+.input-main{
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+}
+
 /* select */
 select {
     font-size: 12px;
@@ -467,6 +474,10 @@ select {
 }
 
 /* padding */
+.p-t5 {
+    padding-top: 5px;
+}
+
 .p-tb10 {
     padding-top: 10px;
     padding-bottom: 10px;

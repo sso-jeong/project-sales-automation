@@ -130,23 +130,12 @@
 							<td id=buseotd>${manage.buseoname}</td>
 							<td id=gradetd>${manage.gradename}</td>
 							<td>${manage.empid}</td>
-							<td>${manage.empnm}</td>													
-							<%-- <td>
-								<c:set var="pageauth" value="${manage.deptid}${manage.grade}" />
-									<c:choose>
-										<c:when test="${manage.deptid == 200}">영업부 권한</c:when>
-										<c:when test="${pageauth > 1005}">인사부 근태 권한</c:when>
-										<c:when test="${pageauth < 1006}">인사부 일반 권한</c:when>
-									</c:choose>
-							</td> --%>
+							<td>${manage.empnm}</td>		
 							<td>
 									<c:if test="${manage.deptid eq '200'}">영업부 권한</c:if>
 									<c:if test="${(manage.deptid eq '100') and (manage.grade) >= '5'}">인사부 근태 권한</c:if>
 									<c:if test="${(manage.deptid eq '100') and (manage.grade) < '5'}">인사부 일반 권한</c:if>
 								</td>
-							<%-- <td class="td-3 center">
-							<input type="checkbox" style="width: 100%" value="${emp.empauth}" onClick="confirmChange(this.value, '${emp.empid}', '${emp.empnm}');" <c:if test="${emp.empauth eq 'Y'}">checked</c:if> />
-							</td> --%>
 							<td><select
 									onChange="confirmChange(this.value, '${manage.empid}');"
 									name="" id="" style="width: 75px; margin: 0 2px;">
