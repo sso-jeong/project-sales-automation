@@ -59,9 +59,9 @@
 							<td class="td-13 p-lr3"><input type="text" name="salenum" id="salenum" class="input-100" readonly></td>
 
 							<td class="td-7 under center bg-green weight700">품목코드/품목명</td>
-							<td class="td-13 p-lr3"><input type="text" name="itemcd" id="itemcd" class="input-40" tabindex="1" autofocus required> <input
+							<td class="td-13 p-lr3" style="position: relative;"><input type="text" name="itemcd" id="itemcd" class="input-40" tabindex="1" autofocus required> <input
 								type="text" name="itemnm" id="itemnm" class="input-58" tabindex="2">
-								<span id="itemnmp" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 13.7%; transform: translateY(-13.7%); left: 725px; color: #000000;"> <i class="fas fa-search"></i>
+								<span id="itemnmp" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 50%; transform: translateY(-50%); right: 15px; color: #000000;"> <i class="fas fa-search"></i>
 								</span>
 							</td>
 								
@@ -82,15 +82,15 @@
 
 						<tr>
 							<td class="td-7 under center bg-green weight700">수주번호</td>
-							<td class="td-13 p-lr3">
+							<td class="td-13 p-lr3" style="position: relative;">
 								<input type="text" name="ordnum" id="ordnum" class="input-100" required> 
-								<span id="ordnump" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 17.8%; transform: translateY(-17.8%); left: 355px; color: #000000;"> <i class="fas fa-search"></i>
+								<span id="ordnump" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 50%; transform: translateY(-50%); right: 15px; color: #000000;"> <i class="fas fa-search"></i>
 								</span>
 							</td>
 							<td class="td-7 under center bg-green weight700">거래처코드/거래처명</td>
-							<td class="td-13 p-lr3"><input type="text" name="comcd" id="comcd" class="input-40" tabindex="9" required> 
+							<td class="td-13 p-lr3" style="position: relative;"><input type="text" name="comcd" id="comcd" class="input-40" tabindex="9" required> 
 								<input type="text"name="comnm" id="comnm" class="input-58" tabindex="10">
-								<span id="comnmp" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 17.8%; transform: translateY(-17.8%); left: 725px; color: #000000;"> <i class="fas fa-search"></i>
+								<span id="comnmp" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 50%; transform: translateY(-50%); right: 15px; color: #000000;"> <i class="fas fa-search"></i>
 								</span>	
 							</td>
 

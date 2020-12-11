@@ -66,7 +66,7 @@ public class OrderCtr {
 		
 	@RequestMapping(value = "/getItemInf")
 	@ResponseBody
-	public OrderVO getItemInf(@RequestParam String itemcd) {			
+	public OrderVO getItemInf(@RequestParam String itemcd) {
 		return oSrv.getItemInf(itemcd);
 	}
 	
