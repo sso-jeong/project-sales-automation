@@ -18,6 +18,8 @@ public class StockCtr {
 	@Autowired
 	StockSrv sSrv;
 
+	static String code;
+
 	@RequestMapping("SFA_stock_manage")
 	public ModelAndView getStockList(@RequestParam(defaultValue = "1") int curPage,
 			@RequestParam(defaultValue = "s.itemcd") String searchOpt, @RequestParam(defaultValue = "") String words) {
@@ -64,6 +66,7 @@ public class StockCtr {
 			@RequestParam(defaultValue = "d.indt") String searchOpt, @RequestParam(defaultValue = "") String words,
 			String itemcd) {
 		ModelAndView mav = new ModelAndView();
+		itemcd = code;
 		int count = sSrv.getStockDetailCount(searchOpt, words, itemcd);
 		Pager pager = new Pager(count, curPage);
 
@@ -94,6 +97,12 @@ public class StockCtr {
 
 		mav.setViewName("/popup/stockpopup");
 		return mav;
+	}
+	
+	@RequestMapping("/carry")
+	@ResponseBody
+	public void carry(String itemcd) {
+		code = itemcd;
 	}
 
 }

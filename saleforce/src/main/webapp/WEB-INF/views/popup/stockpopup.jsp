@@ -60,7 +60,7 @@
 				<c:if test="${count > 0}">
 					<c:forEach items="${stockdetaillist}" var="stock" varStatus="status">			
 						<tr class="center font14">
-							<td class="td-5">${ (count - status.index) - ( (curPage - 1) * end ) }</td>
+							<td class="td-5" id="seq">${ (count - status.index) - ( (curPage - 1) * end ) }</td>
 							<td class="td-7">${stock.stktypenm}</td>
 							<td>${stock.indt}</td>
 							<td>${stock.outdt}</td>
@@ -141,5 +141,16 @@
 		<!--  페이징 ui -->
 </body>
 <script>
+$(function() {
+	$(".stock-list tr td").click(function() {
+		var tdid = $(this).attr("id");
+		if(tdid == "seq"){
+			var ordnum = $(this).text()
+			$(opener.document).find("#ordnum").val(ordnum);
+			window.close();
+		}
+		else return false;
+	});
+});
 </script>
 </html>

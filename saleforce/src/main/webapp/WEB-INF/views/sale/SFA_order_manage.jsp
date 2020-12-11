@@ -61,11 +61,11 @@
 								</td>
 
 								<td class="td-7 under center bg-green weight700">품목코드/품목명</td>
-								<td class="td-20 p-lr3">
-									<input type="text" name="itemcd" id="itemcd" class="input-40" tabindex="1" required> 
-									<input type="text" name="itemnm" id="itemnm" class="input-58" tabindex="2" autofocus>
-									<span id="itemnmp" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 14.7%; transform: translateY(-14.7%); left: 952px; color: #000000;"> <i class="fas fa-search"></i>
-									</span>
+								<td class="td-20 p-lr3" style="position: relative;">
+									<input type="text" name="itemcd" id="itemcd" class="input-40" tabindex="1" required>
+										<input type="text" name="itemnm" id="itemnm" class="input-58" tabindex="2" autofocus>
+										<span id="itemnmp" onclick="popup(this)" style="position: absolute; top: 50%; transform: translateY(-50%); right: 15px; color: #000000;"> <i class="fas fa-search"></i>
+										</span>												
 								</td>
 
 
@@ -89,11 +89,11 @@
 									<input type="text" value="${sessionScope.empname}" name="ordperson" id="ordperson" class="input-35" tabindex="8" required>
 								</td>
 								<td class="td-7 under center bg-green weight700">거래처코드/거래처명</td>
-								<td class="td-20 p-lr3">
+								<td class="td-20 p-lr3" style="position: relative;">
 									<input type="text" name="comcd" id="comcd" class="input-40" tabindex="9" required> 
-									<input type="text" name="comnm" id="comnm" class="input-58" tabindex="10">
-									<span id="comnmp" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 19.7%; transform: translateY(-19.7%); left: 952px; color: #000000;"> <i class="fas fa-search"></i>
-									</span>	
+										<input type="text" name="comnm" id="comnm" class="input-58" tabindex="10">
+										<span id="comnmp" onclick="popup(this)" style="position: absolute; top: 50%; transform: translateY(-50%); right: 15px; color: #000000;"> <i class="fas fa-search"></i>								
+										</span>
 								</td>
 								<td class="td-7 under center bg-green weight700">단가/공급가액/부가세</td>
 								<td class="td-13 p-lr3">
@@ -289,11 +289,11 @@
 		});
 
 		$("#itemcd").blur(function(){
-			getItemInf($(this).val());
+			if($(this).val() != "") getItemInf($(this).val());
 		}); 
 
 		$("#comcd").blur(function(){
-			getCompanynm($(this).val());
+			if($(this).val() != "") getCompanynm($(this).val());
 		});
 
 		$("#qty").keyup(function(){
@@ -386,17 +386,18 @@
 	        data: formData,
 	        dataType: "json", // 수신 데이터 타입
 	        success: function(item) {
-		        if(item == null) {
-		        	 $("#itemcd").val("");
-			        alert("등록되어 있지 않은 품목코드입니다.");
-		        } else {
+		        if(item != null) {
 			        $("#itemnm").val(item.itemnm);
 			        $("#std").val(item.std);
 			        $("#uprice").val(item.uprice);
 		        }
 	        },
 	        error:function(request,status,error){
-	            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		        if(request.status == "200"){
+		        	$("#itemcd").val("");
+					alert("등록되어 있지 않은 품목코드입니다.");
+					
+			    }else alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 	        }
 	    });
 	}

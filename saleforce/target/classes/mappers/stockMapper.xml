@@ -51,7 +51,7 @@
 
 <select id="getStockCount" resultType="int">
 	SELECT COUNT(s.itemcd)
-	FROM stock_tbl s, stockInfo_tbl d
+	FROM stock_tbl s, (SELECT itemcd FROM stockInfo_tbl GROUP BY itemcd) d
 	WHERE s.itemcd = d.itemcd
 	<include refid="search"></include>
 </select>
@@ -59,8 +59,8 @@
 <select id="getStockDetail" parameterType="hashmap" resultType="stockvo">
 	SELECT
 	stktypenm,
-	IFNULL(SUBSTR(d.indt,0,10), '-') as indt,
-	IFNULL(SUBSTR(d.outdt,0,10), '-') as outdt,
+	IFNULL(SUBSTR(d.indt,1,10), '-') as indt,
+	IFNULL(SUBSTR(d.outdt,1,10), '-') as outdt,
 	CASE WHEN d.type = 'C' THEN d.outqty
 	ELSE d.inqty END as cqty,
 	remark
@@ -68,12 +68,13 @@
 	WHERE d.itemcd = s.itemcd
 	AND d.type = c.stktypecd
 	AND d.itemcd = #{itemcd}
+	AND seq != 0
 	<include refid="searchde"></include>
-	ORDER BY seq
+	ORDER BY seq DESC
 </select>
 
 <select id="getStockDetailCount" resultType="int">
-	SELECT count(d.seq) FROM stockInfo_tbl d WHERE d.itemcd = #{itemcd}
+	SELECT count(d.seq) FROM stockInfo_tbl d WHERE d.itemcd = #{itemcd} AND seq != 0
 	<include refid="searchde"></include>
 </select>
 

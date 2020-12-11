@@ -83,7 +83,7 @@
 				<p class="noto font16 weight500 m-t10 m-b10 m-lr10">재고관리 > 재고 등록</p>
 			</div>
 			<div class="stock-insert m-b10 m-lr10">
-				<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setSale" autocomplete="off">
+				<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setStockInfo" autocomplete="off">
 					<div class="member-info flex flex-justify">
 						<div class="stockin-left">
 							<div class="photo-area">
@@ -140,16 +140,11 @@
                             	<button type="button" class="btn-on picsave" id="picsave">저장</button>
                             </div>
 						<div>
-							<c:if test="${count eq 0}">
-								<button type="reset" class="btn-on center m-t15 m-l5 new" id="new1">초기화</button>
-								<button type="submit" class="btn-on center m-t15 m-l5 insert">신규등록</button>
-							</c:if>
-							<c:if test="${count ne 0}">
-								<button type="reset" class="btn-on center m-t15 m-l5 new" id="new2">초기화</button>
-								<button type="button" class="btn-on center m-t15 m-l5 up" id="up">수정</button>
-								<button type="submit" class="btn-on center m-t15 m-l5 insert" id="insert" style="display: none;">신규등록</button>
-								<button type="button" class="btn-off center m-t15 m-l5 del" id="del">삭제</button>
-							</c:if>
+							<button type="button" class="btn-on center m-t15 m-l5 stock">추가등록</button>
+							<button type="submit" class="btn-on center m-t15 m-l5 sinsert" style="display: none;">재고등록</button>
+							<button type="button" class="btn-on center m-t15 m-l5 up2" id="up2" style="display: none;">수정</button>
+
+
 						</div>
 					</div>
 
@@ -205,7 +200,7 @@
 										<td class="left p-lr5">${stock.itemnm}</td>
 										<td class="td-5 left p-lr5">${stock.std}</td>
 										<td class="td-7 right p-lr5">${stock.qty}</td>
-										<td style="cursor: pointer;" onclick="popup()"><i class="fas fa-search-plus"></i></td>
+										<td style="cursor: pointer;" onclick="popup('${stock.itemcd}')"><i class="fas fa-search-plus"></i></td>
 									</tr>
 								</c:forEach>
 							</c:if>
@@ -308,6 +303,16 @@
 			if (itemcd != '품목코드' && itemcd != "")
 				getOneStock(itemcd);
 		});
+
+		$(".stock").click(function() {
+			$(".sinsert").css('display','inline-block');
+			$(".stock").css('display', 'none');		
+		});
+
+		$(".sinsert").click(function() {
+			$(".sinsert").css('display','none');
+			$(".stock").css('display', 'inline-block');		
+		});
 	})
 	
 	function getOneStock(itemcd) {
@@ -337,7 +342,23 @@
 		});
 	}
 
-	function popup() {
+	function popup(itemcd) {
+		var formData = {
+			itemcd : itemcd
+		}
+		$.ajax({
+			url : "${pageContext.request.contextPath}/carry",
+			type : "post",
+			data : formData,
+			success : function(stock) {
+			},
+			error : function(request, status, error) {
+				alert("code:" + request.status + "\n" + "message:"
+						+ request.responseText + "\n" + "error:" + error);
+			}
+		});
+		
+		
 		var url = "${pageContext.request.contextPath}/stockpopup";
 		var name = "재고 목록";
 

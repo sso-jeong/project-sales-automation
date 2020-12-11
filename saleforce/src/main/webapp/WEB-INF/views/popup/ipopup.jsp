@@ -57,7 +57,7 @@
 						
 						<c:if test="${count == 0}">
 							<tr>
-								<td class="weight700 center font14 " colspan="9">등록된 품목이 없습니다.</td>
+								<td class="weight700 center font14 " colspan="8">등록된 품목이 없습니다.</td>
 							</tr>
 						</c:if>
 						
