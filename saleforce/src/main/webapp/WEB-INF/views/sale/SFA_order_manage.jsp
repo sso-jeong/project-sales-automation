@@ -64,6 +64,8 @@
 								<td class="td-20 p-lr3">
 									<input type="text" name="itemcd" id="itemcd" class="input-40" tabindex="1" required> 
 									<input type="text" name="itemnm" id="itemnm" class="input-58" tabindex="2" autofocus>
+									<span id="itemnmp" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 14.7%; transform: translateY(-14.7%); left: 952px; color: #000000;"> <i class="fas fa-search"></i>
+									</span>
 								</td>
 
 
@@ -90,6 +92,8 @@
 								<td class="td-20 p-lr3">
 									<input type="text" name="comcd" id="comcd" class="input-40" tabindex="9" required> 
 									<input type="text" name="comnm" id="comnm" class="input-58" tabindex="10">
+									<span id="comnmp" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 19.7%; transform: translateY(-19.7%); left: 952px; color: #000000;"> <i class="fas fa-search"></i>
+									</span>	
 								</td>
 								<td class="td-7 under center bg-green weight700">단가/공급가액/부가세</td>
 								<td class="td-13 p-lr3">
@@ -140,7 +144,7 @@
 								<option <c:if test="${searchOpt eq 'all'}">selected</c:if> value="all">ALL</option>
 								<option <c:if test="${searchOpt eq 'ordnum'}">selected</c:if> value="ordnum">수주번호</option>
 								<option <c:if test="${searchOpt eq 'orddt'}">selected</c:if> value="orddt">수주일자</option>
-								<option <c:if test="${searchOpt eq 'comnm'}">selected</c:if> value="comnm">업체명</option>
+								<option <c:if test="${searchOpt eq 'comnm'}">selected</c:if> value="comnm">거래처명</option>
 								<option <c:if test="${searchOpt eq 'itemnm'}">selected</c:if> value="itemnm">품목명</option>
 							</select> 
 							<input type="text" name="words" value="${words}" required />
@@ -447,6 +451,20 @@
 	            alert("message:"+request.responseText);
 	        }
 	    });
+	}
+
+	function popup(popup) {
+		var id = popup.getAttribute('id');
+
+		if(id == "itemnmp"){
+			var url = "${pageContext.request.contextPath}/itemPopup";
+			var name = "품목 목록";
+		}else if(id == "comnmp"){
+			var url = "${pageContext.request.contextPath}/companyPopup";
+			var name = "거래처 목록";
+		}else return false;
+		
+		window.open(url, name, "width=1200, height=600, toolbar=no, status=no, location=no, scrollbars=yes, memubar=no, resizable=no, top=100");
 	}
 
 	var flag = false;

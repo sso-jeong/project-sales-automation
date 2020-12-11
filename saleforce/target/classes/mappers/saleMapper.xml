@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sale">
+
+	<sql id="search">
+		<choose>
+			<when test="words == ''">
+			</when>
+			
+			<when test="searchOpt=='all'">
+				AND (salenum LIKE CONCAT('%', #{words}, '%')
+				OR saledt LIKE CONCAT('%', #{words} ,'%')
+				OR i.itemcd LIKE CONCAT('%', #{words} , '%')
+				OR c.comcd LIKE CONCAT('%', #{words} , '%'))
+			</when>
+			
+			<otherwise>
+				AND ${searchOpt} LIKE CONCAT('%', #{words} ,'%')
+			</otherwise>
+			
+		</choose>
+	</sql>
+	
+	<select id="getSaleList" parameterType="hashmap" resultType="salevo">
+		SELECT
+		salenum,
+		saledt,
+		i.itemcd as itemcd,
+		itemnm,
+		divnm,
+		c.comcd as comcd,
+		comnm,
+		projectnm,
+		saleperson,
+		qty,
+		i.price as uprice,
+		s.price as price,
+		s.price / 10 as tax,
+		s.regdate as regdate,
+		s.remark as remark
+		FROM sale_tbl s, item_tbl i, company_tbl c, comcode d
+		WHERE s.itemcd = i.itemcd AND s.comcd = c.comcd AND itemdiv = divcd		
+		<include refid="search"></include>
+		ORDER BY salenum DESC LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="getSaleCount" resultType="int">
+		SELECT COUNT(salenum)
+		FROM sale_tbl s, item_tbl i, company_tbl c, comcode d
+		WHERE s.itemcd = i.itemcd AND s.comcd = c.comcd AND itemdiv = divcd
+		<include refid="search"></include>
+	</select>
+	
+	<select id="getItemInf" parameterType="String" resultType="salevo">
+		SELECT itemnm,
+		std,
+		price as uprice
+		FROM item_tbl
+		WHERE itemcd = #{itemcd} 
+	</select>
+	
+	<select id="getCompanynm" parameterType="String" resultType="String">
+		SELECT comnm
+		FROM company_tbl
+		WHERE comcd = #{comcd}
+	</select>
+	
+	<select id="getOneSale" parameterType="String" resultType="salevo">
+		SELECT
+		salenum,
+		ordnum,
+		saledt,
+		i.itemcd as itemcd,
+		itemnm,
+		divnm,
+		c.comcd as comcd,
+		comnm,
+		projectnm,
+		saleperson,
+		qty,
+		i.std as std,
+		i.price as uprice,
+		s.price as price,
+		(S.price / 10) as tax,
+		s.remark as remark
+		FROM sale_tbl s, item_tbl i, company_tbl c, comcode 
+		WHERE s.itemcd = i.itemcd AND s.comcd = c.comcd AND itemdiv = divcd AND salenum= #{salenum}
+	</select>
+	
+	<insert id="setSale" parameterType="salevo">
+
+		<selectKey keyProperty="seq" order="BEFORE" resultType="String">
+			SELECT CASE
+			WHEN MAX(salenum) IS NULL THEN '001'
+			WHEN CONVERT(SUBSTR(MAX(salenum),9,3),UNSIGNED) + 1 <![CDATA[<]]> 10
+			THEN CONCAT('00',RIGHT(CAST(MAX(CONVERT(SUBSTR(salenum,9,3),UNSIGNED)) AS CHAR(8)), 1) +1)
+			WHEN CHAR_LENGTH(CAST(MAX(CONVERT(SUBSTR(salenum,9, 3),UNSIGNED)) AS CHAR(3)) + 1) = 2
+			THEN CONCAT('0',CAST(MAX(CONVERT(SUBSTR(salenum,9, 3),UNSIGNED)) AS CHAR(2)) + 1)		
+			ELSE CAST(MAX(CONVERT(SUBSTR(salenum,9,3),UNSIGNED)) AS CHAR(3)) + 1
+			END as seq
+			FROM sale_tbl
+			WHERE SUBSTR(regdate,1,10) = #{regdate}
+		</selectKey>
+
+		INSERT INTO sale_tbl
+		SET salenum = CONCAT(#{salenum},#{seq}),
+		ordnum = #{ordnum},
+		itemcd = #{itemcd},
+		qty = #{qty},
+		saledt = #{saledt},
+		projectnm = #{projectnm},
+		saleperson = #{saleperson},
+		comcd = #{comcd},
+		price = #{price},
+		remark = #{remark},
+		insert_person = #{insert_person},
+		regdate = now()
+	</insert>
+	
+	<insert id="setStockInfo" parameterType="stockvo">
+		<selectKey keyProperty="seq" order="BEFORE" resultType="int">
+			SELECT CASE
+			WHEN MAX(seq) IS NULL THEN 1		
+			ELSE MAX(seq) + 1
+			END as seq
+			FROM stockInfo_tbl
+			WHERE itemcd = #{itemcd}
+		</selectKey>
+		INSERT INTO stockInfo_tbl
+		SET itemcd = #{itemcd},
+		seq = #{seq},
+		type = 'C',
+		outdt = #{outdt},
+		outqty = #{outqty},
+		insert_person = #{insert_person},
+		regdate = now();
+		
+	</insert>
+	
+	<update id="updateSaleInfo" parameterType="salevo">
+		UPDATE sale_tbl
+		SET itemcd = #{itemcd},
+		comcd = #{comcd},
+		saledt = #{saledt},
+		projectnm = #{projectnm},
+		ordnum = #{ordnum},
+		saleperson = #{saleperson},
+		qty = #{qty},
+		price = #{price},
+		remark = #{remark}
+		WHERE salenum = #{salenum}
+	</update>
+
+	<delete id="deleteSaleInfo" parameterType="String">
+		DELETE FROM sale_tbl
+		WHERE salenum = #{salenum}
+	</delete>
+	
+</mapper>

@@ -51,7 +51,7 @@ $(function () {
 
 
     // 재고관리 이중테이블
-    $('.stock-left table').click(function () {
+    $('.stock-left table2').click(function () {
         $('.stock-left table').toggleClass('on');
 
         if ($(this).hasClass("on")) {
@@ -64,7 +64,7 @@ $(function () {
         }
     });
 
-    $('.stock-left .list tr').click(function () {
+    $('.stock-left2 .list tr').click(function () {
         $(this).toggleClass('on');
 
         if ($(this).hasClass("on")) {
@@ -156,11 +156,20 @@ function change() {
     //입고일자, 출고일자 자동선택.
     var type = $('.type').val();
 
-    if ((type) == "생산입고" || type == "반품입고") {
+	var date = new Date();
+	var yyyy = date.getFullYear();
+	var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
+	var dd = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+		 
+    if ((type) == "A" || type == "B") {
         $('.outdt').attr('disabled', true);
         $('.indt').attr('disabled', false);
-    } else if (type == "판매출고") {
+        $('.outdt').val('');
+        $('.indt').val(yyyy+"-"+mm+"-"+dd);
+    } else if (type == "C") {
         $('.indt').attr('disabled', true);
         $('.outdt').attr('disabled', false);
+        $('.indt').val('');
+        $('.outdt').val(yyyy+"-"+mm+"-"+dd);
     }
 }
