@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="commute">
+
+	<!-- 근태 기본 테이블 SELECT 시작 -->
+	<sql id="search">
+		<choose>
+			<when test="words == ''">
+
+			</when>
+			<when test="searchOpt=='all'">
+				AND (dlnum LIKE CONCAT('%', #{words},'%') OR
+				dldate LIKE CONCAT('%', #{words},'%') OR 
+				empnm LIKE CONCAT('%', #{words},'%'))
+			</when>
+			<otherwise>
+				AND ${searchOpt} LIKE CONCAT('%', #{words},'%')
+			</otherwise>
+		</choose>
+	</sql>
+
+	<select id="getCommuteList" parameterType="hashmap" resultType="commutevo">
+		SELECT 
+		dlnum, 
+		D.empid, 
+		empnm, 
+		deptid, 
+		buseo_name AS buseoName, 
+		dlgubun,
+		dlnm,
+		dldate, 
+		ontime, 
+		offtime, 
+		tottime
+		FROM dl_tbl D, emp_tbl E, buseo_tbl B, comcode C
+		WHERE D.empid = E.empid 
+		AND D.dlgubun = C.dlcd 
+		AND E.deptid = B.buseo_id
+		<include refid="search"></include>
+		ORDER BY deptid, dlnum DESC LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="getCommuteCount" resultType="int">
+		SELECT COUNT(dlnum) 
+		FROM dl_tbl D, emp_tbl E, buseo_tbl B 
+		WHERE D.empid = E.empid 
+		AND E.deptid = B.buseo_id
+		<include refid="search"></include>
+	</select>
+	
+	<select id="getCommuteListOne" parameterType="String" resultType="commutevo">
+		SELECT  
+		D.dlnum, 
+		DI.seq,
+		D.empid, 
+		empnm, 
+		D.dlgubun,
+		dlnm,
+		ontime,
+		offtime,
+		remark,
+		dldate
+		FROM dl_tbl D, dlInfo_tbl DI, emp_tbl E, comcode C
+		WHERE D.dlnum = DI.dlnum
+		AND D.empid = E.empid 
+		AND D.dlgubun = C.dlcd 
+		AND D.dlnum = #{dlnum} 
+		LIMIT 1
+	</select>
+	<!-- 근태 기본 테이블 SELECT 끝 -->
+	
+	<!-- 근태 상세 테이블 SELECT 시작 -->
+	<!-- 근태 상세 테이블 SELECT 끝 -->
+	
+	<update id="setCommuteOthers" parameterType="commutevo">
+		UPDATE dl_tbl SET 
+		dlgubun			= #{dlnm},
+		dldate			= #{dldate}, 
+		ontime			= #{ontime},
+		offtime			= #{offtime},
+		insert_person	= #{empid}	
+		WHERE dlnum = #{dlnum}
+	</update>
+	
+	<update id="updateCommuteRemark" parameterType="commutevo">
+		UPDATE dlInfo_tbl SET 
+		remark			= #{remark} 
+		insert_person 	= #{empid} 
+		WHERE dlnum = #{dlnum} AND seq = #{seq}
+	</update>
+
+</mapper>

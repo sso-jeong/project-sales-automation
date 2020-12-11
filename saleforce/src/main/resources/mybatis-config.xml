@@ -8,6 +8,7 @@
 		<typeAlias type="com.project.saleforce.model.ItemVO" alias="itemvo" />
 		<typeAlias type="com.project.saleforce.model.ComcodeVO" alias="comcodevo" />
 		<typeAlias type="com.project.saleforce.model.CompanyVO" alias="companyvo" />
+		<typeAlias type="com.project.saleforce.model.CommuteManageVO" alias="commutevo" />
 		<typeAlias type="com.project.saleforce.model.OrderVO" alias="ordervo" />
 		<typeAlias type="com.project.saleforce.model.SaleVO" alias="salevo" />
 		<typeAlias type="com.project.saleforce.model.StockVO" alias="stockvo" />
