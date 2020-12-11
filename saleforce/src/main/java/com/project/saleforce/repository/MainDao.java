@@ -28,6 +28,14 @@ public class MainDao {
 		sql.update("main.getEndTime", commutevo);
 	}
 	
+	public int commuteCnt(CommuteManageVO commutevo) {
+		return sql.selectOne("main.commuteCnt", commutevo);
+	}
+	
+	public int seqCnt(CommuteManageVO commutevo) {
+		return sql.selectOne("main.seqCnt", commutevo);
+	}
+	
 	public CommuteManageVO commuLoadMain(String empid) {
 		return sql.selectOne("main.commuLoadMain", empid);
 	}
@@ -36,16 +44,12 @@ public class MainDao {
 		sql.update("main.updateOfftime", commutevo);
 	}
 	
-	public void updateEndTime(CommuteManageVO commutevo) {
-		sql.update("main.updateEndTime", commutevo);
-	}
-	
 	public void updatetottime(CommuteManageVO commutevo) {
 		sql.update("main.updatetottime", commutevo);
 	}
 	
-	public void dlInfoInsert(CommuteManageVO commutevo) {
-		sql.update("main.dlInfoInsert", commutevo);
+	public void dlGubunUp(CommuteManageVO commutevo) {
+		sql.update("main.dlGubunUp", commutevo);
 	}
 
 }

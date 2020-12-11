@@ -71,8 +71,10 @@ public class CommuteCtr {
 	@RequestMapping(value = "setCommuteOthers", method = RequestMethod.POST)
 	@ResponseBody
 	public String setCommuteOthers(CommuteManageVO commutevo) {
+		commutevo.setSeq(commutevo.getSeq());
+		
 		commuSrv.setCommuteOthers(commutevo);
-		commuSrv.updateCommuteRemark(commutevo);
+		//commuSrv.updateCommuteRemark(commutevo);
 		
 		return "employee/SFA_commute_manage";		
 	}

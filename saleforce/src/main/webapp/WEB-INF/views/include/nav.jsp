@@ -66,7 +66,7 @@
 						<li class="topMenuLi"><a class="menuLink noto weight700 font16 f6" href="${pageContext.request.contextPath}/SFA_empList" title="인사/급여메뉴" alt="">인사/급여</a>
 							<ul class="subMenu3">
 								<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_wage" title="급여관리" alt="">급여관리</a></li>
-								<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_tna_manage" title="근태관리" alt="">근태관리</a></li>
+								<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_commute_manage" title="근태관리" alt="">근태관리</a></li>
 								<li> <a class="submenuLink" href="${pageContext.request.contextPath}/SFA_empList" title="사원관리" alt="">사원관리</a></li>
 							</ul></li>
 						<li class="topMenuLi"><a class="menuLink noto weight700 font16 f6" href="${pageContext.request.contextPath}/SFA_item_manage" title="영업관리메뉴" alt="">영업관리</a>

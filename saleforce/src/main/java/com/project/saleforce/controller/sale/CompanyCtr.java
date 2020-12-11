@@ -53,7 +53,7 @@ public class CompanyCtr {
 		
 		mav.addObject("selected", pager.getCurPage());
 		
-		mav.setViewName("sale/SFA_company_manage");
+		mav.setViewName("employee/SFA_company_manage");
 				
 		return mav;
 	}
@@ -78,6 +78,8 @@ public class CompanyCtr {
 		
 		return "redirect:/SFA_company_manage";
 	}
+	
+	
 	
 	@RequestMapping("/updateCompanyInfo")
 	@ResponseBody

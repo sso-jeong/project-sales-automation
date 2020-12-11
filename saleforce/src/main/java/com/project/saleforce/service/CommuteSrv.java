@@ -26,6 +26,14 @@ public class CommuteSrv {
 		return commuDao.getCommuteListOne(dlnum);
 	}
 	
+	public List<CommuteManageVO> commutepopup(int start, int end, String searchOpt, String words){
+		return commuDao.commutepopup(start, end, searchOpt, words);
+	}
+	
+	public int commutepopupCnt(String searchOpt, String words) {
+		return commuDao.commutepopupCnt(searchOpt, words);
+	}
+	
 	public void setCommuteOthers(CommuteManageVO commutevo) {
 		commuDao.setCommuteOthers(commutevo);
 	}

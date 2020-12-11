@@ -200,7 +200,7 @@
 							<div class="attend flex flex-justify noto font14 weight700 m-t15">
 								<span>현재상태</span> 
 								<span> 
-								<select class="sel-attend" id="dlnm" name="dlnm" onChange="dlInfoInsert(this.value);">
+								<select class="sel-attend" id="dlnm" name="dlnm" onChange="dlGubunUp(this.value);">
 								</select>
 								</span>
 							</div>
@@ -210,9 +210,10 @@
 							</div>
 						</div>
 						<input type="text" class="dlnum" name="dlnum" id="dlnum" style="display:none;"/>
-						<input type="date" name="regdate" id="regdate" value="${sessionScope.nowdate}" style="display:none;"/>
+						<input type="date" name="regdate" id="regdate" value="${sessionScope.nowdate}" style="display:none;" />
 						<input type="time" name="regtime" id="regtime" value="${sessionScope.nowtime}" style="display:none;"/>
 						<input type="text" class="empid" name="empid" value="${sessionScope.empid}" style="display:none;"/>
+						<input type="text" class="seq" id="seq" name="seq" style="display:none;"/>
 					</div>
 		 		</form> 
 			</div>
@@ -398,6 +399,7 @@
 				$('#dlnm').val(commute.dlgubun);
 				$('#empid').val(commute.empid);
 				$('#dldate').val(commute.dldate);
+				$('#seq').val(commute.seq);
 			},
 			error : function(request) {
 				alert("message:" + request.responseText + "\n");
@@ -406,10 +408,14 @@
 		});
 	}
 
-	function dlInfoInsert(dlnm) {
+	function dlGubunUp(dlnm) {
 		var dlnum = $(".dlnum").val();
+		var seq = $("#seq").val();
+		var dldate = $("#regdate").val();
 		var empid = ${sessionScope.empid};
 		//alert(dlnm + dlnum);
+		//alert(seq);
+		//alert(dldate);
 		
 		var msg = "근태 유형을 변경하시겠습니까?";
 
@@ -417,18 +423,21 @@
 			var formData = {
 					dlnm	: dlnm,
 					empid	: empid,
-					dlnum	: dlnum
+					dlnum	: dlnum, 
+					seq		: seq, 
+					dldate	: dldate
 				};
 
 			$.ajax({
-				url		: "${pageContext.request.contextPath}/dlInfoInsert",
+				url		: "${pageContext.request.contextPath}/dlGubunUp",
 				type	: "POST",
 				data	: formData,
 				success : function(resData) {
 					alert("유형이 변경되었습니다.");
 				},
-				error	: function(){
-					alert("변경오류\n관리자에게 문의하세요.");
+				error	: function(request){
+		            alert("message:"+request.responseText);
+					//alert("변경오류\n관리자에게 문의하세요.");
 				},
 				complete : function() {
 					window.location.reload();

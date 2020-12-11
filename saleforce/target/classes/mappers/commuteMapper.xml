@@ -70,6 +70,41 @@
 	<!-- 근태 기본 테이블 SELECT 끝 -->
 	
 	<!-- 근태 상세 테이블 SELECT 시작 -->
+	<sql id="search">
+		<choose>
+			<when test="words == ''">
+
+			</when>
+			<when test="searchOpt=='all'">
+				AND (dlnm LIKE CONCAT('%', #{words},'%')
+			</when>
+			<otherwise>
+				AND ${searchOpt} LIKE CONCAT('%', #{words},'%')
+			</otherwise>
+		</choose>
+	</sql>
+
+	<select id="commutepopup" parameterType="hashmap" resultType="commutevo">
+		SELECT 
+		dlnum, 	
+		seq, 	
+		empid,
+		dlgubun, 
+		strtime,
+		endtime,
+		tottime, 
+		remark
+		FROM dlInfo_tbl
+		<include refid="search"></include>
+		ORDER BY dlnum, seq DESC LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="commutepopupCnt" parameterType="String" resultType="int">
+		SELECT COUNT(dlnum) 
+		FROM dlInfo_tbl 
+		WHERE dlnum = #{dlnum}
+		<include refid="search"></include>
+	</select>
 	<!-- 근태 상세 테이블 SELECT 끝 -->
 	
 	<update id="setCommuteOthers" parameterType="commutevo">

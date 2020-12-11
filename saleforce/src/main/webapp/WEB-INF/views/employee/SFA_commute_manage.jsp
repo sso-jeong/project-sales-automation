@@ -105,7 +105,7 @@
                               
                               <td class="td-7 under center bg-green weight700">비고</td>
                               <td class="td-11 p-lr3" colspan="5">
-                              	<input type="text" name="remark" id="remark" class="input-100" tabindex="5">
+                              	<input type="text" name="remark" id="remark" class="input-100" tabindex="5" readonly>
                               </td>
 
                             </tr>
@@ -137,7 +137,7 @@
 				<div class="search-wrap flex flex-justify">
 					<div class="">
 						<button type="button" class="btn-on m-lr15 m-b15" id="deleteAll">선택삭제</button>
-						<span class="btn-normal">검색 된 근태목록 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
+						<span class="btn-normal">검색 된 근태 정보 수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
 					</div>
 					<div class="form-wrap">
 						<form method="post" action="${pageContext.request.contextPath}/SFA_company_manage" style="margin: 0 15px;" autocomplete="off">
@@ -171,7 +171,7 @@
 							
 							<c:if test="${count == 0}">
 								<tr>
-									<td class="weight700 center font14 " colspan="10">등록된 근태가 없습니다.</td>
+									<td class="weight700 center font14 " colspan="10">등록된 근태 정보가 없습니다.</td>
 								</tr>
 							</c:if>
 						
@@ -181,7 +181,7 @@
 									 <input type="checkbox" name="chk" class="chk" data-uid="${commute.dlnum}" style="width: 20px; height: 20px;" />
 									</td>
 									<td class="td-3">${ (count - status.index) - ( (curPage - 1) * end ) }</td>
-									<td style="display: none;">${commute.dlnum}</td>
+									<td style="display: none;" class="dlnum">${commute.dlnum}</td>
 									<td style="display: none;">${commute.deptid}</td>
 									<td>${commute.buseoname}</td>
 									<td>${commute.empid}</td>
@@ -191,7 +191,7 @@
 									<td>${commute.offtime}</td>
 									<td>${commute.tottime}</td>
 									<td>
-										<i class="fas fa-search-plus"></i>
+										<i class="fas fa-search-plus" id="popupBtn" onclick="openChild()"></i>
 									</td>
 								</tr>				
 							</c:forEach>
@@ -332,6 +332,12 @@
 			}
 		});
 		
+	}
+
+	function openChild(){
+		var url = "${pageContext.request.contextPath}/companyPopup"; 
+
+		window.open(url, "popup", "width=500, height=500");
 	}
 	
 	var flag = false;

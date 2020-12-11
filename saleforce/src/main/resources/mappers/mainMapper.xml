@@ -39,7 +39,7 @@
 	</update>
 	
 	<update id="getEndTime" parameterType="commutevo">
-		<selectKey keyProperty="strtime" order="BEFORE" resultType="String">
+		<selectKey keyProperty="endtime" order="BEFORE" resultType="String">
 			SELECT DATE_FORMAT(now(), '%H:%i:%s') AS endtime
 		</selectKey>	
 		UPDATE dlInfo_tbl 
@@ -47,28 +47,36 @@
 		WHERE dlnum = #{dlnum} AND seq = #{seq}
 	</update>
 	
+	<select id="commuteCnt" parameterType="commutevo" resultType="int">
+		SELECT COUNT(dlnum) 
+		FROM dl_tbl
+		WHERE empid = #{empid} AND dldate = #{dldate}
+	</select>
+	
+	<select id="seqCnt" parameterType="commutevo" resultType="int">
+		SELECT COUNT(dlnum) 
+		FROM dlInfo_tbl 
+		WHERE dlnum = #{dlnum} AND seq = #{seq} AND endtime IS NULL
+	</select>
+	
 	<select id="commuLoadMain" parameterType="String" resultType="commutevo">
 		SELECT 
-		dlnum,
-		empid, 
+		D.dlnum,
+		D.empid, 
 		ontime, 
 		offtime,
-		dlgubun, 
-		dldate,
-		dlnm 
-		FROM dl_tbl D, comcode C
+		D.dlgubun, 
+		D.dldate,
+		dlnm, 
+		DI.seq 
+		FROM dl_tbl D, dlInfo_tbl DI, comcode C
 		WHERE D.dlgubun = C.dlcd 
-		AND empid = #{empid} ORDER BY regdate desc LIMIT 1
+		AND D.empid = #{empid} ORDER BY DI.seq DESC LIMIT 1
 	</select>
 	
 	<update id="updateOfftime" parameterType="commutevo">		
 		UPDATE dl_tbl 
 		SET offtime = #{offtime} WHERE dlnum = #{dlnum}
-	</update>
-	
-	<update id="updateEndTime" parameterType="commutevo">		
-		UPDATE dlInfo_tbl 
-		SET endtime = #{endtime} WHERE dlnum = #{dlnum}
 	</update>
 	
 	<update id="updatetottime" parameterType="commutevo">
@@ -80,7 +88,7 @@
 		SET tottime = #{tottime} WHERE dlnum = #{dlnum}
 	</update>
 	
-	<update id="dlInfoInsert" parameterType="commutevo">
+	<update id="dlGubunUp" parameterType="commutevo">
 		UPDATE dl_tbl 
 		SET dlgubun = #{dlnm} WHERE dlnum = #{dlnum} AND empid = #{empid}
 	</update>

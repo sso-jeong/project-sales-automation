@@ -37,6 +37,23 @@ public class CommuteDao {
 		return sql.selectOne("commute.getCommuteListOne", dlnum);
 	}
 	
+	public List<CommuteManageVO> commutepopup(int start, int end, String searchOpt, String words){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("searchOpt", searchOpt);
+		map.put("words", words);
+		map.put("start", start);
+		map.put("end", end); 
+		
+		return sql.selectList("commute.commutepopup", map);
+	}
+	
+	public int commutepopupCnt(String searchOpt, String words) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("searchOpt", searchOpt);
+		map.put("words", words);
+		
+		return sql.selectOne("commute.commutepopupCnt", map);
+	}
 	
 	public void setCommuteOthers(CommuteManageVO commutevo) {
 		sql.update("commute.setCommuteOthers", commutevo);

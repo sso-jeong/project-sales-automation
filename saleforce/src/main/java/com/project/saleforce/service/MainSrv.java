@@ -28,6 +28,14 @@ public class MainSrv {
 		mainDao.getEndTime(commutevo);
 	}
 	
+	public int commuteCnt(CommuteManageVO commutevo) {
+		return mainDao.commuteCnt(commutevo);
+	}
+	
+	public int seqCnt(CommuteManageVO commutevo) {
+		return mainDao.seqCnt(commutevo);
+	}
+	
 	public CommuteManageVO commuLoadMain(String empid) {
 		return mainDao.commuLoadMain(empid);
 	}
@@ -36,16 +44,12 @@ public class MainSrv {
 		mainDao.updateOfftime(commutevo);
 	}
 	
-	public void updateEndTime(CommuteManageVO commutevo) {
-		mainDao.updateEndTime(commutevo);
-	}
-	
 	public void updatetottime(CommuteManageVO commutevo) {
 		mainDao.updatetottime(commutevo);
 	}
 	
-	public void dlInfoInsert(CommuteManageVO commutevo) {
-		mainDao.dlInfoInsert(commutevo);
+	public void dlGubunUp(CommuteManageVO commutevo) {
+		mainDao.dlGubunUp(commutevo);
 	}
 
 }
