@@ -30,6 +30,7 @@ public class EmpCtr {
 	public ModelAndView getEmpList(@RequestParam(defaultValue = "1") int curPage, 
 									@RequestParam(defaultValue = "empnm") String searchOpt, 
 									@RequestParam(defaultValue = "") String words) {
+		
 		ModelAndView mav = new ModelAndView();
 		
 		int count = mSrv.getAuthCount(searchOpt, words);
@@ -79,7 +80,7 @@ public class EmpCtr {
 	@RequestMapping(value = "SFA_setEmpOthers", method = RequestMethod.POST)
 	@ResponseBody
 	public String setEmpOthers(@ModelAttribute EmpVO empvo) {
-		System.out.println(empvo.getEmpid());
+		//System.out.println(empvo.getEmpid());
 		
 		eSrv.setEmpOthers(empvo);
 		return "employee/SFA_empList";

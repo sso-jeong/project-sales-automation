@@ -49,6 +49,7 @@ public class EmpSrv {
 			session.setAttribute("linguistic", vo.getLinguistic());
 			session.setAttribute("reward", vo.getReward());
 			session.setAttribute("nowdate", vo.getRegdate());
+			session.setAttribute("nowtime", vo.getRegtime());
 		}
 
 		return vo;

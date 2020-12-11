@@ -180,36 +180,42 @@
 					</div>
 				</div>
 			</div>
-			<div class="tna-wrap">
-				<div class="tna m-lr10">
-					<h3 class="noto font16 m-t10 m-b5">근태관리</h3>
-				</div>
-
-				<div class="tbl-wrap m-b10 m-lr10">
-					<div class="main-attend">
-						<div class="m-t10 weight700 center" style="border: 1px solid #0C4A60; width: 100%; height: 30px; line-height: 30px; color: #0C4A60; font-size: 16px; text-align: center;" id="clock"></div>
-						<div class="attend flex flex-justify noto font14 weight700 m-t20">
-							<span>출근시간</span> <span>AM 08:55</span>
-						</div>
-						<div class="attend flex flex-justify noto font14 weight700 m-t15">
-							<span>퇴근시간</span> <span>PM -</span>
-						</div>
-						<div class="attend flex flex-justify noto font14 weight700 m-t15">
-							<span>현재상태</span> <span> <select class="sel-attend">
-									<option value="">업무중</option>
-									<option value="">외근중</option>
-									<option value="">퇴근</option>
-							</select>
-							</span>
-						</div>
-						<div class="attend flex flex-justify noto font14 weight700 m-t20">
-							<button class="noto font14 weight700 attend-btn-on">출근하기</button>
-							<button class="noto font14 weight700 attend-btn-off">퇴근하기</button>
-						</div>
+			
+				<div class="tna-wrap">
+					<div class="tna m-lr10">
+						<h3 class="noto font16 m-t10 m-b5">${sessionScope.empid}  ${sessionScope.empname} 근태기록</h3>
 					</div>
-				</div>
+				<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setCommute" autocomplete="off">					
+					<div class="tbl-wrap m-b10 m-lr10">
+						<div class="main-attend">
+							<div class="m-t10 weight700 center" style="border: 1px solid #0C4A60; width: 100%; height: 30px; line-height: 30px; color: #0C4A60; font-size: 16px; text-align: center;" id="clock"></div>
+							<div class="attend flex flex-justify noto font14 weight700 m-t20">
+								<span class="center p-t5">출근시간</span> 
+								<span><input class="input-main right" name="ontime" id="ontime" readonly></input></span>
+							</div>
+							<div class="attend flex flex-justify noto font14 weight700 m-t15">
+								<span class="center p-t5">퇴근시간</span> 
+								<span><input class="input-main right" name="offtime" id="offtime" readonly></input></span>
+							</div>
+							<div class="attend flex flex-justify noto font14 weight700 m-t15">
+								<span>현재상태</span> 
+								<span> 
+								<select class="sel-attend" id="dlnm" name="dlnm" onChange="dlInfoInsert(this.value);">
+								</select>
+								</span>
+							</div>
+							<div class="attend flex flex-justify noto font14 weight700 m-t20">
+								<button type="submit" class="noto font14 weight700 attend-btn-on">출근하기</button>
+								<button type="button" class="noto font14 weight700 attend-btn-off offtime" id="offtime">퇴근하기</button>
+							</div>
+						</div>
+						<input type="text" class="dlnum" name="dlnum" id="dlnum" style="display:none;"/>
+						<input type="date" name="regdate" id="regdate" value="${sessionScope.nowdate}" style="display:none;"/>
+						<input type="time" name="regtime" id="regtime" value="${sessionScope.nowtime}" style="display:none;"/>
+						<input type="text" class="empid" name="empid" value="${sessionScope.empid}" style="display:none;"/>
+					</div>
+		 		</form> 
 			</div>
-
 
 		</div>
 
@@ -274,169 +280,45 @@
 
 				<div class="tbl-wrap m-b10 m-lr10">
 					<table id="sale" class="table center" style="table-layout: fixed;">
-						<tr class="weight700 center">
+						<tr class="weight700 center font14">
 							<td class="td-5">순번</td>
-							<td class="td-7">거래처코드</td>
+							<td class="td-5">수주번호</td>
+							<td class="td-7">수주일자</td>
 							<td class="td-13">거래처명</td>
-							<td class="td-5">대표자명</td>
-							<td class="td-5">업태</td>
-							<td class="td-5">종목</td>
-							<td class="td-10">전화/FAX</td>
-							<td>주소</td>
-							<td class="td-10">홈페이지</td>
-							<td class="td-10">담당자/연락처</td>
+							<td class="td-7">품목코드</td>
+							<td>품목명</td>
+							<td class="td-5">품목구분</td>
+							<td class="td-7">담당자명</td>
+							<td class="td-5">수량</td>
+							<td class="td-7">단가</td>
+							<td class="td-7">공급가액</td>
+							<td class="td-7">부가세</td>
 							<td class="td-5">비고</td>
 						</tr>
-						<tr class="center">
-							<td class="td-5">10</td>
-							<td class="td-5">4</td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>(재)부산테크노파크</nobr></td>
-							<td class="td-7">박승완</td>
-							<td class="td-7">제조업</td>
-							<td class="td-7">제조</td>
-							<td class="td-10">051-720-8926/<br>051-720-8927
-							</td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>부산광역시 기장군 일광면 횡계길 7 (해양생물산업육성센터)</nobr></td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>www.btp.or.kr</nobr></td>
-							<td class="td-10">김승완/<br>010-7789-4456
-							</td>
-							<td class="center">-</td>
-						</tr>
-						<tr class="center">
-							<td class="td-5">9</td>
-							<td class="td-5">10</td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>(주) 송림드리움</nobr></td>
-							<td class="td-7">박태정</td>
-							<td class="td-7">제조업</td>
-							<td class="td-7">제조</td>
-							<td class="td-10">051-862-8170/<br>051-860-8171
-							</td>
-							<td class="td-17 left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>부산광역시 연제구 과정로287번길 52 (연산동) (총 2 필지) </nobr></td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>-</nobr></td>
-							<td class="td-10">김태정/<br>010-6589-1254
-							</td>
-							<td class="center">-</td>
-						</tr>
-						<tr class="center">
-							<td class="td-5">8</td>
-							<td class="td-5">28</td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>신일테크</nobr></td>
-							<td class="td-7">이선용</td>
-							<td class="td-7">제조업</td>
-							<td class="td-7">제조</td>
-							<td class="td-10">051-324-5039/<br>051-324-5040
-							</td>
-							<td class="td-17 left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>부산광역시 사상구 강변대로456번길 38 (엄궁동, 신일테크) </nobr></td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>www.shiniltech.co.kr</nobr></td>
-							<td class="td-10">박용선/<br>010-7854-3652
-							</td>
-							<td class="center">-</td>
-						</tr>
-						<tr class="center">
-							<td class="td-5">7</td>
-							<td class="td-5">30</td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>신정산업사</nobr></td>
-							<td class="td-7">김효준</td>
-							<td class="td-7">제조업</td>
-							<td class="td-7">도금</td>
-							<td class="td-10">051-324-5039/<br>051-324-5040
-							</td>
-							<td class="td-17 left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>부산광역시 사하구 다대로300번길 15 (장림동) </nobr></td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>-</nobr></td>
-							<td class="td-10">이준효/<br>010-4569-7896
-							</td>
-							<td class="center">-</td>
-						</tr>
-						<tr class="center">
-							<td class="td-5">6</td>
-							<td class="td-5">32</td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>신정테크</nobr></td>
-							<td class="td-7">강동현</td>
-							<td class="td-7">제조업</td>
-							<td class="td-7">도금</td>
-							<td class="td-10">051-415-4429/<br>051-415-4430
-							</td>
-							<td class="td-17 left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>부산광역시 영도구 대평로20번길 13 (대평동1가) </nobr></td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>-</nobr></td>
-							<td class="td-10">김현동/<br>010-1234-5698
-							</td>
-							<td class="center">-</td>
-						</tr>
-						<tr class="center">
-							<td class="td-5">5</td>
-							<td class="td-5">4</td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>(재)부산테크노파크</nobr></td>
-							<td class="td-7">박승완</td>
-							<td class="td-7">제조업</td>
-							<td class="td-7">제조</td>
-							<td class="td-10">051-720-8926/<br>051-720-8927
-							</td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>부산광역시 기장군 일광면 횡계길 7 (해양생물산업육성센터)</nobr></td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>www.btp.or.kr</nobr></td>
-							<td class="td-10">김승완/<br>010-7789-4456
-							</td>
-							<td class="center">-</td>
-						</tr>
-						<tr class="center">
-							<td class="td-5">4</td>
-							<td class="td-5">10</td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>(주) 송림드리움</nobr></td>
-							<td class="td-7">박태정</td>
-							<td class="td-7">제조업</td>
-							<td class="td-7">제조</td>
-							<td class="td-10">051-862-8170/<br>051-860-8171
-							</td>
-							<td class="td-17 left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>부산광역시 연제구 과정로287번길 52 (연산동) (총 2 필지) </nobr></td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>-</nobr></td>
-							<td class="td-10">김태정/<br>010-6589-1254
-							</td>
-							<td class="center">-</td>
-						</tr>
-						<tr class="center">
-							<td class="td-5">3</td>
-							<td class="td-5">28</td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>신일테크</nobr></td>
-							<td class="td-7">이선용</td>
-							<td class="td-7">제조업</td>
-							<td class="td-7">제조</td>
-							<td class="td-10">051-324-5039/<br>051-324-5040
-							</td>
-							<td class="td-17 left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>부산광역시 사상구 강변대로456번길 38 (엄궁동, 신일테크) </nobr></td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>www.shiniltech.co.kr</nobr></td>
-							<td class="td-10">박용선/<br>010-7854-3652
-							</td>
-							<td class="center">-</td>
-						</tr>
-						<tr class="center">
-							<td class="td-5">2</td>
-							<td class="td-5">30</td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>신정산업사</nobr></td>
-							<td class="td-7">김효준</td>
-							<td class="td-7">제조업</td>
-							<td class="td-7">도금</td>
-							<td class="td-10">051-324-5039/<br>051-324-5040
-							</td>
-							<td class="td-17 left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>부산광역시 사하구 다대로300번길 15 (장림동) </nobr></td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>-</nobr></td>
-							<td class="td-10">이준효/<br>010-4569-7896
-							</td>
-							<td class="center">-</td>
-						</tr>
-						<tr class="center">
-							<td class="td-5">1</td>
-							<td class="td-5">32</td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>신정테크</nobr></td>
-							<td class="td-7">강동현</td>
-							<td class="td-7">제조업</td>
-							<td class="td-7">도금</td>
-							<td class="td-10">051-415-4429/<br>051-415-4430
-							</td>
-							<td class="td-17 left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>부산광역시 영도구 대평로20번길 13 (대평동1가) </nobr></td>
-							<td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;"><nobr>-</nobr></td>
-							<td class="td-10">김현동/<br>010-1234-5698
-							</td>
-							<td class="center">-</td>
-						</tr>
+						
+						<%-- <c:if test="${count == 0}">
+							<tr>
+								<td class="weight700 center font14 " colspan="14">등록된 수주 건이 없습니다.</td>
+							</tr>
+						</c:if>
+						
+						<c:forEach items="${orderlist}" var="order" varStatus="status">
+							<tr class="center font14">
+								<td class="td-5">${ (count - status.index) - ( (curPage - 1) * end ) }</td>
+								<td class="td-5">${order.ordnum}</td>
+								<td class="td-7">${order.orddt}</td>
+								<td class="td-13 left p-lr5">${order.comnm}</td>
+								<td class="td-7">${order.itemcd}</td>
+								<td class="left p-lr5">${order.itemnm}</td>
+								<td class="td-5">${order.divnm}</td>
+								<td class="td-7">${order.ordperson}</td>
+								<td class="td-5 right p-lr5">${order.qty}</td>
+								<td class="td-7 right p-lr5">${order.uprice}</td>
+								<td class="td-7 right p-lr5">${order.price}</td>
+								<td class="td-7 right p-lr5">${order.tax}</td>
+								<td class="td-13 center p-lr5">${order.remark}</td>
+							</tr>		
+						</c:forEach>	 --%>	
 					</table>
 				</div>
 			</div>
@@ -447,6 +329,114 @@
 </body>
 <script src="${pageContext.request.contextPath}/js/main_cal.js"></script>
 <script>
+	$(function(){
+		tna();
+		var empid = ${sessionScope.empid};
+		//alert(empid);
+		commuLoadMain(empid);
+
+		// 퇴근하기 버튼 클릭 시
+		$('.offtime').click(function(){
+			var date = new Date();    
+			
+			var hours 	= date.getHours();
+			var mimutes = date.getMinutes();
+			var seconds = date.getSeconds();
+
+			var time = hours +':'+ mimutes +':'+ seconds;
+
+			var offtime = time;
+			var endtime = time;
+			
+			var dlnum = $(".dlnum").val();
+			//alert(dlnum + offtime);
+
+			var msg = "현재 시간 " + offtime + "입니다. 퇴근하시겠습니까?";
+
+			if(confirm(msg)){
+				//alert("성공");
+				var formData = {
+						dlnum	: dlnum,
+						offtime : offtime,
+						endtime : endtime
+					};
+				$.ajax({
+					url		: "${pageContext.request.contextPath}/updateOfftime",
+					type	: "POST",
+					data	: formData,
+					success : function(data) {
+						window.location.reload();
+					},
+					error	: function(request){
+			            alert("message:"+request.responseText);
+					}
+				});
+
+			}
+		});
+	});
+</script>
+<script>
+	// 근태정보 출력
+	function commuLoadMain(empid){
+		//alert(empid);
+
+		var formData = {
+				empid : empid
+			};
+
+		$.ajax({
+			url		: "${pageContext.request.contextPath}/commuLoadMain",
+			type	: "POST",
+			data	: formData,
+			success : function(commute){
+				//alert("성공");
+				$('.dlnum').val(commute.dlnum);
+				$('#ontime').val(commute.ontime);
+				$('.ontime').val(commute.ontime);
+				$('#offtime').val(commute.offtime);
+				$('#dlnm').val(commute.dlgubun);
+				$('#empid').val(commute.empid);
+				$('#dldate').val(commute.dldate);
+			},
+			error : function(request) {
+				alert("message:" + request.responseText + "\n");
+			}
+			
+		});
+	}
+
+	function dlInfoInsert(dlnm) {
+		var dlnum = $(".dlnum").val();
+		var empid = ${sessionScope.empid};
+		//alert(dlnm + dlnum);
+		
+		var msg = "근태 유형을 변경하시겠습니까?";
+
+		if (confirm(msg)){
+			var formData = {
+					dlnm	: dlnm,
+					empid	: empid,
+					dlnum	: dlnum
+				};
+
+			$.ajax({
+				url		: "${pageContext.request.contextPath}/dlInfoInsert",
+				type	: "POST",
+				data	: formData,
+				success : function(resData) {
+					alert("유형이 변경되었습니다.");
+				},
+				error	: function(){
+					alert("변경오류\n관리자에게 문의하세요.");
+				},
+				complete : function() {
+					window.location.reload();
+				}
+			});
+		}
+	}
+	
 	function printClock() {
 		var today = new Date();
 		var dd = today.getDate();
@@ -473,7 +463,7 @@
 		var currentHours = addZeros(currentDate.getHours(), 2);
 		var currentMinute = addZeros(currentDate.getMinutes(), 2);
 		var currentSeconds = addZeros(currentDate.getSeconds(), 2);
-
+		
 		if (currentHours >= 12) { // 시간이 12보다 클 때 PM으로 세팅, 12를 빼줌
 			amPm = 'PM ';
 			currentHours = addZeros(currentHours - 12, 2);

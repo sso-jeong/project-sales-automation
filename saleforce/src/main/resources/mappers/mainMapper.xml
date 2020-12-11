@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main">
+
+	<!-- 근태 시작 -->
+	<insert id="setCommute" parameterType="commutevo">
+		INSERT INTO dl_tbl SET 
+		dlnum			= #{dlnum},
+		empid			= #{empid},
+		dlgubun			= #{dlnm},
+		dldate			= #{dldate},
+		ontime			= #{ontime},
+		insert_person	= #{empid},
+		regdate			= now()
+	</insert>
+	
+	<insert id="setCommuteInfo" parameterType="commutevo">
+		<selectKey keyProperty="seq" order="BEFORE" resultType="String">
+			SELECT CASE WHEN MAX(seq) IS NULL THEN '1' 
+						ELSE CONVERT(MAX(seq), UNSIGNED) + 1 
+				   END
+			FROM dlInfo_tbl
+		</selectKey>
+		INSERT INTO dlInfo_tbl SET 
+		dlnum			= #{dlnum},
+		seq				= #{seq},
+		empid			= #{empid},
+		dlgubun			= #{dlnm},
+		insert_person	= #{empid},
+		regdate			= now()
+	</insert>
+	
+	<update id="getStrTime" parameterType="commutevo">
+		<selectKey keyProperty="strtime" order="BEFORE" resultType="String">
+			SELECT DATE_FORMAT(now(), '%H:%i:%s') AS strtime
+		</selectKey>		
+		UPDATE dlInfo_tbl 
+		SET strtime = #{strtime} WHERE dlnum = #{dlnum} AND seq = #{seq}
+	</update>
+	
+	<update id="getEndTime" parameterType="commutevo">
+		<selectKey keyProperty="strtime" order="BEFORE" resultType="String">
+			SELECT DATE_FORMAT(now(), '%H:%i:%s') AS endtime
+		</selectKey>	
+		UPDATE dlInfo_tbl 
+		SET endtime = #{endtime}
+		WHERE dlnum = #{dlnum} AND seq = #{seq}
+	</update>
+	
+	<select id="commuLoadMain" parameterType="String" resultType="commutevo">
+		SELECT 
+		dlnum,
+		empid, 
+		ontime, 
+		offtime,
+		dlgubun, 
+		dldate,
+		dlnm 
+		FROM dl_tbl D, comcode C
+		WHERE D.dlgubun = C.dlcd 
+		AND empid = #{empid} ORDER BY regdate desc LIMIT 1
+	</select>
+	
+	<update id="updateOfftime" parameterType="commutevo">		
+		UPDATE dl_tbl 
+		SET offtime = #{offtime} WHERE dlnum = #{dlnum}
+	</update>
+	
+	<update id="updateEndTime" parameterType="commutevo">		
+		UPDATE dlInfo_tbl 
+		SET endtime = #{endtime} WHERE dlnum = #{dlnum}
+	</update>
+	
+	<update id="updatetottime" parameterType="commutevo">
+		<selectKey keyProperty="tottime" order="BEFORE" resultType="String">
+			SELECT SEC_TO_TIME ( TIMESTAMPDIFF( SECOND, ontime, offtime) ) AS tottime from dl_tbl WHERE dlnum = #{dlnum}
+		</selectKey>
+		
+		UPDATE dl_tbl 
+		SET tottime = #{tottime} WHERE dlnum = #{dlnum}
+	</update>
+	
+	<update id="dlInfoInsert" parameterType="commutevo">
+		UPDATE dl_tbl 
+		SET dlgubun = #{dlnm} WHERE dlnum = #{dlnum} AND empid = #{empid}
+	</update>
+	<!-- 근태 끝 -->
+	
+</mapper>
