@@ -104,5 +104,48 @@ public class StockCtr {
 	public void carry(String itemcd) {
 		code = itemcd;
 	}
+	
+	@RequestMapping("/setStockDetail")
+	public String setStockDetail(StockVO svo) {
+		if(svo != null) {
+			if(svo.getType().equals("C")) {
+				sSrv.setStockDetailOut(svo);	
+			}else {
+				sSrv.setStockDetailIn(svo);
+			}
+		}
+		return "redirect:/SFA_stock_manage";
+	}
+	
+	@RequestMapping("/updateStock")
+	@ResponseBody
+	public String updateStockIn(StockVO svo) {
+		String msg = "";
+		if(Integer.toString(svo.getSeq()) != "") {
+			if(svo.getType() != "C") {
+				sSrv.updateStockIn(svo);
+			}else  sSrv.updateStockOut(svo);
+			msg = "success";
+		}else msg = "fail";
+		
+		return msg;
+	}
+	
+	@RequestMapping("/stockDeleteAll")
+	@ResponseBody
+	public String stockDeleteAll(@RequestParam(value = "chkArr[]") List<Integer> chkArr, String itemcd) {
+		itemcd = code;
+		String msg = "";
+		if(chkArr != null) {
+			
+			for(int seq : chkArr ) { 
+				sSrv.deleteStockInfo(itemcd, seq);
+			}
+			msg="success";
+			
+		}else msg="fail";
+		
+		return msg;
+	}
 
 }

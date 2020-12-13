@@ -431,6 +431,7 @@ CREATE TABLE `item_tbl` (
 
 LOCK TABLES `item_tbl` WRITE;
 /*!40000 ALTER TABLE `item_tbl` DISABLE KEYS */;
+INSERT INTO `item_tbl` VALUES ('AA20201201','타이어','A','A',100000,'','',NULL,'관리자','2020-12-13 13:47:06',NULL),('CE20201201','고무','C','E',100,'1kg','',NULL,'관리자','2020-12-13 13:47:31',NULL);
 /*!40000 ALTER TABLE `item_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -548,7 +549,6 @@ CREATE TABLE `sale_tbl` (
   `remark` varchar(300) DEFAULT NULL,
   `seq` int DEFAULT NULL,
   `insert_person` varchar(10) DEFAULT NULL,
-  
   `regdate` datetime DEFAULT NULL,
   PRIMARY KEY (`salenum`),
   KEY `ordnum` (`ordnum`),
@@ -592,6 +592,7 @@ CREATE TABLE `stock_tbl` (
 
 LOCK TABLES `stock_tbl` WRITE;
 /*!40000 ALTER TABLE `stock_tbl` DISABLE KEYS */;
+INSERT INTO `stock_tbl` VALUES ('AA20201201','타이어','',0,NULL,'2020-12-13 13:47:06'),('CE20201201','고무','1kg',0,NULL,'2020-12-13 13:47:32');
 /*!40000 ALTER TABLE `stock_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -606,8 +607,8 @@ CREATE TABLE `stockinfo_tbl` (
   `itemcd` varchar(20) NOT NULL,
   `seq` int NOT NULL,
   `type` char(2) NOT NULL,
-  `indt` datetime DEFAULT NULL,
-  `outdt` datetime DEFAULT NULL,
+  `indt` varchar(10) DEFAULT NULL,
+  `outdt` varchar(10) DEFAULT NULL,
   `inqty` int DEFAULT '0',
   `outqty` int DEFAULT '0',
   `remark` varchar(100) DEFAULT NULL,
@@ -624,6 +625,7 @@ CREATE TABLE `stockinfo_tbl` (
 
 LOCK TABLES `stockinfo_tbl` WRITE;
 /*!40000 ALTER TABLE `stockinfo_tbl` DISABLE KEYS */;
+INSERT INTO `stockinfo_tbl` VALUES ('AA20201201',0,'D',NULL,NULL,0,0,NULL,NULL,'2020-12-13 13:47:06'),('CE20201201',0,'D',NULL,NULL,0,0,NULL,NULL,'2020-12-13 13:47:32'),('CE20201201',1,'B','2020-12-13',NULL,5,0,'','관리자','2020-12-13 14:06:22'),('CE20201201',2,'A','2020-12-13',NULL,100,0,'','','2020-12-13 15:19:04');
 /*!40000 ALTER TABLE `stockinfo_tbl` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -668,4 +670,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-11 18:13:05
+-- Dump completed on 2020-12-13 19:50:20

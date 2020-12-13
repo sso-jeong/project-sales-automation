@@ -49,9 +49,9 @@
 		<div class="page-wrap m-tb10">
 			<div class="container">
 				<div class="title">
-					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">수주관리 > 수주 등록</p>
+					<p class="noto font16 weight500 m-t5 m-b5 m-l15">수주관리 > 수주 등록</p>
 				</div>
-				<div class="order-insert m-b15 m-lr15">
+				<div class="order-insert m-b5 m-lr15">
 					<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setOrder" autocomplete="off">
 						<table>
 							<tr>
@@ -113,29 +113,29 @@
 							<div></div>
 							<div>
 								<c:if test="${count eq 0}">
-									<button type="reset" class="btn-on center m-t15 m-l5 new" id="new1">초기화</button>
-									<button type="submit" class="btn-on center m-t15 m-l5 insert">신규등록</button>
+									<button type="reset" class="btn-on center m-t5 new" id="new1">초기화</button>
+									<button type="submit" class="btn-on center m-t5 insert">신규등록</button>
 								</c:if>
 								<c:if test="${count ne 0}">
-									<button type="reset" class="btn-on center m-t15 m-l5 new" id="new2" >초기화</button>
-									<button type="button" class="btn-on center m-t15 m-l5 up" id="up">수정</button>
-									<button type="submit" class="btn-on center m-t15 m-l5 insert" id="insert" style="display:none;">신규등록</button>					
-									<button type="button" class="btn-off center m-t15 m-l5 del" id="del">삭제</button>
+									<button type="reset" class="btn-on center m-t5 new" id="new2" >초기화</button>
+									<button type="button" class="btn-on center m-t5 up" id="up">수정</button>
+									<button type="submit" class="btn-on center m-t5 insert" id="insert" style="display:none;">신규등록</button>					
+									<button type="button" class="btn-off center m-t5 del" id="del">삭제</button>
 								</c:if>
 							</div>
 						</div>
 
 					</form>
-					<hr style="border: solid 1px #0C4A60; margin-top: 15px;">
+					<hr style="border: solid 1px #0C4A60; margin-top: 5px;">
 				</div>
 
 				<div class="title">
-					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">수주관리 > 수주 목록</p>
+					<p class="noto font16 weight500 m-t5 m-b5 m-l15">수주관리 > 수주 목록</p>
 				</div>
 
 				<div class="search-wrap flex flex-justify">
 					<div class="">
-						<button type="button" class="btn-on m-lr15 m-b15" id="deleteAll">선택삭제</button>
+						<button type="button" class="btn-on m-l15 m-b5" id="deleteAll">선택삭제</button>
 						<span class="btn-normal">검색 된 수주 건 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
 					</div>
 					<div class="form-wrap">

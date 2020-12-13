@@ -33,4 +33,24 @@ public class StockSrv {
 	public int getStockDetailCount(String searchOpt,String words, String itemcd) {
 		return stockDao.getStockDetailCount(searchOpt, words, itemcd);
 	}
+	
+	public void setStockDetailIn(StockVO svo) {
+		stockDao.setStockDetailIn(svo);
+	}
+	
+	public void setStockDetailOut(StockVO svo) {
+		stockDao.setStockDetailOut(svo);
+	}
+	
+	public void updateStockIn(StockVO svo) {
+		stockDao.updateStockIn(svo);
+	}
+	
+	public void updateStockOut(StockVO svo) {
+		stockDao.updateStockOut(svo);
+	}
+	
+	public void deleteStockInfo(String itemcd, int seq) {
+		stockDao.deleteStockInfo(itemcd, seq);
+	}
 }

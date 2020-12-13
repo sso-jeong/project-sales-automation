@@ -53,7 +53,7 @@ public class CompanyCtr {
 		
 		mav.addObject("selected", pager.getCurPage());
 		
-		mav.setViewName("employee/SFA_company_manage");
+		mav.setViewName("sale/SFA_company_manage");
 				
 		return mav;
 	}

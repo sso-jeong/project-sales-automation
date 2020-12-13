@@ -73,9 +73,9 @@
 		<div class="page-wrap m-tb10">
 			<div class="container">
 				<div class="title">
-					<p class="noto font16 weight500 m-t5 m-b5 m-lr15">품목관리 > 품목 등록</p>
+					<p class="noto font16 weight500 m-t5 m-b5 m-l15">품목관리 > 품목 등록</p>
 				</div>
-				<div class="item-insert m-b15 m-lr15">
+				<div class="item-insert m-b5 m-lr15">
 					<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/insert_item" autocomplete="off">
 						<div class="member-info flex flex-justify">
 							<div class="item-left">
@@ -134,7 +134,7 @@
 
 						<div class="flex flex-justify">
 										
-							<div class="photo-btn center m-t15">
+							<div class="photo-btn center m-t5">
                                 <input type="file" style="width: 150px;" class="file" id="file" />
                             	<button type="button" class="btn-on picsave" id="picsave">저장</button>
                             </div>
@@ -164,7 +164,7 @@
 
 				<div class="search-wrap flex flex-justify">
 					<div class="">
-						<button type="button" class="btn-on m-lr15 m-b15" id="deleteAll">선택삭제</button>
+						<button type="button" class="btn-on m-l15 m-b5" id="deleteAll">선택삭제</button>
 						<span class="btn-normal ">검색 된 품목수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>					
 					</div>
 					<div class="form-wrap">

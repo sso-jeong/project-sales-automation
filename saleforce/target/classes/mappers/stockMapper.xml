@@ -58,6 +58,8 @@
 
 <select id="getStockDetail" parameterType="hashmap" resultType="stockvo">
 	SELECT
+	d.seq,
+	d.type,
 	stktypenm,
 	IFNULL(SUBSTR(d.indt,1,10), '-') as indt,
 	IFNULL(SUBSTR(d.outdt,1,10), '-') as outdt,
@@ -90,4 +92,68 @@
 	AND s.itemcd = d.itemcd
 	GROUP BY s.itemcd
 </select>
+
+<insert id="setStockDetailIn" parameterType="stockvo">
+
+	<selectKey keyProperty="seq" order="BEFORE" resultType="int">
+			SELECT MAX(seq) + 1 as seq
+			FROM stockInfo_tbl
+			WHERE itemcd = #{itemcd}
+	</selectKey> 
+	
+	INSERT INTO stockInfo_tbl
+	SET itemcd = #{itemcd},
+	seq = #{seq},
+	type = #{type},
+	indt = #{indt},
+	inqty = #{qty},
+	remark = #{remark},
+	insert_person = #{insert_person},
+	regdate = now()
+	
+</insert>
+
+<insert id="setStockDetailOut" parameterType="stockvo">
+
+	<selectKey keyProperty="seq" order="BEFORE" resultType="int">
+			SELECT MAX(seq) + 1 as seq
+			FROM stockInfo_tbl
+			WHERE itemcd = #{itemcd}
+	</selectKey> 
+	
+	INSERT INTO stockInfo_tbl
+	SET itemcd = #{itemcd},
+	seq = #{seq},
+	type = #{type},
+	outdt = #{outdt},
+	outqty = #{qty},
+	remark = #{remark},
+	insert_person = #{insert_person},
+	regdate = now()
+	
+</insert>
+
+<update id="updateStockIn" parameterType="stockvo">
+	UPDATE stockInfo_tbl
+	SET indt = #{indt},
+	inqty = #{qty},
+	type = #{type}
+	WHERE itemcd = #{itemcd}
+	AND seq = #{seq}
+</update>
+
+<update id="updateStockOut" parameterType="stockvo">
+	UPDATE stockInfo_tbl
+	SET outdt = #{outdt},
+	type = #{type},
+	outqty = #{qty}
+	WHERE itemcd = #{itemcd}
+	AND seq = #{seq}
+</update>
+
+<delete id="deleteStockInfo" parameterType="hashmap">
+		DELETE FROM sale_tbl
+		WHERE salenum = #{salenum} 
+		AND seq = #{seq}
+	</delete>
 </mapper>

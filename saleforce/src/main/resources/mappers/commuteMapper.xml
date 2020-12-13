@@ -70,7 +70,7 @@
 	<!-- 근태 기본 테이블 SELECT 끝 -->
 	
 	<!-- 근태 상세 테이블 SELECT 시작 -->
-	<sql id="search">
+	<sql id="search2">
 		<choose>
 			<when test="words == ''">
 
@@ -95,7 +95,7 @@
 		tottime, 
 		remark
 		FROM dlInfo_tbl
-		<include refid="search"></include>
+		<include refid="search2"></include>
 		ORDER BY dlnum, seq DESC LIMIT #{start}, #{end}
 	</select>
 	
@@ -103,7 +103,7 @@
 		SELECT COUNT(dlnum) 
 		FROM dlInfo_tbl 
 		WHERE dlnum = #{dlnum}
-		<include refid="search"></include>
+		<include refid="search2"></include>
 	</select>
 	<!-- 근태 상세 테이블 SELECT 끝 -->
 	

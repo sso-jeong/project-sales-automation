@@ -80,10 +80,10 @@
 	<div class="page-wrap m-tb10">
 		<div class="container">
 			<div class="title">
-				<p class="noto font16 weight500 m-t10 m-b10 m-lr10">재고관리 > 재고 등록</p>
+				<p class="noto font16 weight500 m-t5 m-b5 m-l15">재고관리 > 재고 등록</p>
 			</div>
-			<div class="stock-insert m-b10 m-lr10">
-				<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setStockInfo" autocomplete="off">
+			<div class="stock-insert m-b5 m-lr15">
+				<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setStockDetail" autocomplete="off">
 					<div class="member-info flex flex-justify">
 						<div class="stockin-left">
 							<div class="photo-area">
@@ -97,36 +97,37 @@
 									<td class="td-13 p-lr3"><input type="text" name="itemcd" id="itemcd" class="input-100" readonly></td>
 
 									<td class="td-7 under center bg-green weight700">품목명</td>
-									<td class="td-13 p-lr3"><input type="text" name="itemnm" id="itemnm" class="input-100" readonly required></td>
+									<td class="td-13 p-lr3"><input type="text" name="itemnm" id="itemnm" class="input-100" disabled readonly required></td>
 
 									<td class="td-7 under center bg-green weight700">입고일자</td>
-									<td class="td-13 p-lr3"><input type="date" name="indt" id="indt" class="input-100 indt" disabled tabindex="1" ></td>
+									<td class="td-13 p-lr3"><input type="date" name="indt" id="indt" class="input-100 indt" disabled tabindex="2" ></td>
 
 									<td class="td-7 under center bg-green weight700">출고일자</td>
-									<td class="td-13 p-lr3"><input type="date" name="outdt" id="outdt" class="input-100 outdt" disabled tabindex="2"></td>
+									<td class="td-13 p-lr3"><input type="date" name="outdt" id="outdt" class="input-100 outdt" disabled tabindex="3"></td>
 
 								</tr>
 
 								<tr style="height: 50px;">
 									<td class="td-7 under center bg-green weight700">유형</td>
 									<td class="td-13 p-lr3">
-									<select name="type" id="stktypenm" class="sel-100 type" tabindex="3" onchange="change()" required autofocus>
+									<select name="type" id="stktypenm" class="sel-100 type" tabindex="1" onchange="change()" disabled required autofocus>
 										<option value=""></option>
 									</select>
 									</td>
 
 									<td class="td-7 under center bg-green weight700">규격</td>
-									<td class="td-13 p-lr3"><input type="text" name="std" id="std" class="input-100" readonly></td>
+									<td class="td-13 p-lr3"><input type="text" name="std" id="std" class="input-100" disabled readonly></td>
 
 									<td class="td-7 under center bg-green weight700">수량</td>
-									<td class="td-13 p-lr3"><input type="number" name="qty" id="qty" class="input-100" tabindex="3"></td>
+									<td class="td-13 p-lr3"><input type="number" name="qty" id="qty" class="input-100" disabled tabindex="4" required></td>
 
 
 
 									<td class="td-7 under center bg-green weight700">비고</td>
 									<td class="td-13 p-lr3" colspan="3">
-										<input type="text" name="remark" id="remark" class="input-100" tabindex="4">
+										<input type="text" name="remark" id="remark" class="input-100" tabindex="5" disabled>
 										<input type="text" name="insert_person" id="insert_person" value="${sessionScope.empname}" style="display: none;" />
+										<input type="text" name="seq" id="seq" value=0 disabled style="display: none;" />
 									</td>
 									
 								</tr>
@@ -135,32 +136,33 @@
 					</div>
 
 					<div class="flex flex-justify">
-						<div class="photo-btn center m-t15">
+						<div class="photo-btn center m-t5">
                                 <input type="file" style="width: 150px;" class="file" id="file" />
                             	<button type="button" class="btn-on picsave" id="picsave">저장</button>
                             </div>
 						<div>
-							<button type="button" class="btn-on center m-t15 m-l5 stock">추가등록</button>
-							<button type="submit" class="btn-on center m-t15 m-l5 sinsert" style="display: none;">재고등록</button>
-							<button type="button" class="btn-on center m-t15 m-l5 up2" id="up2" style="display: none;">수정</button>
+							<button type="button" class="btn-on center m-t5 stock">추가등록</button>
+							<button type="submit" class="btn-on center m-t5 sinsert" style="display: none;">재고등록</button>
+							<button type="button" class="btn-on center m-t5 up2" id="up2" style="display: none;">수정</button>
+							
 
 
 						</div>
 					</div>
 
 				</form>
-				<hr style="border: solid 1px #0C4A60; margin-top: 10px;">
+				<hr style="border: solid 1px #0C4A60; margin-top: 5px;">
 			</div>
 				<div class="stock-left">
 					<div class="title">
-						<p class="noto font16 weight500 m-b10 m-lr10">재고관리 > 재고 목록</p>
+						<p class="noto font16 weight500 m-b5 m-l15">재고관리 > 재고 목록</p>
 					</div>
 					<div class="search-wrap flex flex-justify">
 						<div class="">
-							<span class="btn-normal m-b10 m-lr10">검색 된 품목 수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
+							<span class="btn-normal m-b5 m-l15">검색 된 품목 수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
 						</div>
 						<div class="form-wrap">
-							<form method="post" action="${pageContext.request.contextPath}/SFA_stock_manage" style="margin: 0 10px;" autocomplete="off">
+							<form method="post" action="${pageContext.request.contextPath}/SFA_stock_manage" style="margin: 0 15px;" autocomplete="off">
 								<select class="" name="searchOpt">
 									<option <c:if test="${searchOpt eq 'all'}">selected</c:if> value="all">ALL</option>
 									<option <c:if test="${searchOpt eq 's.itemcd'}">selected</c:if> value="s.itemcd">품목코드</option>
@@ -171,10 +173,9 @@
 						</div>
 					</div>
 
-					<div class="stock-list m-b10 m-lr10">
+					<div class="stock-list m-b5 m-lr15">
 						<table class="list center" style="table-layout: fixed;">
 								<tr class="weight700 center font14">
-									<td class="td-3"><input type="checkbox" style="width: 20px; height: 20px;" onClick="chkAll();" id="chkAll" /></td>
 									<td class="td-5">순번</td>
 									<td>품목코드</td>
 									<td>품목명</td>
@@ -192,9 +193,6 @@
 							<c:if test="${count > 0}">
 								<c:forEach items="${stocklist}" var="stock" varStatus="status">
 									<tr class="font14">
-										<td class="td-3">
-											<input type="checkbox" name="chk" class="chk" data-uid="${stock.itemcd}" style="width: 20px; height: 20px;" />
-										</td>
 										<td class="td-5">${ (count - status.index) - ( (curPage - 1) * end ) }</td>
 										<td class="td-7">${stock.itemcd}</td>
 										<td class="left p-lr5">${stock.itemnm}</td>
@@ -292,26 +290,35 @@
 		$('.indt').val(yyyy+"-"+mm+"-"+dd);
 
 		var td2 = $(".stock-list tr:eq(1)").children();
-		var item_cd = td2.eq(2).text();
+		var item_cd = td2.eq(1).text();
 		if (item_cd != "")
 			getOneStock(item_cd);
 
 		$(".stock-list tr").click(function() {
 			var tr = $(this);
 			var td = tr.children();
-			var itemcd = td.eq(2).text();
+			var itemcd = td.eq(1).text();
 			if (itemcd != '품목코드' && itemcd != "")
 				getOneStock(itemcd);
 		});
 
 		$(".stock").click(function() {
+			able();
 			$(".sinsert").css('display','inline-block');
+			$("#qty").val(0);
 			$(".stock").css('display', 'none');		
 		});
 
 		$(".sinsert").click(function() {
 			$(".sinsert").css('display','none');
 			$(".stock").css('display', 'inline-block');		
+		});
+
+		$("#up2").click(function() {
+			updateStock(item, seq);
+			$("stock").css('display', 'inline-block');
+			$("#up2").css('display','none');
+			$("#seq").attr('disabled','true');
 		});
 	})
 	
@@ -350,8 +357,6 @@
 			url : "${pageContext.request.contextPath}/carry",
 			type : "post",
 			data : formData,
-			success : function(stock) {
-			},
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:"
 						+ request.responseText + "\n" + "error:" + error);
@@ -364,6 +369,38 @@
 
 		
 		window.open(url, name, "width=1200, height=600, toolbar=no, status=no, location=no, scrollbars=yes, memubar=no, resizable=no, top=100");
+	}
+
+	function updateStock() {
+		var msg = $("#itemnm").val() + "의 재고 정보를 수정하시겠습니까?";
+		
+		if(confirm(msg)) {
+			$.ajax({
+				url: "${pageContext.request.contextPath}/updateStock",
+		        type: "post",
+		        data: $('#frm').serialize(),
+		        success : function(data) {
+			        if(data == "success") {
+				        window.location.reload();
+			        }
+			        else alert("수정 오류!!\n관리자에게 문의 하세요");
+		        },
+		        error: function(request) {
+		            alert("message:"+request.responseText);
+		        },
+			});
+		}
+	}
+
+	function able() {
+		$("#itemcd").removeAttr('disabled');
+		$("#itemnm").removeAttr('disabled');
+		$("#indt").removeAttr('disabled');
+		$("#outdt").removeAttr('disabled');
+		$("#stktypenm").removeAttr('disabled');
+		$("#std").removeAttr('disabled');
+		$("#qty").removeAttr('disabled');
+		$("#remark").removeAttr('disabled');
 	}
 </script>
 

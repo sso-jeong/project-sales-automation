@@ -49,9 +49,9 @@
 		<div class="page-wrap m-tb10">
 			<div class="container">
 				<div class="title">
-					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">업체관리 > 업체 등록</p>
+					<p class="noto font16 weight500 m-t5 m-b5 m-lr15">업체관리 > 업체 등록</p>
 				</div>
-				<div class="company-insert m-b15 m-lr15">
+				<div class="company-insert m-b5 m-lr15">
 					<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setCompany" autocomplete="off">
 						<table>
 							<tr>
@@ -118,25 +118,25 @@
 									<button type="submit" class="btn-on center m-t15 m-l5 insert">신규등록</button>
 								</c:if>
 								<c:if test="${count ne 0}">
-									<button type="reset" class="btn-on center m-t15 m-l5 new" id="new2" >초기화</button>
-									<button type="button" class="btn-on center m-t15 m-l5 up" id="up">수정</button>
-									<button type="submit" class="btn-on center m-t15 m-l5 insert" id="insert" style="display:none;">신규등록</button>					
-									<button type="button" class="btn-off center m-t15 m-l5 del" id="del">삭제</button>
+									<button type="reset" class="btn-on center m-t5 m-l5 new" id="new2" >초기화</button>
+									<button type="button" class="btn-on center m-t5 m-l5 up" id="up">수정</button>
+									<button type="submit" class="btn-on center m-t5 m-l5 insert" id="insert" style="display:none;">신규등록</button>					
+									<button type="button" class="btn-off center m-t5 m-l5 del" id="del">삭제</button>
 								</c:if>
 							</div>
 						</div>
 
 					</form>
-					<hr style="border: solid 1px #0C4A60; margin-top: 15px;">
+					<hr style="border: solid 1px #0C4A60; margin-top: 5px;">
 				</div>
 
 				<div class="title">
-					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">업체관리 > 업체 목록</p>
+					<p class="noto font16 weight500 m-t5 m-b5 m-l15">업체관리 > 업체 목록</p>
 				</div>
 
 				<div class="search-wrap flex flex-justify">
 					<div class="">
-						<button type="button" class="btn-on m-lr15 m-b15" id="deleteAll">선택삭제</button>
+						<button type="button" class="btn-on m-l15 m-b5" id="deleteAll">선택삭제</button>
 						<span class="btn-normal">검색 된 업체수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
 					</div>
 					<div class="form-wrap">
@@ -155,7 +155,7 @@
 					</div>
 				</div>
 
-				<div class="company-list m-b15 m-lr15">
+				<div class="company-list m-b5 m-lr15">
 					<table class="list center" style="table-layout: fixed;">
 						<tr class="weight700 center font14">
 							<td class="td-3"><input type="checkbox" style="width: 20px; height: 20px;" onClick="chkAll();" id="chkAll"/></td>
@@ -167,9 +167,9 @@
 							<td class="td-5">종목</td>
 							<td class="td-10">전화/FAX</td>
 							<td>주소</td>
-							<td class="td-13">홈페이지</td>
+							<td class="td-15">홈페이지</td>
 							<td class="td-8">담당자/연락처</td>
-							<td class="td-13">비고</td>
+							<td class="td-10">비고</td>
 						</tr>
 						
 						<c:if test="${count == 0}">

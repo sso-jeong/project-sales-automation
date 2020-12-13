@@ -49,9 +49,9 @@
 	<div class="page-wrap m-tb10">
 		<div class="container">
 			<div class="title">
-				<p class="noto font16 weight500 m-t10 m-b10 m-lr10">판매관리 > 판매 등록</p>
+				<p class="noto font16 weight500 m-t5 m-b5 m-l15">판매관리 > 판매 등록</p>
 			</div>
-			<div class="sale-insert m-b10 m-lr10">
+			<div class="sale-insert m-b5 m-lr15">
 				<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setSale" autocomplete="off">
 					<table>
 						<tr>
@@ -59,8 +59,9 @@
 							<td class="td-13 p-lr3"><input type="text" name="salenum" id="salenum" class="input-100" readonly></td>
 
 							<td class="td-7 under center bg-green weight700">품목코드/품목명</td>
-							<td class="td-13 p-lr3" style="position: relative;"><input type="text" name="itemcd" id="itemcd" class="input-40" tabindex="1" autofocus required> <input
-								type="text" name="itemnm" id="itemnm" class="input-58" tabindex="2">
+							<td class="td-13 p-lr3" style="position: relative;">
+							<input type="text" name="itemcd" id="itemcd" class="input-40"  required> 
+							<input type="text" name="itemnm" id="itemnm" class="input-58" tabindex="1" autofocus>
 								<span id="itemnmp" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 50%; transform: translateY(-50%); right: 15px; color: #000000;"> <i class="fas fa-search"></i>
 								</span>
 							</td>
@@ -68,7 +69,7 @@
 
 
 							<td class="td-7 under center bg-green weight700">수량/단가</td>
-							<td class="td-13 p-lr3"><input type="number" name="qty" value=0 id="qty" tabindex="4" style="width: 49%;" required> <input
+							<td class="td-13 p-lr3"><input type="number" name="qty" value=0 id="qty" tabindex="2" style="width: 49%;" required> <input
 								type="number" name="uprice" value=0 id="uprice" tabindex="5" style="width: 49%;"></td>
 
 							<td class="td-7 under center bg-green weight700">판매일자</td>
@@ -76,7 +77,7 @@
 								required></td>
 
 							<td class="td-7 under center bg-green weight700">규격</td>
-							<td class="td-13 p-lr3"><input type="text" name="std" id="std" class="input-100" tabindex="6"></td>
+							<td class="td-13 p-lr3"><input type="text" name="std" id="std" class="input-100" tabindex="4"></td>
 
 						</tr>
 
@@ -111,30 +112,30 @@
 						<div></div>
 						<div>
 							<c:if test="${count eq 0}">
-								<button type="reset" class="btn-on center m-t15 m-l5 new" id="new1">초기화</button>
-								<button type="submit" class="btn-on center m-t15 m-l5 insert">신규등록</button>
+								<button type="reset" class="btn-on center m-t5 new" id="new1">초기화</button>
+								<button type="submit" class="btn-on center m-t5 insert">신규등록</button>
 							</c:if>
 							<c:if test="${count ne 0}">
-								<button type="reset" class="btn-on center m-t15 m-l5 new" id="new2">초기화</button>
-								<button type="button" class="btn-on center m-t15 m-l5 up" id="up">수정</button>
-								<button type="submit" class="btn-on center m-t15 m-l5 insert" id="insert" style="display: none;">신규등록</button>
-								<button type="button" class="btn-off center m-t15 m-l5 del" id="del">삭제</button>
+								<button type="reset" class="btn-on center m-t5 new" id="new2">초기화</button>
+								<button type="button" class="btn-on center m-t5 up" id="up">수정</button>
+								<button type="submit" class="btn-on center m-t5 insert" id="insert" style="display: none;">신규등록</button>
+								<button type="button" class="btn-off center m-t5 del" id="del">삭제</button>
 							</c:if>
 						</div>
 					</div>
 
 				</form>
-				<hr style="border: solid 1px #0C4A60; margin-top: 10px;">
+				<hr style="border: solid 1px #0C4A60; margin-top: 5px;">
 			</div>
 
 			<div class="title">
-				<p class="noto font16 weight500 m-t10 m-b10 m-lr10">판매관리 > 판매 목록</p>
+				<p class="noto font16 weight500 m-t5 m-b5 m-l15">판매관리 > 판매 목록</p>
 			</div>
 
 			<div class="search-wrap flex flex-justify">
 				<div class="">
-					<button type="button" class="btn-on m-lr15 m-b15" id="deleteAll">선택삭제</button>
-					<span class="btn-normal m-b10 m-lr10">검색 된 판매 건 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
+					<button type="button" class="btn-on m-l15 m-b5" id="deleteAll">선택삭제</button>
+					<span class="btn-normal m-b5">검색 된 판매 건 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
 				</div>
 				<div class="form-wrap">
 					<form method="post" action="${pageContext.request.contextPath}/SFA_sale_manage" style="margin: 0 15px;" autocomplete="off">
@@ -150,7 +151,7 @@
 				</div>
 			</div>
 
-			<div class="sale-list m-b10 m-lr10">
+			<div class="sale-list m-b5 m-lr15">
 				<table class="list center" style="table-layout: fixed;">
 					<tr class="weight700 center font14">
 						<td class="td-3"><input type="checkbox" style="width: 20px; height: 20px;" onClick="chkAll();" id="chkAll" /></td>

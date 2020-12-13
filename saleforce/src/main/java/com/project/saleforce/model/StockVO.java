@@ -1,8 +1,27 @@
 package com.project.saleforce.model;
 
 public class StockVO {
-	String itemcd,  itemnm, std, attdatnum, regdate, stktypenm, indt, outdt, remark, insert_person, de_regdate;
+	String itemcd,  itemnm, std, attdatnum, regdate, stktypenm, indt, outdt, remark, insert_person, de_regdate, type;
 	int cqty, qty, inqty, outqty, seq;
+	
+	public String getIndt() {
+		return indt;
+	}
+	public void setIndt(String indt) {
+		this.indt = indt;
+	}
+	public String getOutdt() {
+		return outdt;
+	}
+	public void setOutdt(String outdt) {
+		this.outdt = outdt;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getItemcd() {
 		return itemcd;
 	}
@@ -44,18 +63,6 @@ public class StockVO {
 	}
 	public void setStktypenm(String stktypenm) {
 		this.stktypenm = stktypenm;
-	}
-	public String getIndt() {
-		return indt;
-	}
-	public void setIndt(String indt) {
-		this.indt = indt;
-	}
-	public String getOutdt() {
-		return outdt;
-	}
-	public void setOutdt(String outdt) {
-		this.outdt = outdt;
 	}
 	public String getRemark() {
 		return remark;

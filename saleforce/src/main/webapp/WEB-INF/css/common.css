@@ -453,6 +453,14 @@ select {
     margin-left: 5px;
 }
 
+.m-l15 {
+	margin-left: 15px;
+}
+
+.m-r15 {
+	margin-right: 15px;
+}
+
 .m-lr10 {
     margin-left: 10px;
     margin-right: 10px;
