@@ -482,6 +482,7 @@
 		
 		window.open(url, name, "width=1200, height=600, toolbar=no, status=no, location=no, scrollbars=yes, memubar=no, resizable=no, top=100");
 	}
+	
 
 	var flag = false;
 	function chkAll() {

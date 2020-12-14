@@ -131,18 +131,14 @@ public class StockCtr {
 		return msg;
 	}
 	
-	@RequestMapping("/stockDeleteAll")
+	@RequestMapping("/stockDelete")
 	@ResponseBody
-	public String stockDeleteAll(@RequestParam(value = "chkArr[]") List<Integer> chkArr, String itemcd) {
-		itemcd = code;
+	public String stockDelete(String itemcd, int seq) {
+
 		String msg = "";
-		if(chkArr != null) {
-			
-			for(int seq : chkArr ) { 
-				sSrv.deleteStockInfo(itemcd, seq);
-			}
+		if(itemcd != "") {
+			sSrv.deleteStockInfo(itemcd, seq);
 			msg="success";
-			
 		}else msg="fail";
 		
 		return msg;

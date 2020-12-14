@@ -152,8 +152,8 @@
 </update>
 
 <delete id="deleteStockInfo" parameterType="hashmap">
-		DELETE FROM sale_tbl
-		WHERE salenum = #{salenum} 
+		DELETE FROM stockInfo_tbl
+		WHERE itemcd = #{itemcd} 
 		AND seq = #{seq}
-	</delete>
+</delete>
 </mapper>
