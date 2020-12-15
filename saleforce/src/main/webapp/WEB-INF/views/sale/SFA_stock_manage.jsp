@@ -144,6 +144,7 @@
 							<button type="button" class="btn-on center m-t5 stock">추가등록</button>
 							<button type="submit" class="btn-on center m-t5 sinsert" style="display: none;">재고등록</button>
 							<button type="button" class="btn-on center m-t5 up2" id="up2" style="display: none;">수정</button>
+							<button type="button" class="btn-on center m-t5 del" id="del" style="display: none;">삭제</button>
 							
 
 
@@ -319,6 +320,34 @@
 			$("stock").css('display', 'inline-block');
 			$("#up2").css('display','none');
 			$("#seq").attr('disabled','true');
+		});
+
+		$("#del").click(function() {		
+			var msg = "해당 재고건을 삭제하시겠습니까?"
+
+				if (confirm(msg)) {
+					var formData = {
+						itemcd : $('#itemcd').val(),
+						seq : $('#seq').val()
+					};
+
+					$.ajax({
+						url : "${pageContext.request.contextPath}/stockDelete",
+						type : "POST",
+						data : formData,
+						success : function(data) {
+							if (data == "success") {
+								window.location.reload();
+							} else
+								alert("삭제 오류!!!\n관리자에게 문의 하세요")
+						},
+						error : function(request) {
+							alert("message:" + request.responseText);
+						}
+					});
+				}
+				
+			$("#del").attr('disabled','true');
 		});
 	})
 	
