@@ -69,6 +69,7 @@
 								<td class="td-5">${ (count - status.index) - ( (curPage - 1) * end ) }</td>
 								<td id="ordnum" style="cursor: pointer; text-decoration: underline;" class="td-5">${order.ordnum}</td>
 								<td class="td-7">${order.orddt}</td>
+								<td style="display: none;" >${order.comcd}</td>
 								<td class="td-13 left p-lr5">${order.comnm}</td>
 								<td class="td-7">${order.itemcd}</td>
 								<td class="left p-lr5">${order.itemnm}</td>
@@ -77,6 +78,7 @@
 								<td class="td-5 right p-lr5">${order.qty}</td>
 								<td class="td-7 right p-lr5">${order.price}</td>
 								<td class="td-13 center p-lr5">${order.remark}</td>
+								<td style="display: none;">${order.std}</td>
 							</tr>		
 						</c:forEach>				
 
@@ -150,8 +152,25 @@
 	$(".order-list tr td").click(function() {
 		var tdid = $(this).attr("id");
 		if(tdid == "ordnum"){
-			var ordnum = $(this).text()
+			var tr = $(this).parent();
+			var td = tr.children();
+			
+			var ordnum = td.eq(1).text();
+			var comcd = td.eq(3).text();
+			var comnm = td.eq(4).text();
+			var itemcd = td.eq(5).text();
+			var itemnm = td.eq(6).text();
+			var qty = td.eq(9).text();
+			var std = td.eq(12).text();
+			
 			$(opener.document).find("#ordnum").val(ordnum);
+			$(opener.document).find("#comcd").val(comcd);
+			$(opener.document).find("#comnm").val(comnm);
+			$(opener.document).find("#itemcd").val(itemcd);
+			$(opener.document).find("#itemnm").val(itemnm);
+			$(opener.document).find("#qty").val(qty);
+			$(opener.document).find("#std").val(std);
+
 			window.close();
 		}
 		else return false;

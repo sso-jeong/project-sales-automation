@@ -300,6 +300,10 @@
 		$("#tax").val(sum / 10);
 	});
 
+	$("#price").keyup(function () {
+		$("#tax").val($(this).val() / 10);
+	})
+
 	//수정버튼클릭시
 	$('#up').click(function() {
 		var msg = "해당 판매건을 수정하시겠습니까?";

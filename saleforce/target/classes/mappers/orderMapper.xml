@@ -35,7 +35,8 @@
 		o.price as price,
 		o.price / 10 as tax,
 		o.regdate as regdate,
-		o.remark as remark
+		o.remark as remark,
+		std
 		FROM order_tbl o, item_tbl i, company_tbl c, comcode d
 		WHERE o.itemcd = i.itemcd AND o.comcd = c.comcd AND itemdiv = divcd		
 		<include refid="search"></include>
