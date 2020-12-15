@@ -5,3 +5,4 @@ eclipse.preferences.version=1
 encoding//src/main/java/com/project/saleforce/controller/emp/EmpCtr.java=UTF-8
 encoding//src/main/java/com/project/saleforce/controller/sale/ItemCtr.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/login/SFA_login.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/notice/SFA_notice_manage.jsp=UTF-8

@@ -89,4 +89,13 @@
 	<select id="getbirthtype" resultType="comcodevo">
 		SELECT birttypecd, birttypenm FROM comcode WHERE birttypenm IS NOT NULL ORDER BY birttypecd;
 	</select>
+	
+	<select id="getnoticeList" resultType="comcodevo">
+		SELECT ntgrpcd, ntgrpnm FROM comcode WHERE ntgrpnm IS NOT NULL ORDER BY ntgrpcd;
+	</select>
+	
+	<select id="getauthList" resultType="comcodevo">
+		SELECT authcd, authnm FROM comcode WHERE authnm IS NOT NULL ORDER BY authcd;
+	</select>
+	
 </mapper>

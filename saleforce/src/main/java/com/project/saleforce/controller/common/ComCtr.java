@@ -174,5 +174,18 @@ public class ComCtr {
 		List<ComcodeVO> list = cSrv.getReasonList();
 		return list;
 	}
+	
+	@RequestMapping("/getNoticeList")
+	@ResponseBody
+	public List<ComcodeVO> getNoticeList() {	
+		List<ComcodeVO> list = cSrv.getNoticeList();
+		return list;
+	}
+	@RequestMapping("/getAuthList")
+	@ResponseBody
+	public List<ComcodeVO> getAuthList() {
+		List<ComcodeVO> list = cSrv.getAuthList();
+		return list;
+	}
 
 }

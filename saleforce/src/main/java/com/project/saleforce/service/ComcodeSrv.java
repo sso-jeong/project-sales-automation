@@ -121,4 +121,12 @@ public class ComcodeSrv {
 		return comcodeDao.getbirthtype();
 
 	}
+	
+	public List<ComcodeVO> getNoticeList() {
+		return comcodeDao.getnoticeList();
+	}
+	
+	public List<ComcodeVO> getAuthList() {
+		return comcodeDao.getauthList();
+	}	
 }

@@ -172,7 +172,7 @@
 					$(opener.document).find("#indt").val(indt);
 					$(opener.document).find("#indt").removeAttr('disabled');
 				}
-				if(indt != "-" && type == "C") {
+				if(outdt != "-" && type == "C") {
 					$(opener.document).find("#outdt").val(outdt);		
 					$(opener.document).find("#outdt").removeAttr('disabled');
 				}
@@ -181,6 +181,8 @@
 				$(opener.document).find("#remark").val(remark);
 								
 				$(opener.document).find("#qty").removeAttr('disabled');
+				$(opener.document).find("#stktypenm").removeAttr('disabled');
+				$(opener.document).find("#stktypenm").attr('readonly', 'true');
 				$(opener.document).find("#remark").removeAttr('disabled');
 				$(opener.document).find("#seq").removeAttr('disabled');
 				

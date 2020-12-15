@@ -35,6 +35,46 @@ function load() {
 		        }
 		  });
 }
+function notice() {
+	$.ajax({
+        url: "/saleforce/getNoticeList",
+        type: "POST",
+        data: "",
+        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
+        dataType: "json", // 수신 데이터 타입
+        success: function (resData) {
+
+            $.each(resData, function (key, value) {
+                $("#ntgrpnm").append("<option value=" + value.ntgrpcd + ">" + value.ntgrpnm + "</option>");
+            });
+
+        },
+        error: function () {
+            alert("시스템 에러");
+        }
+    });
+    
+    $.ajax({
+        url: "/saleforce/getAuthList",
+        type: "POST",
+        data: "",
+        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
+        dataType: "json", // 수신 데이터 타입
+        success: function (resData) {
+
+            $.each(resData, function (key, value) {
+                $("#read").append("<option value=" + value.authcd + ">" + value.authnm + "</option>");
+            	$("#write").append("<option value=" + value.authcd + ">" + value.authnm + "</option>");
+            	$("#comment").append("<option value=" + value.authcd + ">" + value.authnm + "</option>");
+            	$("#download").append("<option value=" + value.authcd + ">" + value.authnm + "</option>");
+            });
+
+        },
+        error: function () {
+            alert("시스템 에러");
+        }
+    });
+}
 /*
 function sale() {
     $.ajax({

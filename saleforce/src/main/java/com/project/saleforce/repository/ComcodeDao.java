@@ -123,5 +123,13 @@ public class ComcodeDao {
 		return sqlSession.selectList("com.getbirthtype");
 
 	}
+	
+	public List<ComcodeVO> getnoticeList() {
+		return sqlSession.selectList("com.getnoticeList");
+	}
+	
+	public List<ComcodeVO> getauthList() {
+		return sqlSession.selectList("com.getauthList");
+	}
 
 }

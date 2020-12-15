@@ -23,6 +23,40 @@ public class ComcodeVO {
 	private String aprsingcd, aprsingnm;
 	private String reasoncd, reasonnm;
 	private String birttypecd, birttypenm;
+	private String ntgrpcd, ntgrpnm;
+	private String authcd, authnm;
+	
+	public String getNtgrpcd() {
+		return ntgrpcd;
+	}
+
+	public void setNtgrpcd(String ntgrpcd) {
+		this.ntgrpcd = ntgrpcd;
+	}
+
+	public String getNtgrpnm() {
+		return ntgrpnm;
+	}
+
+	public void setNtgrpnm(String ntgrpnm) {
+		this.ntgrpnm = ntgrpnm;
+	}
+
+	public String getAuthcd() {
+		return authcd;
+	}
+
+	public void setAuthcd(String authcd) {
+		this.authcd = authcd;
+	}
+
+	public String getAuthnm() {
+		return authnm;
+	}
+
+	public void setAuthnm(String authnm) {
+		this.authnm = authnm;
+	}
 
 	public String getGrpcd() {
 		return grpcd;
