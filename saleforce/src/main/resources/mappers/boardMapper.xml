@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+	<insert id="setBoard" parameterType="boardvo">
+		INSERT INTO boardauth_tbl SET
+		boardGrp = #{boardGrp},
+		boardCode = #{boardCode},
+		boardColor = #{boardColor},
+		boardMaker = #{boardMaker},
+		boardTitle = #{boardTitle},
+		boardRead = #{boardRead},
+		boardWrite = #{boardWrite},
+		boardReply = #{boardReply},
+		boardDownload = #{boardDownload},
+		boardRegdate = now()
+	</insert>
+	
+	<sql id="search">
+		AND ${searchOpt} LIKE CONCAT('%', #{words} ,'%')	
+	</sql>
+	
+	<select id="getBoard" resultType="boardvo">
+		SELECT * FROM boardauth_tbl b, (SELECT ntgrpcd, ntgrpnm, authcd, authnm FROM comcode)r
+		WHERE boardGrp = ntgrpcd
+		AND boardRead = authcd
+		<include refid="search"></include>
+		ORDER BY bid LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="getCount" resultType="int">
+		SELECT count(boardCode)
+		FROM boardauth_tbl b, comcode c
+		WHERE boardGrp = ntgrpcd
+		<include refid="search"></include>
+	</select>
+
+</mapper>
