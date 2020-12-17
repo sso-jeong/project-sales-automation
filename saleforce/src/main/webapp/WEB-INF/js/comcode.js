@@ -65,7 +65,7 @@ function notice() {
             $.each(resData, function (key, value) {
                 $("#read").append("<option value=" + value.authcd + ">" + value.authnm + "</option>");
             	$("#write").append("<option value=" + value.authcd + ">" + value.authnm + "</option>");
-            	$("#comment").append("<option value=" + value.authcd + ">" + value.authnm + "</option>");
+            	$("#reply").append("<option value=" + value.authcd + ">" + value.authnm + "</option>");
             	$("#download").append("<option value=" + value.authcd + ">" + value.authnm + "</option>");
             });
 

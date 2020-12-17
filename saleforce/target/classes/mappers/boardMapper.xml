@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
+	<update id="updateBoard" parameterType="boardvo">
+		UPDATE boardauth_tbl
+		SET boardColor = #{boardColor},
+		boardMaker = #{boardMaker},
+		boardTitle = #{boardTitle},
+		boardRead = #{boardRead},
+		boardWrite = #{boardWrite},
+		boardReply = #{boardReply},
+		boardDownload = #{boardDownload}
+		WHERE boardCode = #{boardCode}
+	</update>
 
 	<insert id="setBoard" parameterType="boardvo">
 		INSERT INTO boardauth_tbl SET
@@ -16,14 +27,26 @@
 		boardRegdate = now()
 	</insert>
 	
+	<insert id="createArticleTbl">
+		${str}
+	</insert>
+
+	<insert id="createCommentTbl">
+		${str}
+	</insert>
+	
 	<sql id="search">
 		AND ${searchOpt} LIKE CONCAT('%', #{words} ,'%')	
 	</sql>
 	
+	<select id="getBoardInfo" resultType="boardvo">
+		SELECT * FROM boardauth_tbl
+		WHERE boardCode = #{boardCode}
+	</select>
+	
 	<select id="getBoard" resultType="boardvo">
-		SELECT * FROM boardauth_tbl b, (SELECT ntgrpcd, ntgrpnm, authcd, authnm FROM comcode)r
+		SELECT * FROM boardauth_tbl b, (SELECT ntgrpcd, ntgrpnm, authcd, authnm FROM comcode )r
 		WHERE boardGrp = ntgrpcd
-		AND boardRead = authcd
 		<include refid="search"></include>
 		ORDER BY bid LIMIT #{start}, #{end}
 	</select>
@@ -34,5 +57,24 @@
 		WHERE boardGrp = ntgrpcd
 		<include refid="search"></include>
 	</select>
+	
+	<select id="getBoardExist" resultType="int">
+		SELECT COUNT(*) FROM
+		boardauth_tbl WHERE boardCode = #{boardCode}
+	</select>
+	
+	<delete id="setBoardDelete">
+		DELETE FROM boardauth_tbl WHERE boardCode = #{boardCode}
+	</delete>
+	
+	<insert id="dropArticleTbl">
+		${str}
+	</insert>
+
+	<insert id="dropCommentTbl">
+		${str}
+	</insert>
+	
+	
 
 </mapper>

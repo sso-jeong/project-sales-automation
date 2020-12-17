@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.saleforce.model.BoardVO;
@@ -19,8 +21,7 @@ public class BoardCtr {
 	BoardSrv bSrv;
 
 	@RequestMapping("SFA_notice_manage")
-	public ModelAndView getStockList(@RequestParam(defaultValue = "1") int curPage,
-			@RequestParam(defaultValue = "ntgrpnm") String searchOpt, @RequestParam(defaultValue = "") String words) {
+	public ModelAndView getStockList(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "ntgrpnm") String searchOpt, @RequestParam(defaultValue = "") String words) {
 		ModelAndView mav = new ModelAndView();
 		int count = bSrv.getCount(searchOpt, words);
 		Pager pager = new Pager(count, curPage);
@@ -55,12 +56,75 @@ public class BoardCtr {
 	}
 
 	@RequestMapping("/setBoard")
-	public String setBoard(BoardVO bvo) {
+	public String setBoard(@ModelAttribute BoardVO bvo) {
 		if (bvo.getBoardCode() != "") {
 			bSrv.setBoard(bvo);
+			bSrv.createArticle(bvo.getBoardCode());
+			bSrv.createComment(bvo.getBoardCode());
 		}
 
 		return "redirect:/SFA_notice_manage";
+	}
+	
+	@RequestMapping("/deleteBoard")
+	@ResponseBody
+	public String setBoardDelete(@RequestParam String boardCode) {
+		String msg="";
+		if(boardCode.equals("")) {
+			msg = "fail";
+		}else {
+			bSrv.setBoardDelete(boardCode);
+			bSrv.dropArticle(boardCode);
+			bSrv.dropComment(boardCode);
+			msg = "success";
+		}
+
+		return msg;
+	}
+	
+	@RequestMapping("/deleteBoardAll")
+	@ResponseBody
+	public String setBoardDeleteAll(@RequestParam(value = "chkArr[]") List<String> chkArr) {
+		
+		for (String boardCode : chkArr) {
+			bSrv.setBoardDelete(boardCode);
+			bSrv.dropArticle(boardCode);
+			bSrv.dropComment(boardCode);
+		}
+
+		return "success";
+	}
+	
+	@RequestMapping(value = "boardCheck")
+	@ResponseBody
+	public String idCheck(@RequestParam String boardCode) {
+		int result = bSrv.getBoardCheck(boardCode);
+		String msg;
+		if (result > 0)
+			msg = "fail";
+		else
+			msg = "success";
+		return msg;
+	}
+	
+	@RequestMapping("/getBoardInfo")
+	@ResponseBody
+	public BoardVO getBoardInfo(@RequestParam String boardCode) {
+		return bSrv.getBoardInfo(boardCode);
+	}
+	
+	@RequestMapping("/updateBoard")
+	@ResponseBody
+	public String updateBoard(@ModelAttribute BoardVO bvo) {
+		String msg = "";
+		
+		if(bvo != null) {
+			System.out.println(bvo.getBoardCode());
+			bSrv.updateBoard(bvo);
+			msg = "success";
+		}else msg = "fail";
+		
+		return msg;
 	}
 
 }

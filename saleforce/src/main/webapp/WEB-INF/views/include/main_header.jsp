@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:if test="${sessionScope.empid == null}">
+<script>
+	alert("등록된 사용자가 아닙니다.\n관리자에게 문의하세요.");
+	window.location.replace("${pageContext.request.contextPath}/login");
+	</script>
+</c:if>
 <!DOCTYPE html>
 <html lang="KO">
 <head>
@@ -22,7 +28,6 @@
 <script src="${pageContext.request.contextPath}/js/sale.js"></script>
 <script src="${pageContext.request.contextPath}/js/comcode.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.ztree.core.js"></script>
-
 <script>
 	$(function() {
 		$(".popup").click(function() {

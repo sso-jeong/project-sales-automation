@@ -25,4 +25,36 @@ public class BoardSrv {
 	public void setBoard(BoardVO bvo) {
 		boardDao.setBoard(bvo);
 	}
+	
+	public int getBoardCheck(String boardCode) {
+		return boardDao.getBoardCheck(boardCode);
+	}
+	
+	public void createArticle(String boardCode) {
+		boardDao.createArticle(boardCode);
+	}
+	
+	public void createComment(String boardCode) {
+		boardDao.createComment(boardCode);
+	}
+	
+	public void setBoardDelete(String boardCode) {
+		boardDao.setBoardDelete(boardCode);
+	}
+	
+	public void dropArticle(String boardCode) {
+		boardDao.dropArticle(boardCode);
+	}
+	
+	public void dropComment(String boardCode) {
+		boardDao.dropComment(boardCode);
+	}
+	
+	public BoardVO getBoardInfo(String boardCode) {
+		return boardDao.getBoardInfo(boardCode);
+	}
+	
+	public void updateBoard(BoardVO bvo) {
+		boardDao.updateBoard(bvo);
+	}
 }

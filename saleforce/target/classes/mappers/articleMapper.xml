@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="article">
+	<sql id="search">
+		<choose>
+			<when test = "searchOpt == 'all'">
+				WHERE subject LIKE CONCAT('%', #{words}, '%') 
+				OR writer LIKE CONCAT('%', #{words}, '%') 
+				OR content LIKE CONCAT('%', #{words}, '%')
+			</when>
+			<otherwise> 
+				WHERE ${searchOpt} LIKE CONCAT('%', #{words}, '%')
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<select id="getArticleList" parameterType="hashMap" resultType="articlevo">
+		SELECT
+		division, 
+		aid, 
+		subject, 
+		writer, 
+		hit, 
+		fileOriName, 
+		ref, re_step, 
+		re_level, 
+		date_format(regdate, '%Y-%m-%d') as regdate,
+		(SELECT count(*) FROM comment_${boardCode} c WHERE c.aid = a.aid ) AS cnt
+		FROM article_${boardCode} a
+		<include refid="search"></include>
+		ORDER BY division DESC, ref DESC, re_step ASC LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="getArticleCount"  resultType="int">
+		SELECT COUNT(*) FROM article_${boardCode} 
+		<include refid="search"></include>
+	</select>
+	
+	<select id="getBoardOne" resultType="boardvo">
+		SELECT * FROM boardauth_tbl WHERE boardCode = #{boardCode}
+	</select>
+</mapper>
