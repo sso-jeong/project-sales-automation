@@ -19,7 +19,7 @@ public class BoardCtr {
 
 	@Autowired
 	BoardSrv bSrv;
-
+ 
 	@RequestMapping("SFA_notice_manage")
 	public ModelAndView getStockList(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "ntgrpnm") String searchOpt, @RequestParam(defaultValue = "") String words) {
 		ModelAndView mav = new ModelAndView();

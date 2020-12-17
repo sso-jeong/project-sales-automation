@@ -20,7 +20,7 @@ public class ArticelCtr {
 	ArticleSrv artSrv;
 	
 	@RequestMapping("SFA_notice_list")
-	public ModelAndView getArticleList(@RequestParam(defaultValue = "1") int curPage,@RequestParam(defaultValue = "") String words, @RequestParam(defaultValue = "subject") String searchOpt, @RequestParam String boardCode) {
+	public ModelAndView getArticleList(@RequestParam(defaultValue = "1") int curPage,@RequestParam(defaultValue = "subject") String searchOpt, @RequestParam(defaultValue = "") String words,  @RequestParam String boardCode) {
 		int count = artSrv.getArticleCount(searchOpt, words, boardCode);
 		
 		Pager pager = new Pager(count, curPage);
