@@ -20,20 +20,29 @@
                 </div>
                 <div class="search-wrap flex flex-justify">
                     <div class="">
-                        <span class="btn-normal m-l15">전체게시물 수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
+                    	<c:choose>
+	                    	<c:when test="">
+		                    	<button type="button" class="btn-on m-l15 m-b5" id="deleteAll">선택삭제</button>
+		                        <span class="btn-normal ">전체게시물 수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
+	                    	</c:when>
+	                    	<c:otherwise>
+	                    		<span class="btn-normal m-l15">전체게시물 수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
+	                    	</c:otherwise>
+                    	</c:choose>                 	
                     </div>
                     <div class="">
                         <form method="post" action="${pageContext.request.contextPath}/SFA_notice_list" style="margin-right: 15px;">
-                            <select class="" name="searchOpt">
-                            	<option value="all">제목+작성자</option>
+                        	<input type="hidden" name="boardCode" value="${boardCode}" />
+                            <select class="" name="searchOpt">                       	
                                 <option value="subject">게시물제목</option>
                                 <option value="writer">작성자</option>
+                                <option value="all">제목+작성자</option>
                                 
                             </select>
                             <input type="text" name="words" value="${words}" required />
                             <button type="submit" class="btn-off">게시글검색</button>
                             <button type="button" class="btn-on"
-                                onClick="location.href='${pageContext.request.contextPath}/notice/SFA_notice_insert?boardCode=${boardCode}'">게시글작성</button>
+                                onClick="location.href='${pageContext.request.contextPath}/SFA_notice_insert?boardCode=${boardCode}'">게시글작성</button>
                         </form>
                     </div>
                 </div>
@@ -41,7 +50,7 @@
                     <table class="table center" style="table-layout: fixed;">
                         <tr class="weight700 center font14">
                             <td class="td-3">
-                                <input type="checkbox" style="width: 20px;height: 20px;" />
+                                <input type="checkbox" style="width: 20px; height: 20px;" onClick="chkAll();" id="chkAll" />
                             </td>
                             <td class=" td-5">번호</td>
                             <td class="td-5">분류</td>
@@ -49,29 +58,52 @@
                             <td class="td-10">작성자</td>
                             <td class="td-7">조회수</td>
                             <td class="td-10">날짜</td>
-                            <td class="td-7">관리</td>
                         </tr>
-                        <tr class="center font14">
-                            <td class="td-3">
-                                <input type="checkbox" style="width: 20px;height: 20px;" />
-                            </td>
-                            <td>10</td>
-                            <td>공지</td>
-                            <td class="left p-lr5" style="text-overflow: ellipsis; overflow: hidden;">
-                                <a href="SFA_notice_view.html">
-                                    <nobr>안녕하세요. SFA에서 공지를 알려드립니다.
-                                    </nobr>
-                                </a>
-                            </td>
-                            <td>관리자</td>
-                            <td>3</td>
-                            <td>2020.09.10</td>
-                            <td>
-                                <button type="button" class="s-btn-on"
-                                    onClick="location.href='SFA_notice_modify.html?id=10'">수정</button>
-                                <button type="button" class="s-btn-off">삭제</button>
-                            </td>
-                        </tr>                   
+                        <c:if test="${count == 0}">
+						<tr>
+							<td class="weight700 center font14" colspan="7">등록된 게시글이 없습니다.</td>
+						</tr>
+						</c:if>
+                        <c:forEach var="articleList" items="${list}" varStatus="status"> 
+		                    <tr class="center font14">
+								<td>
+		                            <input type="checkbox" name="chk" class="chk" data-uid="${articleList.aid}" data-code="${boardCode}" style="width: 20px; height: 20px;"/>
+		                        </td>		                            
+		                        <td>${(count - status.index) - ((curPage - 1) * end)}</td>		                 
+		                        <td>
+			                        <c:if test = "${articleList.division eq 'Y'}">
+			                        	<span class="notice">공지사항</span>
+			                        </c:if>
+			                        <c:if test = "${articleList.division eq 'N'}">
+			                        	<span class="normal">일반</span>
+			                        </c:if>
+		                        </td>
+		                        <td class="left p-lr10">
+		                        <c:forEach begin="1" end="${articleList.re_level}">
+		                        	&nbsp;<img src="${pageContext.request.contextPath}/images/icon_reply.gif" />
+		                        </c:forEach>
+		                            <a href="${pageContext.request.contextPath}/SFA_notice_view?boardCode=${boardCode}&aid=${articleList.aid}" class="under weight700">${articleList.subject}</a>
+		                            <span class="tomato">(${articleList.cnt})</span>
+		                            <c:set var="fileName" value="${fn:toLowerCase(articleList.fileOriName)}" />
+		                            <c:forTokens var="ext" items="${fileName}" delims="." varStatus="status">
+										<c:if test="${status.last}">
+											<c:choose>
+												<c:when test="${ext eq 'xls' || ext eq 'xlsx' || ext eq 'ppt' || ext eq 'pptx' || ext eq 'hwp' || ext eq 'pdf'}">
+													<i class="far fa-file-alt"></i>
+												</c:when>
+												
+												<c:when test="${ext eq 'jpg' || ext eq 'png' || ext eq 'gif'}">
+													<i class="far fa-file-image"></i>
+												</c:when>
+											</c:choose>
+										</c:if>
+									</c:forTokens>
+		                        </td>
+		                        <td>${articleList.writer}</td>
+		                        <td>${articleList.hit}</td>
+		                        <td>${articleList.regdate}</td>
+		                    </tr>
+		                    </c:forEach>                                     
                     </table>
                 </div>
                 <c:if test="${count > 0}">

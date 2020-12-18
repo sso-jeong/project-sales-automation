@@ -27,4 +27,24 @@ public class ArticleSrv {
 		return artDao.getBoardOne(boardCode);
 	}
 	
+	public void setArticle(ArticleVO avo) {
+		artDao.setArticle(avo);
+	}
+	
+	public void updateArticle(ArticleVO avo) {
+		artDao.updateArticle(avo);
+	}
+	
+	public ArticleVO getArticleOne(ArticleVO avo) {
+		return artDao.getArticleOne(avo);
+	}
+	
+	public void hitUp(ArticleVO avo) {
+		artDao.hitUp(avo);
+	}
+	
+	public void setArticleDelete(int aid, String boardCode) {
+		artDao.setArticleDelete(aid, boardCode);
+	}
+	
 }

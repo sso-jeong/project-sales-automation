@@ -1,24 +1,24 @@
 package com.project.saleforce.paging;
 
 public class Pager {
-	private int PAGE_SCALE = 10; // 페이지당 자료수
-	private int BLOCK_SCALE = 10; // 페이지 몇개 할껀지
+	private int PAGE_SCALE = 10; 
+	private int BLOCK_SCALE = 10; 
 	
-	private int curPage; //클릭했을 때 현재 페이지
+	private int curPage; 
 	private int prevPage, nextPage, totPage;
 	
-	//이전, 이후 버튼 구현을 위해서
+
 	private int curBlock, prevBlock, nextBlock, totBlock;
 	
-	//맨 처음,뒤 페이지 이동
+
 	private int pageBegin, pageEnd;
 	
 	private int blockBegin, blockEnd;
 	
 	
-	//페이지 생성자
+
 	public Pager(int count, int curPage) {
-		this.curPage = curPage; //this : 현재, super : 부모
+		this.curPage = curPage; 
 		curBlock = 1;
 		
 		setTotPage(count);

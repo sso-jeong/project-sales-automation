@@ -39,4 +39,48 @@
 	<select id="getBoardOne" resultType="boardvo">
 		SELECT * FROM boardauth_tbl WHERE boardCode = #{boardCode}
 	</select>
+	
+	<insert id="setArticle" parameterType="articlevo">
+	
+		<selectKey resultType="int" keyProperty="ref" order="BEFORE">		
+			SELECT IFNULL(MAX(ref), 0) + 1 FROM article_${boardCode}		  
+		</selectKey>
+		INSERT INTO article_${boardCode} 
+		SET division = #{division}, 
+		subject = #{subject}, 
+		content = #{content}, 
+		writer = #{writer}, 
+		regdate = NOW(), 
+		fileName = #{fileName}, 
+		fileOriName = #{fileOriName}, 
+		fileUrl = #{fileUrl},
+		ref = #{ref}, 
+		re_step = 0, 
+		re_level = 0
+	</insert >
+	
+	<update id="updateArticle" parameterType="articlevo">
+		UPDATE article_${boardCode}
+		SET division = #{division},
+		subject = #{subject},
+		content = #{content},
+		fileName = #{fileName},
+		fileOriName = #{fileOriName},
+		fileUrl = #{fileUrl}
+		WHERE aid = #{aid}
+	</update>
+	
+	<select id="getArticleOne" resultType="articlevo">
+		SELECT * FROM article_${boardCode} WHERE aid = #{aid}
+	</select>
+	
+	<update id="hitUp">
+		UPDATE article_${boardCode} SET hit = hit + 1 WHERE aid = #{aid}
+	</update>
+	
+	<delete id="setArticleDelete" parameterType="hashmap">
+		DELETE FROM article_${boardCode} WHERE aid = #{aid}
+	</delete>
+	
+	
 </mapper>

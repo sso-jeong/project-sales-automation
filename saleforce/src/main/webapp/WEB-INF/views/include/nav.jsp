@@ -50,20 +50,16 @@
 								<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_notice_manage" title="게시판관리" alt="">게시판관리</a></li>
 							</ul></li>
 						</c:if>
-						<li class="topMenuLi"><a class="menuLink noto weight700 font16 f6" href="${pageContext.request.contextPath}/SFA_notice" title="시스템메뉴" alt="">시스템</a>
+						<li class="topMenuLi"><a class="menuLink noto weight700 font16 f6" href="${pageContext.request.contextPath}/SFA_notice_list?boardCode=any" title="시스템메뉴" alt="">시스템</a>
 							<ul class="subMenu">
 								<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_schedule" title="일정" alt="">일정관리</a></li>
 								<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_notice_list?boardCode=any" title="공지사항" alt="">전체 게시판</a></li>
-								<c:choose>
-									<c:when test="${sessionScope.deptid == '200'}">
-										<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_notice_list?boardCode=human" title="인사">인사부 게시판</a></li>
-									</c:when>
-									<c:when test="${sessionScope.deptid == '100'}">
-										<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_notice_list?boardCode=sale" title="영업">영업부 게시판</a></li>
-									</c:when>
-								</c:choose>
-								
-								
+								<c:if test="${sessionScope.deptid == '200' || sessionScope.deptid == '777'}">
+									<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_notice_list?boardCode=human" title="인사">인사부 게시판</a></li>
+								</c:if>
+								<c:if test="${sessionScope.deptid == '100' || sessionScope.deptid == '777'}">
+									<li><a class="submenuLink" href="${pageContext.request.contextPath}/SFA_notice_list?boardCode=sale" title="영업">영업부 게시판</a></li>
+								</c:if>															
 							</ul></li>
 						<li class="topMenuLi"><a class="menuLink noto weight700 font16 f6" href="${pageContext.request.contextPath}/SFA_approval_ready" title="결재관리" alt="">결재관리</a>
 							<ul class="subMenu">

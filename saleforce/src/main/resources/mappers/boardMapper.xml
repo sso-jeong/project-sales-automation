@@ -3,8 +3,7 @@
 <mapper namespace="board">
 	<update id="updateBoard" parameterType="boardvo">
 		UPDATE boardauth_tbl
-		SET boardColor = #{boardColor},
-		boardMaker = #{boardMaker},
+		SET boardMaker = #{boardMaker},
 		boardTitle = #{boardTitle},
 		boardRead = #{boardRead},
 		boardWrite = #{boardWrite},
@@ -17,7 +16,6 @@
 		INSERT INTO boardauth_tbl SET
 		boardGrp = #{boardGrp},
 		boardCode = #{boardCode},
-		boardColor = #{boardColor},
 		boardMaker = #{boardMaker},
 		boardTitle = #{boardTitle},
 		boardRead = #{boardRead},

@@ -83,6 +83,10 @@ body {
     background-color: rgba(219, 228, 232, 0.8);
 }
 
+.bg-disable {
+	backgroud-color : #F3F4F4;
+}
+
 /* button */
 .btn-normal {
     display: inline-block;

@@ -29,23 +29,16 @@
 							<td colspan="3" class="td-15 p-lr3">
 								<input type="text" id="boardCode" class="input-100" placeholder="영어로 입력" name="boardCode" required />
 							</td>
-							<td class="td-7 under center bg-green weight700">게시판색상</td>
-							<td class="td-15 p-lr3">
-								<select id="boardColor" name="boardColor" class="sel-100" required>
-										<option value="#ff0000">#ff0000</option>
-										<option value="#0000ff">#0000ff</option>
-								</select> <span class="color"></span>
-							</td>
-							<td class="td-7 under center bg-green weight700">게시판 관리자</td>
-							<td class="td-15 p-lr3">
-								<input id="boardMaker" name="boardMaker" type="text" class="input-100" value="${sessionScope.empname}" required />
-							</td>
+							<td class="td-7 under center bg-green weight700">게시판 이름</td>
+							<td colspan="3" class="td-15 p-lr3">
+								<input id="boardTitle" name="boardTitle" type="text" class="input-100" required />
+							</td>						
 						</tr>
 
 						<tr>
-							<td class="td-7 under center bg-green weight700">게시판 이름</td>
+							<td class="td-7 under center bg-green weight700">게시판 관리자</td>
 							<td class="td-15 p-lr3">
-								<input id="boardTitle" name="boardTitle" type="text" class="input-100" required />
+								<input id="boardMaker" name="boardMaker" type="text" class="input-100" value="${sessionScope.empname}" required />
 							</td>
 
 							<td class="td-7 under center bg-green weight700">읽기권한</td>
@@ -115,7 +108,6 @@
 						<td class="td-5">순번</td>
 						<td class="td-5">게시판그룹</td>
 						<td class="td-13">게시판코드</td>
-						<td class="td-5">게시판색상</td>
 						<td>게사판제목</td>
 						<td class="td-10">읽기권한</td>
 						<td class="td-10">쓰기권한</td>
@@ -135,7 +127,6 @@
 							<td class="td-5">${ (count - status.index) - ( (curPage - 1) * end ) }</td>
 							<td class="td-5">${board.ntgrpnm}</td>
 							<td class="td-7">${board.boardCode}</td>
-							<td class="">${board.boardColor}</td>
 							<td class="td-7 left p-lr5">${board.boardTitle}</td>
 							
 							<td class="">
