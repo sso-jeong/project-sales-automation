@@ -47,4 +47,30 @@ public class ArticleSrv {
 		artDao.setArticleDelete(aid, boardCode);
 	}
 	
+	public ArticleVO getArticleReplyInfo(ArticleVO avo) throws Exception {
+		return null;
+	}
+
+	
+	public int setArticleRef(ArticleVO avo) throws Exception {
+		return 0;
+	}
+
+	
+	public int setArticleReply(ArticleVO avo) throws Exception {
+		ArticleVO dto = artDao.getArticleReplyInfo(avo);
+
+		avo.setRef(dto.getRef()); //update
+		avo.setRe_step(dto.getRe_step());
+		avo.setRe_level(dto.getRe_level());
+		
+		int result = 0;
+		
+		result += artDao.setArticleRef(avo);
+		result += artDao.setArticleReply(avo);
+		
+		return result;
+	}
+	
+
 }

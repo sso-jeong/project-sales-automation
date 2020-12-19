@@ -122,7 +122,7 @@
 					</c:if>
 					<c:forEach items="${boardlist}" var="board" varStatus="status">
 						<tr class="center font14">
-							<td class="td-3"><input type="checkbox" name="chk" class="chk" data-uid="${board.bid}" style="width: 20px; height: 20px;" /></td>
+							<td class="td-3"><input type="checkbox" name="chk" class="chk" data-uid="${board.boardCode}" style="width: 20px; height: 20px;" /></td>
 							<td style="display: none;">${board.bid}</td>
 							<td class="td-5">${ (count - status.index) - ( (curPage - 1) * end ) }</td>
 							<td class="td-5">${board.ntgrpnm}</td>

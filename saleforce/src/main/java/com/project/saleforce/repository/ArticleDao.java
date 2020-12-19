@@ -61,4 +61,17 @@ public class ArticleDao {
 		map.put("boardCode", boardCode);
 		sql.delete("article.setArticleDelete", map);
 	}
+	
+	public ArticleVO getArticleReplyInfo(ArticleVO avo) throws Exception {
+		return sql.selectOne("article.getArticleReplyInfo", avo);
+	}
+	
+	public int setArticleRef(ArticleVO avo) throws Exception {
+
+		return sql.update("article.setArticleRef", avo);
+	}
+	
+	public int setArticleReply(ArticleVO avo) throws Exception {
+		return sql.insert("article.setArticleReply", avo);
+	}
 }

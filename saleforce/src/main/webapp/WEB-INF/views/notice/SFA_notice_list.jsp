@@ -21,7 +21,7 @@
                 <div class="search-wrap flex flex-justify">
                     <div class="">
                     	<c:choose>
-	                    	<c:when test="">
+	                    	<c:when test="${sessionScope.empname == boardMaker}">
 		                    	<button type="button" class="btn-on m-l15 m-b5" id="deleteAll">선택삭제</button>
 		                        <span class="btn-normal ">전체게시물 수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
 	                    	</c:when>
@@ -181,7 +181,57 @@
 <script>
     $(function () {
         $("tr:nth-child(n)").addClass("tr-even");
-    })
+        $("#deleteAll").click(function() {
+            var str = confirm("선택하신 게시물을 삭제하시겠습니까?\n연결된 댓글 및 모든 데이터가 삭제 됩니다.");
+            var boardCode = $(".chk").attr("data-code");
+            if( str ) {
+                var chkArr = new Array();
+                var boardArr = new Array();
+                $(".chk:checked").each(function () {
+                	chkArr.push($(this).attr("data-uid"));
+                });
+                
+                
+                $.ajax({
+                	type : "POST",
+                	url : "${pageContext.request.contextPath}/SFA_notice_delete_all",
+                	data : { 
+                		chkArr : chkArr,
+                		boardCode : boardCode
+                	},
+                	success: function (data) {
+                		if( data == "success" ) {
+                			alert('선택하신 게시물이 삭제 되었습니다.');
+                            window.location.reload();
+                            
+                		}
+                    },
+                    error : function() {
+                    	alert("선택하신 게시물 정보가 없습니다.");
+                    }
+                });
+            }
+        });
+    });
+    
+    var flag = false;
+	function chkAll() {
+		var chk = document.getElementsByName("chk");
+		if (flag == false) { //선택 x
+			flag = true;
+
+			for (var i = 0; i < chk.length; i++) {
+				chk[i].checked = true;
+			}
+
+		} else {
+			flag = false;
+			for (var i = 0; i < chk.length; i++) {
+				chk[i].checked = false;
+			}
+		}
+
+	}
 </script>
 
 </html>

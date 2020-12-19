@@ -67,6 +67,7 @@ public class BoardDao {
 		str += "aid int not null,";
 		str += "comment text,";
 		str += "who varchar(20),";
+		str += "pwd char(2),";
 		str += "regdate datetime);";
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("str", str);

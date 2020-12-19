@@ -66,6 +66,7 @@ public class ArticelCtr {
 		mav.addObject("boardCode", boardCode);
 		mav.addObject("boardColor", bvo.getBoardColor());
 		mav.addObject("boardTitle", bvo.getBoardTitle());
+		mav.addObject("boardMaker", bvo.getBoardMaker());
 		
 		mav.setViewName("notice/SFA_notice_list");
 		return mav;
@@ -88,33 +89,33 @@ public class ArticelCtr {
 	
 	  @RequestMapping(value = "/SFA_notice_insert", method=RequestMethod.POST)
 	  public String setArticleDo(@ModelAttribute ArticleVO avo, @RequestPart MultipartFile files) throws IllegalStateException, IOException {
-	  if (files.isEmpty()) { 
-		  artSrv.setArticle(avo);
-	  } else { 
-		  String fileName = files.getOriginalFilename(); 
-		  String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase(); 
-		  File destinationFile; 
-		  String destinationFileName; 
-		  String fileUrl = "c://upload//fileUpload//";
-	  
-	  do { destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension; 
-	  		destinationFile = new File(fileUrl + destinationFileName);
-	  } while (destinationFile.exists());
-	  
-	  destinationFile.getParentFile().mkdirs(); 
-	  files.transferTo(destinationFile);
-	  
-	  avo.setFileName(destinationFileName); 
-	  avo.setFileOriName(fileName);
-	  avo.setFileUrl(fileUrl); 
-	  artSrv.setArticle(avo); 
+		  if (files.isEmpty()) { 
+			  artSrv.setArticle(avo);
+		  } else { 
+			  String fileName = files.getOriginalFilename(); 
+			  String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase(); 
+			  File destinationFile; 
+			  String destinationFileName; 
+			  String fileUrl = "c://upload//fileUpload//";
+		  
+		  do { destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension; 
+		  		destinationFile = new File(fileUrl + destinationFileName);
+		  } while (destinationFile.exists());
+		  
+		  destinationFile.getParentFile().mkdirs(); 
+		  files.transferTo(destinationFile);
+		  
+		  avo.setFileName(destinationFileName); 
+		  avo.setFileOriName(fileName);
+		  avo.setFileUrl(fileUrl); 
+		  artSrv.setArticle(avo); 
+		  }
+		  
+		  return "redirect:/SFA_notice_list?boardCode="+avo.getBoardCode(); 
 	  }
 	  
-	  return "redirect:/SFA_notice_list?boardCode="+avo.getBoardCode(); 
-	  }
-	  
-	  @RequestMapping(value = "/SFA_notice_modify", method = RequestMethod.GET)
-		public ModelAndView getArticleModify(@ModelAttribute ArticleVO vo) {
+  		@RequestMapping(value = "/SFA_notice_modify", method = RequestMethod.GET)
+	  		public ModelAndView getArticleModify(@ModelAttribute ArticleVO vo) {
 			ArticleVO avo = artSrv.getArticleOne(vo);
 			BoardVO bvo = artSrv.getBoardOne(vo.getBoardCode());
 			
@@ -126,7 +127,7 @@ public class ArticelCtr {
 			
 			mav.setViewName("notice/SFA_notice_modify");
 			return mav;
-		}
+  		}
 	  
 	  @RequestMapping(value = "/SFA_notice_modify", method=RequestMethod.POST)
 	  public String modArticleDo(@ModelAttribute ArticleVO avo, @RequestPart MultipartFile files) throws IllegalStateException, IOException {
@@ -153,12 +154,12 @@ public class ArticelCtr {
 		  artSrv.updateArticle(avo); 
 		  }
 	  
-	  return "redirect:/SFA_notice_list?boardCode="+avo.getBoardCode(); 
+		  return "redirect:/SFA_notice_list?boardCode="+avo.getBoardCode(); 
 	  }
 	  
 	  
-	  @RequestMapping(value = "/SFA_notice_view", method = RequestMethod.GET)
-	  public ModelAndView getArticleView(@ModelAttribute ArticleVO vo) {
+	  	@RequestMapping(value = "/SFA_notice_view", method = RequestMethod.GET)
+	  	public ModelAndView getArticleView(@ModelAttribute ArticleVO vo) {
 			ArticleVO avo = artSrv.getArticleOne(vo);
 			BoardVO bvo = artSrv.getBoardOne(vo.getBoardCode());
 			ModelAndView mav = new ModelAndView();
@@ -174,7 +175,61 @@ public class ArticelCtr {
 			mav.setViewName("notice/SFA_notice_view");
 			
 			return mav;
-	}
+	  	}
+	  	
+	  	@RequestMapping(value = "/SFA_notice_reply", method = RequestMethod.GET)
+		public ModelAndView getArticleReply(@ModelAttribute ArticleVO vo) {
+			ArticleVO avo = artSrv.getArticleOne(vo);
+			BoardVO bvo = artSrv.getBoardOne(vo.getBoardCode());
+			
+			ModelAndView mav = new ModelAndView();
+			
+			if( avo != null ) {
+				mav.addObject("replyArticle", avo);
+				mav.addObject("boardCode", vo.getBoardCode());
+				mav.addObject("boardTitle", bvo.getBoardTitle());
+				mav.addObject("boardColor", bvo.getBoardColor());
+				mav.addObject("boardReply", bvo.getBoardReply());
+				
+				mav.setViewName("notice/SFA_notice_reply");
+			}
+
+			return mav;
+		}
+		
+		
+		@RequestMapping(value = "/SFA_notice_reply", method=RequestMethod.POST)
+		public String setArticleReply(
+				@ModelAttribute ArticleVO vo,
+				@RequestPart MultipartFile files) throws Exception {
+			
+			
+			if (files.isEmpty()) { 
+				artSrv.setArticleReply(vo);
+				
+			} else {
+				String fileName = files.getOriginalFilename();
+				String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
+				File destinationFile;
+				String destinationFileName;
+				String fileUrl = "c://upload//fileUpload//";
+
+				do {
+					destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
+					destinationFile = new File(fileUrl + destinationFileName);
+				} while (destinationFile.exists());
+
+					destinationFile.getParentFile().mkdirs();
+					files.transferTo(destinationFile);
+		
+					vo.setFileName(destinationFileName);
+					vo.setFileOriName(fileName);
+					vo.setFileUrl(fileUrl);
+					artSrv.setArticleReply(vo);
+			}
+			
+			return "redirect:/SFA_notice_list?boardCode="+vo.getBoardCode();
+		}
 	  
 	  @RequestMapping("/SFA_notice_delete")
 	  @ResponseBody
@@ -269,6 +324,30 @@ public class ArticelCtr {
 				System.out.println("ERROR : " + e.getMessage());
 			}
 
+		}
+	  
+	  	@RequestMapping(value = "/SFA_notice_delete_all", method = RequestMethod.POST)
+		@ResponseBody
+		public String setArticleDeleteAll(@ModelAttribute ArticleVO vo, @RequestParam(value = "chkArr[]") List<String> chkArr) {
+			
+			int aid;
+			
+			String fileUrl = "c://upload//fileUpload//";
+			File files = null;
+			for(String list : chkArr) {
+				aid = Integer.parseInt(list);
+				vo.setAid(aid);
+				vo.setBoardCode(vo.getBoardCode());
+				
+				ArticleVO avo = artSrv.getArticleOne(vo);
+				files = new File(fileUrl + avo.getFileName());
+				if( files.exists() ) {
+					files.delete();
+				}
+				artSrv.setArticleDelete(aid, vo.getBoardCode());
+			}
+			
+			return "success";
 		}
 	 
 }

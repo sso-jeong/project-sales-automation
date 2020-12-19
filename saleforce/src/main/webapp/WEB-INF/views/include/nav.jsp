@@ -33,7 +33,7 @@
 	</div>
 	<!-- model layer -->
 	<header>
-		<div class="top-wrap flex flex-justify">
+		<div class="top-wrap flex flex-justify headbar">
 			<div class="logo-wrap" style="padding-top: 8px;">
 				<h2>
 					<a class="roboto font22 f6" href="${pageContext.request.contextPath}/SFA_main" title="HOME">SALE FORCE</a>

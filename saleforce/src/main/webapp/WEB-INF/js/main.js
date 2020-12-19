@@ -1,20 +1,14 @@
 $(function () {
-    var navTop = $("nav").offset().top;
+    var head = $('.headbar').offset().top;
     $(window).scroll(function () {
-        if ($(window).scrollTop() > navTop) {
-            $("nav").css({
-                position: "fixed",
-                top: "0px",
-                left: "0px"
-            });
-
-        } else {
-            $("nav").css({
-                position: "static"
-            });
-        }
+        if ($(window).scrollTop() > head) {
+        	$('header').addClass('fixed');
+		}
+		else { // 아니면 클래스 제거
+			$('header').removeClass('fixed');
+		}
     });
-
+    
     $(document).keydown(function (event) {
         if ($(".modal-wrapper").hasClass("open")) {
             if (event.keyCode == 27 || event.which == 27) {

@@ -14,5 +14,6 @@
 		<typeAlias type="com.project.saleforce.model.StockVO" alias="stockvo" />
 		<typeAlias type="com.project.saleforce.model.BoardVO" alias="boardvo" />
 		<typeAlias type="com.project.saleforce.model.ArticleVO" alias="articlevo" />
+		<typeAlias type="com.project.saleforce.model.CommentVO" alias="commentvo" />
 	</typeAliases>
 </configuration>
