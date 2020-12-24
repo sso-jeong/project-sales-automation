@@ -26,20 +26,24 @@ public class CommuteSrv {
 		return commuDao.getCommuteListOne(dlnum);
 	}
 	
-	public List<CommuteManageVO> commutepopup(int start, int end, String searchOpt, String words){
-		return commuDao.commutepopup(start, end, searchOpt, words);
+	public List<CommuteManageVO> commutepopup(String dlnum){
+		return commuDao.commutepopup(dlnum);
 	}
 	
-	public int commutepopupCnt(String searchOpt, String words) {
-		return commuDao.commutepopupCnt(searchOpt, words);
-	}
-	
-	public void setCommuteOthers(CommuteManageVO commutevo) {
-		commuDao.setCommuteOthers(commutevo);
-	}
+	/*
+	 * public void setCommuteOthers(CommuteManageVO commutevo) {
+	 * commuDao.setCommuteOthers(commutevo); }
+	 */
 	
 	public void updateCommuteRemark(CommuteManageVO commutevo) {
 		commuDao.updateCommuteRemark(commutevo);
+	}
+	public void setCommuteP(CommuteManageVO cvo) {
+		commuDao.setCommuteP(cvo);
+	}
+	
+	public void setCommuteInfoP(CommuteManageVO cvo) {
+		commuDao.setCommuteInfoP(cvo);
 	}
 
 }

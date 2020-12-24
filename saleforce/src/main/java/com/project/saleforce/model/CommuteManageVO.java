@@ -20,6 +20,15 @@ public class CommuteManageVO {
 	private String regdate;
 	private String regtime;
 	private String remark;
+	private int count;
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
 
 	public String getDlnum() {
 		return dlnum;

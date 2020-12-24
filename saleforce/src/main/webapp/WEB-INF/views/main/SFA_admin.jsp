@@ -346,7 +346,7 @@
 		$("tr:nth-child(2n)").addClass("tr-even");
 	})
 </script>
-<script src="js/main_cal.js"></script>
+<script src="${pageContext.request.contextPath}/js/main_cal.js"></script>
 
 
 </html>

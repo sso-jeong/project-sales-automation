@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="schedule">
+
+	<insert id="setSchedule" parameterType="schedulevo">
+		INSERT INTO schedule_tbl
+		SET startDate = #{startDate},
+		endDate = #{endDate},
+		calContent = #{calContent},
+		empid = #{empid}
+	</insert>
+	
+	<update id="updateSchedule" parameterType="schedulevo">
+		UPDATE schedule_tbl
+		SET startDate = #{startDate},
+		endDate = #{endDate},
+		calContent = #{calContent}
+		WHERE cal_id = #{cal_id}
+	</update>
+	
+	<delete id="delSchedule">
+		DELETE FROM schedule_tbl WHERE cal_id = #{cal_id}
+	</delete>
+	
+	<select id="getSchedule" resultType="schedulevo">
+		SELECT * FROM schedule_tbl 
+		WHERE empid = #{empid}
+	</select>
+</mapper>

@@ -344,24 +344,9 @@
 		});
 	}
 
-	function popup(itemcd) {
-		var formData = {
-			itemcd : itemcd
-		}
-		$.ajax({
-			url : "${pageContext.request.contextPath}/carry",
-			type : "post",
-			data : formData,
-			error : function(request, status, error) {
-				alert("code:" + request.status + "\n" + "message:"
-						+ request.responseText + "\n" + "error:" + error);
-			}
-		});
-		
-		
-		var url = "${pageContext.request.contextPath}/stockpopup";
+	function popup(itemcd) {		
+		var url = "${pageContext.request.contextPath}/stockpopup?itemcd=" + itemcd;			
 		var name = "재고 목록";
-
 		
 		window.open(url, name, "width=1200, height=600, toolbar=no, status=no, location=no, scrollbars=yes, memubar=no, resizable=no, top=100");
 	}

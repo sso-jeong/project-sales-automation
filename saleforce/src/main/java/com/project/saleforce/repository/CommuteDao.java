@@ -37,30 +37,25 @@ public class CommuteDao {
 		return sql.selectOne("commute.getCommuteListOne", dlnum);
 	}
 	
-	public List<CommuteManageVO> commutepopup(int start, int end, String searchOpt, String words){
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("searchOpt", searchOpt);
-		map.put("words", words);
-		map.put("start", start);
-		map.put("end", end); 
-		
-		return sql.selectList("commute.commutepopup", map);
+	public List<CommuteManageVO> commutepopup(String dlnum){		
+		return sql.selectList("commute.commutepopup", dlnum);
 	}
 	
-	public int commutepopupCnt(String searchOpt, String words) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("searchOpt", searchOpt);
-		map.put("words", words);
-		
-		return sql.selectOne("commute.commutepopupCnt", map);
-	}
-	
-	public void setCommuteOthers(CommuteManageVO commutevo) {
-		sql.update("commute.setCommuteOthers", commutevo);
-	}
+	/*
+	 * public void setCommuteOthers(CommuteManageVO commutevo) {
+	 * sql.update("commute.setCommuteOthers", commutevo); }
+	 */
 	
 	public void updateCommuteRemark(CommuteManageVO commutevo) {
 		sql.update("commute.updateCommuteRemark", commutevo);
+	}
+	
+	public void setCommuteP(CommuteManageVO cvo) {
+		sql.insert("commute.setCommuteP", cvo);
+	}
+	
+	public void setCommuteInfoP(CommuteManageVO cvo) {
+		sql.insert("commute.setCommuteInfoP", cvo);
 	}
 
 }

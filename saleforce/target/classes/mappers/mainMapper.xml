@@ -9,7 +9,7 @@
 		empid			= #{empid},
 		dlgubun			= #{dlnm},
 		dldate			= #{dldate},
-		ontime			= #{ontime},
+		ontime			= SUBSTR(now(),12,20),
 		insert_person	= #{empid},
 		regdate			= now()
 	</insert>
@@ -20,6 +20,7 @@
 						ELSE CONVERT(MAX(seq), UNSIGNED) + 1 
 				   END
 			FROM dlInfo_tbl
+			WHERE dlnum = #{dlnum}
 		</selectKey>
 		INSERT INTO dlInfo_tbl SET 
 		dlnum			= #{dlnum},
@@ -45,7 +46,21 @@
 		UPDATE dlInfo_tbl 
 		SET endtime = #{endtime}
 		WHERE dlnum = #{dlnum} AND seq = #{seq}
+	</update>	
+	
+	<update id="getTotTime" parameterType="commutevo">
+		<selectKey keyProperty="tottime" order="BEFORE" resultType="String">
+			SELECT SEC_TO_TIME ( TIMESTAMPDIFF( SECOND, strtime, endtime) ) AS tottime from dlInfo_tbl WHERE dlnum = #{dlnum} AND seq = #{seq}
+		</selectKey>		
+		UPDATE dlInfo_tbl 
+		SET tottime = #{tottime} WHERE dlnum = #{dlnum} AND seq = #{seq}
 	</update>
+	
+	<select id="getCount" resultType="commutevo">
+		SELECT count(dlnum) as count, offtime
+		FROM dl_tbl
+		WHERE dlnum = #{dlnum}
+	</select>
 	
 	<select id="commuteCnt" parameterType="commutevo" resultType="int">
 		SELECT COUNT(dlnum) 
@@ -58,7 +73,7 @@
 		FROM dlInfo_tbl 
 		WHERE dlnum = #{dlnum} AND seq = #{seq} AND endtime IS NULL
 	</select>
-	
+	<!-- 메인화면 근태정보 -->
 	<select id="commuLoadMain" parameterType="String" resultType="commutevo">
 		SELECT 
 		D.dlnum,
@@ -70,8 +85,11 @@
 		dlnm, 
 		DI.seq 
 		FROM dl_tbl D, dlInfo_tbl DI, comcode C
-		WHERE D.dlgubun = C.dlcd 
-		AND D.empid = #{empid} ORDER BY DI.seq DESC LIMIT 1
+		WHERE D.dlgubun = C.dlcd
+		AND D.dlnum = DI.dlnum
+		AND d.empid = #{empid}
+		AND d.dldate = SUBSTR(now(),1,10)
+		ORDER BY DI.seq DESC LIMIT 1
 	</select>
 	
 	<update id="updateOfftime" parameterType="commutevo">		

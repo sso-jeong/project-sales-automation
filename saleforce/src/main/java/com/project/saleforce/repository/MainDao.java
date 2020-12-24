@@ -28,6 +28,10 @@ public class MainDao {
 		sql.update("main.getEndTime", commutevo);
 	}
 	
+	public void getTotTime(CommuteManageVO cvo) {
+		sql.update("main.getTotTime", cvo);
+	}
+	
 	public int commuteCnt(CommuteManageVO commutevo) {
 		return sql.selectOne("main.commuteCnt", commutevo);
 	}
@@ -50,6 +54,10 @@ public class MainDao {
 	
 	public void dlGubunUp(CommuteManageVO commutevo) {
 		sql.update("main.dlGubunUp", commutevo);
+	}
+	
+	public CommuteManageVO getCount(String dlnum) {
+		return sql.selectOne("main.getCount", dlnum);
 	}
 
 }

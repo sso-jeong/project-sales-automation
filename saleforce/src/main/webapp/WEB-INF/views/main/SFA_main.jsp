@@ -3,19 +3,15 @@
 <style>
 .attend-btn-on {
 	width: 220px;
-	border: 1px solid #ccc;
 	border-radius: 50px;
 	background-color: transparent;
-	color: #ccc;
 	padding: 10px 0;
 }
 
 .attend-btn-off {
 	width: 220px;
-	border: 1px solid #0C4A60;
 	border-radius: 50px;
 	background-color: transparent;
-	color: #0C4A60;
 	padding: 10px 0;
 }
 
@@ -26,41 +22,7 @@
 	width: 65px;
 	height: 30px;
 }
-
-.modal-wrapper {
-	background-color: rgba(0, 0, 0, 0.3);
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	top: 0;
-	left: 0;
-	visibility: hidden;
-	opacity: 0;
-}
-
-.modal-wrapper.open {
-	visibility: visible;
-	opacity: 1;
-	transition: 0.3s;
-}
-
-.modal-wrapper.open .modal {
-	opacity: 1;
-}
-
-.modal {
-	width: 1500px;
-	height: 800px;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background-color: #fff;
-	opacity: 0;
-	border-radius: 5px;
-	padding: 20px;
-	box-shadow: -60px 0 100px -90px #000, 60px 0px 100px -90px #000;
-}
+<%@ include file="/WEB-INF/views/include/modal.jsp"%>
 </style>
 </head>
 <%@ include file="/WEB-INF/views/include/nav.jsp"%>
@@ -70,7 +32,7 @@
 			<div class="main-notice-wrap">
 				<div class="notice m-lr10 flex flex-justify">
 					<h3 class="font16 noto m-t10 m-b5">공지사항 알림글</h3>
-					<span class="m-t10 m-b5"> <a href="sfa_notice.html" title="공지사항으로 이동" target="_blank" alt="" class="font16"><i class="fas fa-share-square"></i></a>
+					<span class="m-t10 m-b5"> <a href="${pageContext.request.contextPath}/SFA_notice_list?boardCode=any" title="공지사항으로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
 					</span>
 				</div>
 				<div class="tbl-wrap m-b10 m-lr10">
@@ -206,14 +168,14 @@
 							</div>
 							<div class="attend flex flex-justify noto font14 weight700 m-t20">
 								<button type="submit" class="noto font14 weight700 attend-btn-on">출근하기</button>
-								<button type="button" class="noto font14 weight700 attend-btn-off offtime" id="offtime">퇴근하기</button>
+								<button type="button" class="noto font14 weight700 attend-btn-off offtime">퇴근하기</button>
 							</div>
 						</div>
-						<input type="text" class="dlnum" name="dlnum" id="dlnum" style="display:none;"/>
+						<input type="hidden" name="dlnum" id="dlnum" class="dlnum"/>
 						<input type="date" name="regdate" id="regdate" value="${sessionScope.nowdate}" style="display:none;" />
-						<input type="time" name="regtime" id="regtime" value="${sessionScope.nowtime}" style="display:none;"/>
-						<input type="text" class="empid" name="empid" value="${sessionScope.empid}" style="display:none;"/>
-						<input type="text" class="seq" id="seq" name="seq" style="display:none;"/>
+						<input type="time" name="regtime" id="regtime" value="${sessionScope.nowtime}" style="display:none;" />
+						<input type="hidden" name="empid" id="empid" class="empid" value="${sessionScope.empid}"/>
+						<input type="hidden" name="seq" id="seq" class="seq"/>
 					</div>
 		 		</form> 
 			</div>
@@ -223,8 +185,8 @@
 		<div class="main-wrap2  flex flex-justify">
 			<div class="calendar-wrap" style="width: 39.2%;">
 				<div class="calendar m-lr10 flex flex-justify">
-					<h3 class="noto font16 m-t10 m-b5">일정 안내</h3>
-					<span class="m-t10 m-b5"> <a href="sfa_schedule.html" title="일정관리로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
+					<h3 class="noto font16 m-t10 m-b5">결재 대기문서</h3>
+					<span class="m-t10 m-b5"> <a href="${pageContext.request.contextPath}/SFA_schedule" title="일정관리로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
 					</span>
 				</div>
 
@@ -274,8 +236,8 @@
 
 			<div class="sale-wrap" style="width: 60%; margin-top: 15px;">
 				<div class="sale m-lr10 flex flex-justify">
-					<h3 class="font16 noto m-t10 m-b5">SFA 수주</h3>
-					<span class="m-t10 m-b5"> <a href="sfa_order_manage.html" title="수주관리로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
+					<h3 class="font16 noto m-t10 m-b5">수주목록</h3>
+					<span class="m-t5 m-b5"> <a href="${pageContext.request.contextPath}/SFA_order_manage" title="수주관리로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
 					</span>
 				</div>
 
@@ -297,29 +259,7 @@
 							<td class="td-5">비고</td>
 						</tr>
 						
-						<%-- <c:if test="${count == 0}">
-							<tr>
-								<td class="weight700 center font14 " colspan="14">등록된 수주 건이 없습니다.</td>
-							</tr>
-						</c:if>
 						
-						<c:forEach items="${orderlist}" var="order" varStatus="status">
-							<tr class="center font14">
-								<td class="td-5">${ (count - status.index) - ( (curPage - 1) * end ) }</td>
-								<td class="td-5">${order.ordnum}</td>
-								<td class="td-7">${order.orddt}</td>
-								<td class="td-13 left p-lr5">${order.comnm}</td>
-								<td class="td-7">${order.itemcd}</td>
-								<td class="left p-lr5">${order.itemnm}</td>
-								<td class="td-5">${order.divnm}</td>
-								<td class="td-7">${order.ordperson}</td>
-								<td class="td-5 right p-lr5">${order.qty}</td>
-								<td class="td-7 right p-lr5">${order.uprice}</td>
-								<td class="td-7 right p-lr5">${order.price}</td>
-								<td class="td-7 right p-lr5">${order.tax}</td>
-								<td class="td-13 center p-lr5">${order.remark}</td>
-							</tr>		
-						</c:forEach>	 --%>	
 					</table>
 				</div>
 			</div>
@@ -330,14 +270,22 @@
 </body>
 <script src="${pageContext.request.contextPath}/js/main_cal.js"></script>
 <script>
-	$(function(){
+	var pre; 
+	$(function(){				
 		tna();
 		var empid = ${sessionScope.empid};
-		//alert(empid);
+		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ근태관리ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ//			
 		commuLoadMain(empid);
 
+		
+		
+		$("#dlnm").on('focus', function () { // Store the current value on focus and on change 
+			pre = this.value;
+		});
+
+
 		// 퇴근하기 버튼 클릭 시
-		$('.offtime').click(function(){
+		$('.attend-btn-off').click(function(){
 			var date = new Date();    
 			
 			var hours 	= date.getHours();
@@ -350,38 +298,80 @@
 			var endtime = time;
 			
 			var dlnum = $(".dlnum").val();
+			var seq = $("#seq").val();
 			//alert(dlnum + offtime);
 
 			var msg = "현재 시간 " + offtime + "입니다. 퇴근하시겠습니까?";
 
 			if(confirm(msg)){
-				//alert("성공");
 				var formData = {
 						dlnum	: dlnum,
 						offtime : offtime,
-						endtime : endtime
+						endtime : endtime,
+						seq : seq
 					};
 				$.ajax({
 					url		: "${pageContext.request.contextPath}/updateOfftime",
 					type	: "POST",
 					data	: formData,
 					success : function(data) {
-						window.location.reload();
+						window.location.reload();			
 					},
 					error	: function(request){
 			            alert("message:"+request.responseText);
 					}
 				});
-
 			}
+
+			
 		});
+
+
+		
 	});
 </script>
 <script>
+	//근태기록 확인
+	function commuteCount(dlnum){
+		$.ajax({
+			url		: "${pageContext.request.contextPath}/commuteCount",
+			type	: "POST",
+			data	: {dlnum : dlnum},
+			success : function(dl){
+				if(dl.count > 0 && dl.offtime == null){
+					$('.attend-btn-on').css('color','#ccc');
+					$('.attend-btn-on').css('border','1px solid #ccc');
+					$('.attend-btn-on').attr('disabled','true');
+
+					$('.attend-btn-off').css('color','#0C4A60');
+					$('.attend-btn-off').css('border','1px solid #0C4A60');
+					$('.attend-btn-off').removeAttr('disabled');
+				}else if(dl.count > 0 && dl.offtime != null){
+					$('.attend-btn-on').css('color','#ccc');
+					$('.attend-btn-on').css('border','1px solid #ccc');
+					$('.attend-btn-on').attr('disabled','true');
+					
+					$('.attend-btn-off').css('color','#ccc');
+					$('.attend-btn-off').css('border','1px solid #ccc');
+					$('.attend-btn-off').attr('disabled','true');
+				}else {
+					$('.attend-btn-on').css('color','#0C4A60');
+					$('.attend-btn-on').css('border','1px solid #0C4A60');
+					$('.attend-btn-on').removeAttr('disabled');
+					
+					$('.attend-btn-off').css('color','#ccc');
+					$('.attend-btn-off').css('border','1px solid #ccc');
+					$('.attend-btn-off').attr('disabled','true');
+				}	
+			},
+			error : function(request) {
+				alert("message:" + request.responseText + "\n");
+			}
+			
+		});
+	}
 	// 근태정보 출력
 	function commuLoadMain(empid){
-		//alert(empid);
-
 		var formData = {
 				empid : empid
 			};
@@ -392,30 +382,27 @@
 			data	: formData,
 			success : function(commute){
 				//alert("성공");
-				$('.dlnum').val(commute.dlnum);
+				$('#dlnum').val(commute.dlnum);
 				$('#ontime').val(commute.ontime);
-				$('.ontime').val(commute.ontime);
 				$('#offtime').val(commute.offtime);
 				$('#dlnm').val(commute.dlgubun);
-				$('#empid').val(commute.empid);
 				$('#dldate').val(commute.dldate);
 				$('#seq').val(commute.seq);
+
+				commuteCount(commute.dlnum);
 			},
 			error : function(request) {
 				alert("message:" + request.responseText + "\n");
-			}
-			
+			}			
 		});
+
 	}
 
 	function dlGubunUp(dlnm) {
-		var dlnum = $(".dlnum").val();
+		var dlnum = $("#dlnum").val();
 		var seq = $("#seq").val();
 		var dldate = $("#regdate").val();
 		var empid = ${sessionScope.empid};
-		//alert(dlnm + dlnum);
-		//alert(seq);
-		//alert(dldate);
 		
 		var msg = "근태 유형을 변경하시겠습니까?";
 
@@ -437,13 +424,12 @@
 				},
 				error	: function(request){
 		            alert("message:"+request.responseText);
-					//alert("변경오류\n관리자에게 문의하세요.");
 				},
 				complete : function() {
 					window.location.reload();
 				}
 			});
-		}
+		}else $('#dlnm').val(pre);
 	}
 	
 	function printClock() {
@@ -502,5 +488,4 @@
 		return zero + num;
 	}
 </script>
-
 </html>

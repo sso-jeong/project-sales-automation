@@ -131,14 +131,6 @@
 			e.preventDefault();
 		});
 
-		 /* $("#pwd").change(function(){
-		        if($("#pwd").is(":checked")){
-					
-		        }else{
-
-		        }
-		    }); */
-
 		$("#btn").click(function(){
 			checkComment();
 		});
@@ -229,8 +221,9 @@
                     		a += '<i class="far fa-calendar-alt"></i> '+value.regdate +'</span>';
                     	a += '</div>';
                     	a += '<div id="" class="viewComment'+value.cid+' noto font16" style="margin-top:5px;color:#666;">';
-                    		a += '<span>'+value.comment+'</span>';
-                    	a += '</div>';
+                    		a += "<span>"+value.comment+"</span>";
+                    	a += "</div>";
+                    	
     
                	
                  	a += '</div>';

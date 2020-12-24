@@ -23,15 +23,15 @@
 		<div class="page-wrap m-tb10">
 			<div class="container">
 				<div class="title">
-					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">근태관리 > 근태 등록</p>
+					<p class="noto font16 weight500 m-t5 m-b5 m-lr15">근태관리 > 근태 등록</p>
 				</div>
-				<div class="tna-insert m-b15 m-lr15">
-					<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/SFA_commute_manage" autocomplete="off">
+				<div class="tna-insert m-b5 m-lr15">
+					<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setCommuteP" autocomplete="off">
 						<table>
                             <tr>
                                 <td class="td-7 under center bg-green weight700">근태번호</td>
                                 <td class="p-lr3">
-                                    <input type="text" name="dlnum" id="dlnum" class="input-100 frist">
+                                    <input type="text" name="dlnum" id="dlnum" class="input-100 frist" readonly>
                                 </td>
                                 
                                 <td class="td-7 under center bg-green weight700">근태유형</td>
@@ -61,17 +61,19 @@
                             <tr>
                               <td class="td-7 under center bg-green weight700">사원번호</td>
                               <td class="td-13 p-lr3">
-                                    <input type="text" name="empid" id="empid" class="input-100" readonly>
+                                    <input type="text" name="empid" id="empid" class="input-100" value="${sessionScope.empid}" readonly>
                               </td>
                                 
                               <td class="td-7 under center bg-green weight700">사원명</td>
                               <td class="td-11 p-lr3">
-                              	<input type="text" name="empnm" id="empnm" class="input-100" readonly>
+                              	<input type="text" name="empnm" id="empnm" class="input-100" value="${sessionScope.empname}" readonly>
                               </td>
                               
                               <td class="td-7 under center bg-green weight700">비고</td>
                               <td class="td-11 p-lr3" colspan="5">
-                              	<input type="text" name="remark" id="remark" class="input-100" tabindex="5" readonly>
+                              	<input type="text" name="remark" id="remark" class="input-100" tabindex="5">
+                              	<input type="date" name="regdate" id="regdate" style="display:none;" value= "${sessionScope.nowdate}" />
+                              	<input type="hidden" id="seq" name="seq" value="0" disabled>
                               </td>
 
                             </tr>
@@ -80,29 +82,29 @@
 							<div></div>
 							<div>
 								<c:if test="${count eq 0}">
-									<button type="reset" class="btn-on center m-t15 m-l5 new" id="new1">초기화</button>
-									<button type="submit" class="btn-on center m-t15 m-l5 insert">신규등록</button>
+									<button type="reset" class="btn-on center m-t5 new" id="new1">초기화</button>
+									<button type="submit" class="btn-on center m-t5 insert">신규등록</button>
 								</c:if>
 								<c:if test="${count ne 0}">
-									<button type="reset" class="btn-on center m-t15 m-l5 new" id="new2" >초기화</button>
-									<button type="button" class="btn-on center m-t15 m-l5 up" id="up">수정</button>
-									<button type="submit" class="btn-on center m-t15 m-l5 insert" id="insert" style="display:none;">신규등록</button>					
-									<button type="button" class="btn-off center m-t15 m-l5 del" id="del">삭제</button>
+									<button type="reset" class="btn-on center m-t5 new" id="new2">초기화</button>
+									<button type="button" class="btn-on center m-t5 up" id="upremark" style="display:none;">비고 수정</button>
+									<button type="submit" class="btn-on center m-t5 insert" id="insert" style="display:none;">신규등록</button>					
+									<!-- <button type="button" class="btn-off center m-t5 del" id="del">삭제</button> -->
 								</c:if>
 							</div>
 						</div>
 
 					</form>
-					<hr style="border: solid 1px #0C4A60; margin-top: 15px;">
+					<hr style="border: solid 1px #0C4A60; margin-top: 5px;">
 				</div>
 
 				<div class="title">
-					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">근태관리 > 근태 목록</p>
+					<p class="noto font16 weight500 m-t5 m-b5 m-lr15">근태관리 > 근태 목록</p>
 				</div>
 
 				<div class="search-wrap flex flex-justify">
 					<div class="">
-						<button type="button" class="btn-on m-lr15 m-b15" id="deleteAll">선택삭제</button>
+						<button type="button" class="btn-on m-l15 m-b5" id="deleteAll">선택삭제</button>
 						<span class="btn-normal">검색 된 근태 정보 수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
 					</div>
 					<div class="form-wrap">
@@ -156,8 +158,8 @@
 									<td>${commute.ontime}</td>
 									<td>${commute.offtime}</td>
 									<td>${commute.tottime}</td>
-									<td>
-										<i class="fas fa-search-plus" id="popupBtn" onclick="openChild()"></i>
+									<td style="cursor: pointer;" onclick="popup('${commute.dlnum}')">
+										<i class="fas fa-search-plus"></i>
 									</td>
 								</tr>				
 							</c:forEach>
@@ -251,25 +253,26 @@
 
 		});
 
-		$('#up').click(function(){
-		//alert("성공");
-			var msg = $("#empnm").val() + "의 " + $("#dldate").val()+ "일자의 근태기록을 수정하시겠습니까?";
-				
-			if(confirm(msg)) {
-				$.ajax({
-					url: "${pageContext.request.contextPath}/setCommuteOthers",
-				    type: "POST",
-				    data: $('#frm').serialize(),
-				    success : function(data) {
-					       alert("수정되었습니다.");
-					       window.location.reload();
-				    },
-				    error: function(request) {
-				           alert("message:"+request.responseText);
-				    },
-				});
-			}
-		});
+		$('#upremark').click(function(){
+			//alert("성공");
+				var msg = $("#empnm").val() + "의 " + $("#dldate").val()+ "일자의 비고를 수정하시겠습니까?";
+					
+				if(confirm(msg)) {
+					$.ajax({
+						url: "${pageContext.request.contextPath}/updateCommuteRemark",
+					    type: "POST",
+					    data: $('#frm').serialize(),
+					    success : function(data) {
+						       alert("수정되었습니다.");
+						       window.location.reload();
+						       $('#seq').attr('disabled','true');
+					    },
+					    error: function(request) {
+					           alert("message:"+request.responseText);
+					    },
+					});
+				}
+			});
 	});
 
 	function commuteLoad(dlnum){
@@ -291,7 +294,7 @@
 						$('#dlnm').val(commute.dlgubun);
 						$('#ontime').val(commute.ontime);
 						$('#offtime').val(commute.offtime);
-						$('#remark').val(commute.remark);
+						$('#remark').val("");
 			},
 			error : function(request) {
 				alert("message:" + request.responseText + "\n");
@@ -300,11 +303,13 @@
 		
 	}
 
-	function openChild(){
-		var url = "${pageContext.request.contextPath}/companyPopup"; 
-
-		window.open(url, "popup", "width=500, height=500");
+	function popup(dlnum) {		
+		var url = "${pageContext.request.contextPath}/commutepop?dlnum=" + dlnum;			
+		var name = "근태 상세정보";
+		
+		window.open(url, name, "width=1200, height=600, toolbar=no, status=no, location=no, scrollbars=yes, memubar=no, resizable=no, top=100");
 	}
+	
 	
 	var flag = false;
     function chkAll() {

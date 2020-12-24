@@ -70,58 +70,57 @@
 	<!-- 근태 기본 테이블 SELECT 끝 -->
 	
 	<!-- 근태 상세 테이블 SELECT 시작 -->
-	<sql id="search2">
-		<choose>
-			<when test="words == ''">
 
-			</when>
-			<when test="searchOpt=='all'">
-				AND (dlnm LIKE CONCAT('%', #{words},'%')
-			</when>
-			<otherwise>
-				AND ${searchOpt} LIKE CONCAT('%', #{words},'%')
-			</otherwise>
-		</choose>
-	</sql>
 
-	<select id="commutepopup" parameterType="hashmap" resultType="commutevo">
+	<select id="commutepopup" resultType="commutevo">
 		SELECT 
 		dlnum, 	
-		seq, 	
+		seq,
+		dlnm, 	
 		empid,
 		dlgubun, 
 		strtime,
 		endtime,
-		tottime, 
+		tottime,
+		SUBSTR(regdate,1,10) as regdate,
 		remark
-		FROM dlInfo_tbl
-		<include refid="search2"></include>
-		ORDER BY dlnum, seq DESC LIMIT #{start}, #{end}
-	</select>
-	
-	<select id="commutepopupCnt" parameterType="String" resultType="int">
-		SELECT COUNT(dlnum) 
-		FROM dlInfo_tbl 
+		FROM dlInfo_tbl, comcode
 		WHERE dlnum = #{dlnum}
-		<include refid="search2"></include>
+		AND dlgubun = dlcd
+		ORDER BY dlnum, seq ASC
 	</select>
 	<!-- 근태 상세 테이블 SELECT 끝 -->
 	
-	<update id="setCommuteOthers" parameterType="commutevo">
-		UPDATE dl_tbl SET 
-		dlgubun			= #{dlnm},
-		dldate			= #{dldate}, 
-		ontime			= #{ontime},
-		offtime			= #{offtime},
-		insert_person	= #{empid}	
-		WHERE dlnum = #{dlnum}
-	</update>
-	
 	<update id="updateCommuteRemark" parameterType="commutevo">
 		UPDATE dlInfo_tbl SET 
-		remark			= #{remark} 
+		remark			= #{remark},
 		insert_person 	= #{empid} 
 		WHERE dlnum = #{dlnum} AND seq = #{seq}
 	</update>
+	
+	<insert id="setCommuteP" parameterType="commutevo">
+		INSERT INTO dl_tbl SET 
+		dlnum			= #{dlnum},
+		empid			= #{empid},
+		dlgubun			= #{dlnm},
+		dldate			= #{dldate},
+		ontime			= #{ontime},
+		offtime			= #{offtime},
+		insert_person	= #{empid},
+		regdate			= now()
+	</insert>
+	
+	<insert id="setCommuteInfoP" parameterType="commutevo">		
+		INSERT INTO dlInfo_tbl SET 
+		dlnum			= #{dlnum},
+		seq				= '1',
+		empid			= #{empid},
+		dlgubun			= #{dlnm},
+		strtime			= #{ontime},
+		endtime			= #{offtime},
+		insert_person	= #{empid},
+		remark			= #{remark},
+		regdate			= now()
+	</insert>
 
 </mapper>

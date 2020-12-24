@@ -28,6 +28,10 @@ public class MainSrv {
 		mainDao.getEndTime(commutevo);
 	}
 	
+	public void getTotTime(CommuteManageVO cvo) {
+		mainDao.getTotTime(cvo);	
+	}
+	
 	public int commuteCnt(CommuteManageVO commutevo) {
 		return mainDao.commuteCnt(commutevo);
 	}
@@ -52,4 +56,7 @@ public class MainSrv {
 		mainDao.dlGubunUp(commutevo);
 	}
 
+	public CommuteManageVO getCount(String dlnum) {
+		return mainDao.getCount(dlnum);
+	}
 }

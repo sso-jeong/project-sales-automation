@@ -13,12 +13,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.project.saleforce.model.CommuteManageVO;
 import com.project.saleforce.paging.Pager;
 import com.project.saleforce.service.CommuteSrv;
+import com.project.saleforce.service.MainSrv;
 
 @Controller
 public class CommuteCtr {
 	
 	@Autowired
 	CommuteSrv  commuSrv;
+	
+	@Autowired
+	MainSrv mainSrv;
 	
 	@RequestMapping("SFA_commute_manage")
 	public ModelAndView getCommuteList(@RequestParam(defaultValue = "1") int curPage, 
@@ -68,16 +72,54 @@ public class CommuteCtr {
 		return commuSrv.getCommuteListOne(dlnum);
 	}
 	
-	@RequestMapping(value = "setCommuteOthers", method = RequestMethod.POST)
+	/*
+	 * @RequestMapping(value = "setCommuteOthers", method = RequestMethod.POST)
+	 * 
+	 * @ResponseBody public String setCommuteOthers(CommuteManageVO commutevo) {
+	 * commuSrv.setCommuteOthers(commutevo);
+	 * 
+	 * return "redirect:/employee/SFA_commute_manage"; }
+	 */
+	
+	@RequestMapping(value = "updateCommuteRemark", method = RequestMethod.POST)
 	@ResponseBody
-	public String setCommuteOthers(CommuteManageVO commutevo) {
-		commutevo.setSeq(commutevo.getSeq());
+	public String updateCommuteRemark(CommuteManageVO commutevo) {		
+		commuSrv.updateCommuteRemark(commutevo);
 		
-		commuSrv.setCommuteOthers(commutevo);
-		//commuSrv.updateCommuteRemark(commutevo);
-		
-		return "employee/SFA_commute_manage";		
+		return "redirect:/employee/SFA_commute_manage";		
 	}
 	
+	@RequestMapping("/commutepop")
+	public ModelAndView commutepop(String dlnum) {
+		ModelAndView mav = new ModelAndView();
+		
+		List<CommuteManageVO> list = commuSrv.commutepopup(dlnum);	
+		
+		mav.addObject("commutedetail", list);
+		mav.setViewName("popup/commutepopup");
+		return mav;
+	}
+	
+	@RequestMapping("/setCommuteP")
+	public String setCommuteP(CommuteManageVO cvo) {
+		
+		String date = cvo.getRegdate().substring(2, 4) + cvo.getRegdate().substring(5, 7) + cvo.getRegdate().substring(8, 10);
+		String empid = cvo.getEmpid().substring(4, 10);	
+		String dlnum = date + empid;
+		
+		cvo.setDlnum(dlnum); // 근태번호
+		cvo.setDlgubun(cvo.getDlnm()); // 근태구분
+		cvo.setDldate(cvo.getRegdate().substring(0, 10)); // 근태일자
+		
+		commuSrv.setCommuteP(cvo);
+		String gubun = cvo.getDlnm();
+		if(gubun.equals("C")) {
+			mainSrv.updatetottime(cvo);
+			mainSrv.getTotTime(cvo);
+		}else cvo.setOfftime("");
+		
+		commuSrv.setCommuteInfoP(cvo);
+		return "redirect:/SFA_commute_manage";
+	}			
 
 }
