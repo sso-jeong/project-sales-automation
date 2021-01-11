@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.project.saleforce.model.EmpVO;
 import com.project.saleforce.paging.Pager;
+import com.project.saleforce.service.MainSrv;
 import com.project.saleforce.service.ManageSrv;
 
 @Controller
@@ -20,6 +21,9 @@ public class AuthCtr {
 	
 	@Autowired
 	ManageSrv mSrv;
+	
+	@Autowired
+	MainSrv mainSrv;
 	
 	@RequestMapping("SFA_auth")
 	public ModelAndView getAuth(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "empnm") String searchOpt, @RequestParam(defaultValue = "") String words) {
@@ -34,13 +38,14 @@ public class AuthCtr {
 		
 		List<EmpVO> list = mSrv.getAuthList(start, end, searchOpt, words);
 		
+		mav.addObject("com", mainSrv.getCompanyInfo());
 		mav.addObject("list", list);
 		mav.addObject("count", count);
 		mav.addObject("searchOpt", searchOpt);
 		mav.addObject("words", words);
 		
-		mav.addObject("start", start); // °Ô½Ã¹° °³¼ö ÀÚ¸¦ ½ÃÀÛ¹øÈ£
-		mav.addObject("end", end); // °Ô½Ã¹° ÀÚ¸¦ ³¡¹øÈ£
+		mav.addObject("start", start); // ï¿½Ô½Ã¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½Û¹ï¿½È£
+		mav.addObject("end", end); // ï¿½Ô½Ã¹ï¿½ ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½È£
 		
 		mav.addObject("blockBegin", pager.getBlockBegin());
 		mav.addObject("blockEnd", pager.getBlockEnd());
@@ -52,7 +57,7 @@ public class AuthCtr {
 		mav.addObject("curPage", pager.getCurPage());
 		mav.addObject("totalPage", pager.getTotPage());
 		
-		// ÆäÀÌÁö ¹øÈ£¸¦ Å¬¸¯ÇßÀ» ¶§ css active Å¬·¡½º Ã³¸®
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ css active Å¬ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 		mav.addObject("selected", pager.getCurPage());
 		
 		mav.setViewName("manage/SFA_auth");

@@ -73,11 +73,14 @@
 		religion,
 		marrygubun,
 		linguistic,
-		reward
-		FROM emp_tbl
+		reward,
+		boardCode,
+		boardTitle
+		FROM emp_tbl, boardauth_tbl
 		WHERE
 		empid = #{empid}
 		AND emppwd = #{emppwd}
+		AND deptid = boardGrp
 	</select>
 
 	<select id="pwdFind" parameterType="empvo" resultType="String">
@@ -116,15 +119,18 @@
 		buseo_name AS buseoName,
 		grade,
 		grade_name AS gradeName,
-		birth,
+		CONCAT(SUBSTR(birth,1,4),'-',SUBSTR(birth,5,2),'-',SUBSTR(birth,7,2)) as birth,
 		gender,
 		gendernm,
 		regnum,
 		empaddr,
-		emphp,
+		CASE WHEN emphp = '' THEN ''
+		ELSE CONCAT(SUBSTR(emphp,1,3), '-',SUBSTR(emphp,4,4),'-',SUBSTR(emphp,8,4)) END as emphp,
 		email,
 		accountnum,
-		joindate
+		joindate,
+		empPhoto,
+		photoName
 		FROM emp_tbl E, buseo_tbl B, grade_tbl G, comcode C
 		WHERE grade != 777 AND E.deptid = B.buseo_id
 						AND E.grade = G.grade_id
@@ -142,9 +148,13 @@
 		buseo_name AS buseoname,
 		grade,
 		grade_name AS gradename,
-		emphp, 
-		empcp, 
-		email 
+		CASE WHEN emphp = '' THEN ''
+		ELSE CONCAT(SUBSTR(emphp,1,3), '-',SUBSTR(emphp,4,4),'-',SUBSTR(emphp,8,4)) END as emphp,
+		CASE WHEN empcp = '' THEN ''
+		ELSE CONCAT(SUBSTR(empcp,1,3), '-',SUBSTR(empcp,4,4),'-',SUBSTR(empcp,8,4)) END as empcp, 
+		email,
+		empPhoto,
+		photoName
 		FROM emp_tbl E, buseo_tbl B, grade_tbl G
 		WHERE grade != 7 AND E.deptid = B.buseo_id
 						AND E.grade = G.grade_id
@@ -183,7 +193,9 @@
 		religion,
 		marrygubun,
 		linguistic,
-		reward
+		reward,
+		empPhoto,
+		photoName
 		FROM emp_tbl E, buseo_tbl B, grade_tbl G
 		WHERE grade != 777 AND E.deptid = B.buseo_id
 						AND E.grade = G.grade_id 
@@ -234,7 +246,9 @@
 		linguistic		= #{linguistic},
 		reward			= #{reward},
 		joindate		= #{joindate},
-		insert_person	= #{empid}
+		insert_person	= #{empid},
+		empPhoto		= #{empPhoto},
+		photoName		= #{photoName}
 		
 	</insert>
 
@@ -265,7 +279,9 @@
 		linguistic		= #{linguistic},
 		reward			= #{reward},
 		joindate		= #{joindate},
-		insert_person	= #{empid}
+		insert_person	= #{empid},
+		empPhoto		= #{empPhoto},
+		photoName		= #{photoName}
 		WHERE empid = #{empid}
 	</update>
 	

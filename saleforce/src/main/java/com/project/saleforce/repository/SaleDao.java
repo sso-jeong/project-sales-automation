@@ -54,11 +54,23 @@ public class SaleDao {
 		sql.insert("sale.setStockInfo", svo);
 	}
 	
+	public void updateYN(String ordnum) {
+		sql.update("sale.updateYN", ordnum);
+	}
+	
 	public void updateSaleInfo(SaleVO svo) {
 		sql.update("sale.updateSaleInfo", svo);
 	}
 	
+	public void updateStock(StockVO svo) {
+		sql.update("sale.updateStock", svo);
+	}
+	
 	public void deleteSaleInfo(String salenum) {
 		sql.delete("sale.deleteSaleInfo", salenum);
+	}
+	
+	public void deleteStock(String salenum) {
+		sql.delete("sale.deleteStock", salenum);
 	}
 }

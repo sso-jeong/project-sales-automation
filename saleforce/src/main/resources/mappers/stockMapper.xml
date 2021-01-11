@@ -76,7 +76,12 @@
 </select>
 
 <select id="getStockDetailCount" resultType="int">
-	SELECT count(d.seq) FROM stockInfo_tbl d WHERE d.itemcd = #{itemcd} AND seq != 0
+	SELECT count(d.seq) 
+	FROM stockInfo_tbl d, stock_tbl s, comcode c 
+	WHERE d.itemcd = #{itemcd} 
+	AND seq != 0 
+	AND d.itemcd = s.itemcd 
+	AND d.type = c.stktypecd
 	<include refid="searchde"></include>
 </select>
 
@@ -86,6 +91,7 @@
 	s.itemcd,
 	s.itemnm,
 	s.std,
+	s.itemPhoto,
 	(sum(d.inqty) - sum(d.outqty)) as qty
 	FROM stock_tbl s ,stockInfo_tbl d
 	WHERE s.itemcd = #{itemcd}
@@ -151,9 +157,18 @@
 	AND seq = #{seq}
 </update>
 
+<delete id="deleteStock1" parameterType="String">
+	DELETE FROM stock_tbl WHERE itemcd = #{itemcd}
+</delete>
+
+<delete id="deleteStock2" parameterType="String">
+	DELETE FROM stockInfo_tbl WHERE itemcd = #{itemcd}
+</delete>
+
 <delete id="deleteStockInfo" parameterType="hashmap">
 		DELETE FROM stockInfo_tbl
 		WHERE itemcd = #{itemcd} 
 		AND seq = #{seq}
 </delete>
+
 </mapper>

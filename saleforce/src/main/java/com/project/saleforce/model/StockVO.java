@@ -1,9 +1,27 @@
 package com.project.saleforce.model;
 
 public class StockVO {
-	String itemcd,  itemnm, std, attdatnum, regdate, stktypenm, indt, outdt, remark, insert_person, de_regdate, type;
-	int cqty, qty, inqty, outqty, seq;
-	
+	String itemcd,  itemnm, std, attdatnum, regdate, stktypenm, indt, outdt, remark, insert_person, de_regdate, type, itemPhoto, photoName, ordnum;
+	int cqty, qty, inqty, outqty, seq;	
+		
+	public String getOrdnum() {
+		return ordnum;
+	}
+	public void setOrdnum(String ordnum) {
+		this.ordnum = ordnum;
+	}
+	public String getItemPhoto() {
+		return itemPhoto;
+	}
+	public void setItemPhoto(String itemPhoto) {
+		this.itemPhoto = itemPhoto;
+	}
+	public String getPhotoName() {
+		return photoName;
+	}
+	public void setPhotoName(String photoName) {
+		this.photoName = photoName;
+	}
 	public String getIndt() {
 		return indt;
 	}

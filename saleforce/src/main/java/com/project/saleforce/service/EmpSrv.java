@@ -50,6 +50,8 @@ public class EmpSrv {
 			session.setAttribute("reward", vo.getReward());
 			session.setAttribute("nowdate", vo.getRegdate());
 			session.setAttribute("nowtime", vo.getRegtime());
+			session.setAttribute("boardCode", vo.getBoardCode());
+			session.setAttribute("boardTitle", vo.getBoardTitle());
 		}
 
 		return vo;

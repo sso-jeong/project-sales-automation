@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <c:if test="${sessionScope.empid == null}">
 <script>
 	alert("등록된 사용자가 아닙니다.\n관리자에게 문의하세요.");
-	window.location.replace("${pageContext.request.contextPath}/login");
+	window.location.replace("${pageContext.request.contextPath}/loginpage");
 	</script>
 </c:if>
 <!DOCTYPE html>

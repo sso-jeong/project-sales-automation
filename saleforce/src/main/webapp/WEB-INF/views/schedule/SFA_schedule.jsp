@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/main_header.jsp"%>
 <style>
-	<%@include file="/WEB-INF/views/include/modal.jsp"%>
+<%@include file="/WEB-INF/views/include/modal.jsp"%>
 </style>
 <%@ include file="/WEB-INF/views/include/nav.jsp"%>
     <main>

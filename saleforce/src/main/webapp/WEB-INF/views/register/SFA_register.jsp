@@ -6,10 +6,10 @@
 		<h2>
 			<span class="logo-text" style="cursor: pointer;"
 				onClick="location.href='${pageContext.request.contextPath}'">
-				Sale Force Automation </span>
+				${com.comname} ${com.comsubname} </span>
 		</h2>
 		<div class="back"
-			onclick="location.href='${pageContext.request.contextPath}/login'">로그인으로</div>
+			onclick="location.href='${pageContext.request.contextPath}/loginpage'">로그인으로</div>
 
 		<form name="frm" id="frm" method="post"
 			action="${pageContext.request.contextPath}/register"

@@ -38,6 +38,17 @@ public class ItemSrv {
 	public void updateItemInfo(ItemVO ivo) {
 		itemDao.updateItemInfo(ivo);
 	}
+	public void updateItemInfoNo(ItemVO ivo) {
+		itemDao.updateItemInfoNo(ivo);
+	}
+	
+	public void updateImgup(ItemVO ivo) {
+		itemDao.updateImgup(ivo);
+	}
+	
+	public void updateStd(ItemVO ivo) {
+		itemDao.updateStd(ivo);
+	}
 	
 	public void deleteItemInfo(String itemcd) {
 		itemDao.deleteItemInfo(itemcd);

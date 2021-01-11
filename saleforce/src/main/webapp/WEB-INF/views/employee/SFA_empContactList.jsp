@@ -25,16 +25,15 @@
 		<div class="page-wrap m-tb10">
 			<div class="container">
 				<div class="title">
-					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">시스템 > 내정보
+					<p class="noto font16 weight500 m-t5 m-b5 m-lr15">시스템 > 내정보
 						</p>
 				</div>
-				<div class="emp-insert m-b15 m-lr15">
-					<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setRegAll"
-						autocomplete="off">
+				<div class="emp-insert m-b5 m-lr15">
+					<form name="frm" id="frm" method="post" autocomplete="off" enctype="multipart/form-data">
 						<div class="emp-info flex flex-justify">
 							<div class="emp-left">
 								<div class="photo-area" style="margin-right:5px;">
-									<img id="img" name="img" src="${pageContext.request.contextPath}/images/noImage2.jpg" alt="" />
+									<img class="img" id="img" name="img" src="${pageContext.request.contextPath}/images/noImage2.jpg" alt="" />
 								</div>
 
 							</div>
@@ -136,12 +135,12 @@
 							</div>
 						</div>
 						<div class="flex flex-justify">
-							<div class="photo-btn center m-t15">
-                                <input type="file" style="width: 120px;" class="file" id="file" />
-                            	<button type="button" class="btn-on picsave" id="picsave">저장</button>
+							<div class="photo-btn center m-t5" style="position: relative;">
+                                <input type="file" style="width: 237px;" class="file" id="file" name="file" accept="image/*" />
+                                <input type="text" style="width: 163px; left: 75px; position: absolute;" class="filesrc" id="filesrc" />
                             </div>
 							<div>
-								<button type="button" title="UPDATE" class="btn-on center m-t15 m-l5 up" id="up">수정</button>
+								<button type="button" title="UPDATE" class="btn-on center m-t5 m-l5 up" id="up">수정</button>
 							</div>
 						</div>
 
@@ -152,13 +151,13 @@
 				</div>
 
 				<div class="title">
-					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">시스템 > 사내연락망
+					<p class="noto font16 weight500 m-t5 m-b5 m-lr15">시스템 > 사내연락망
 						목록</p>
 				</div>
 
 				<div class="search-wrap flex flex-justify">
 					<div class="">
-						<span class="btn-normal m-lr15 m-b15 ">검색 된 연락처 수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>					
+						<span class="btn-normal m-lr15 m-b5 ">검색 된 연락처 수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>					
 					</div>
 					<div class="form-wrap">
 						<form method="post"
@@ -173,13 +172,13 @@
 									<c:if test="${searchOpt eq 'buseo_name'}">selected</c:if>>부서명</option>
 								<option value="grade_name"
 									<c:if test="${searchOpt eq 'grade_name'}">selected</c:if>>직급</option>
-							</select> <input type="text" name="words" required />
+							</select> <input type="text" name="words" value="${words}" required />
 							<button type="submit" class="btn-on">검색</button>
 						</form>
 					</div>
 				</div>
 
-				<div class="emp-list m-b15 m-lr15">
+				<div class="emp-list m-b5 m-lr15">
 					<table class="list center empList" id="empList" style="table-layout: fixed;">
 						<tr class="weight700 center font14">
 							<td class="td-3">
@@ -317,29 +316,26 @@
 </body>
 <script>
 	$(function(){
-		//alert("성공");
 		load();
 		empList();
 		var empID = ${sessionScope.empid};
 		empload(empID);
 		
-		/* var tr = $("#empList tr:nth-child(1)");
-		var td = tr.children();        
-		var empID = td.eq(1).text(); */
-		//alert(empID);
 
 		 $('#up').click(function() {		
-			//alert("성공");
-			var empid = ${sessionScope.empid};
-			
+			//alert("성공");		
 			var msg = $("#empnm").val() + "의 정보를 수정하시겠습니까?";
+
+			var formData = new FormData($("#frm")[0]);
 			
 			if(confirm(msg)) {
 				
 				$.ajax({
 					url: "${pageContext.request.contextPath}/SFA_setEmpOthers",
 			        type: "post",
-			        data: $('#frm').serialize(),
+			        data: formData,
+			        processData: false, 
+			       	contentType: false,
 			        success : function(data) {
 				        window.location.reload();
 			        },
@@ -349,6 +345,18 @@
 				});
 			}
 		});
+
+		 $('#file').on("change", function () {
+		        var input = document.getElementById("file");
+		        var fReader = new FileReader();
+		        $('#filesrc').val(input.files[0].name);
+		        fReader.readAsDataURL(input.files[0]);
+		        fReader.onloadend = function (event) {
+		            var img = document.getElementById("img");
+		            img.src = event.target.result;
+		            img.height = 100;
+		        }
+		  });
 	});
 	
 </script>
@@ -393,6 +401,10 @@ function empload(empID){
 			$('.linguistic').val(emp.linguistic);
 			$('.marnm').val(emp.marrygubun);
 			$('.reward').val(emp.reward);
+			if(emp.empPhoto != null){
+        		$('.img').attr('src', "/img/"+emp.empPhoto);
+	        }else $('.img').attr('src',"${pageContext.request.contextPath}/images/noImage2.jpg");
+	        $(".filesrc").val(emp.photoName);
 		},
 		error : function(request) {
 			alert("message:" + request.responseText + "\n");

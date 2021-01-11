@@ -32,6 +32,8 @@
 		insert_person =
 		#{insert_person},
 		attdatnum = #{attdatnum},
+		itemPhoto = #{itemPhoto},
+		photoName = #{photoName},
 		regdate = now()
 	</insert>
 	
@@ -41,6 +43,7 @@
 		itemnm = #{itemnm},
 		std = #{std},
 		qty = 0,
+		itemPhoto = #{itemPhoto},
 		regdate = now();
 	</insert>
 	
@@ -76,21 +79,22 @@
 
 	<select id="getItemList" parameterType="hashmap" resultType="itemvo">
 		SELECT
-		itemcd,
-		itemnm,
+		i.itemcd,
+		i.itemnm,
 		divnm as itemdivname,
-		itemdiv,
+		i.itemdiv,
 		grpnm as itemgrpname,
-		itemgrp,
-		price,
-		remark,
-		std,
-		regdate,
-		attdatnum
-		FROM item_tbl, 
+		i.itemgrp,
+		i.price,
+		i.remark,
+		i.std,
+		i.regdate,
+		stk.qty as qty
+		FROM item_tbl i, 
 		(SELECT divcd, divnm FROM comcode WHERE divnm IS NOT NULL) d, 
-		(SELECT grpcd, grpnm FROM comcode WHERE grpnm IS NOT NULL) g
-		WHERE itemdiv = d.divcd AND itemgrp = g.grpcd
+		(SELECT grpcd, grpnm FROM comcode WHERE grpnm IS NOT NULL) g,
+		(SELECT (sum(inqty) - sum(outqty)) as qty, itemcd FROM stockInfo_tbl GROUP BY itemcd) stk
+		WHERE i.itemdiv = d.divcd AND i.itemgrp = g.grpcd AND i.itemcd = stk.itemcd
 		<include refid="search"></include>
 		ORDER BY itemcd DESC LIMIT #{start}, #{end}
 	</select>
@@ -114,7 +118,9 @@
 		price,
 		remark,
 		std,
-		attdatnum
+		attdatnum,
+		itemPhoto,
+		photoName
 		FROM item_tbl
 		WHERE itemcd= #{itemcd}
 	</select>
@@ -129,8 +135,31 @@
 		itemgrp = #{itemgrp},
 		price = #{price},
 		std = #{std},
+		remark = #{remark},
+		itemPhoto = #{itemPhoto},
+		photoName = #{photoName}
+		WHERE itemcd = #{itemcd}
+	</update>
+	
+	<update id="updateItemInfoNo" parameterType="itemvo">
+		UPDATE item_tbl
+		SET itemdiv = #{itemdiv},
+		itemgrp = #{itemgrp},
+		price = #{price},
+		std = #{std},
 		remark = #{remark}
-		<!-- attdatnum = #{attdatnum} -->
+		WHERE itemcd = #{itemcd}
+	</update>
+	
+	<update id="updateImgup">
+		UPDATE stock_tbl
+		SET	itemPhoto = #{itemPhoto}
+		WHERE itemcd = #{itemcd}
+	</update>
+	
+	<update id="updateStd">
+		UPDATE stock_tbl
+		SET std = #{std}
 		WHERE itemcd = #{itemcd}
 	</update>
 

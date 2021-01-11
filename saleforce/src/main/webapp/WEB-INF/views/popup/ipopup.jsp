@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="KO">
@@ -52,7 +53,8 @@
 							<td class="td-11">품목타입</td>						
 							<td class="td-20">규격</td>
 							<td class="td-7">출고단가(원)</td>
-							<td >비고</td>
+							<td style="display: none;">비고</td>
+							<td class="td-7">재고량</td>
 						</tr>
 						
 						<c:if test="${count == 0}">
@@ -69,8 +71,9 @@
 								<td class="td-7">${item.itemdivname}</td>
 								<td class="td-11 left p-lr5">${item.itemgrpname}</td>								
 								<td class="td-11 left p-lr5">${item.std}</td>
-								<td class="td-7 right p-lr5">${item.price}</td>
-								<td class="left p-lr5">${item.remark}</td>
+								<td class="td-7 right p-lr5"><fmt:formatNumber value="${item.price}" pattern="#,###"/></td>
+								<td style="display: none;" class="left p-lr5">${item.remark}</td>
+								<td class="right p-lr5">${item.qty}</td>
 							</tr>
 						</c:forEach>
 					</table>
@@ -150,11 +153,20 @@
 			var itemnm = td.eq(2).text();
 			var std = td.eq(5).text();
 			var uprice = td.eq(6).text();
+			
+			var rprice = uprice.split(",");
+			var realprice ="";
+			for(var i = 0; i < rprice.length; i++){
+				realprice += rprice[i];
+			}
+			var qty = td.eq(8).text();
 
 			$(opener.document).find("#itemcd").val(itemcd);
 			$(opener.document).find("#itemnm").val(itemnm);
 			$(opener.document).find("#std").val(std);
-			$(opener.document).find("#uprice").val(uprice);
+			$(opener.document).find("#uprice").val(realprice);
+			$(opener.document).find("#janqty").val(qty);
+			
 			window.close();
 		}else return false;
 

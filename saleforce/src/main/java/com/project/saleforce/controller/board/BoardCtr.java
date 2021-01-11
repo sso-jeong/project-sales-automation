@@ -13,12 +13,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.project.saleforce.model.BoardVO;
 import com.project.saleforce.paging.Pager;
 import com.project.saleforce.service.BoardSrv;
+import com.project.saleforce.service.MainSrv;
 
 @Controller
 public class BoardCtr {
 
 	@Autowired
 	BoardSrv bSrv;
+	
+	@Autowired
+	MainSrv mSrv;
  
 	@RequestMapping("SFA_notice_manage")
 	public ModelAndView getStockList(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "ntgrpnm") String searchOpt, @RequestParam(defaultValue = "") String words) {
@@ -30,6 +34,8 @@ public class BoardCtr {
 		int end = pager.getPageEnd();
 
 		List<BoardVO> list = bSrv.getBoard(start, end, searchOpt, words);
+		
+		mav.addObject("com", mSrv.getCompanyInfo());
 		mav.addObject("boardlist", list);
 		mav.addObject("count", count);
 		mav.addObject("searchOpt", searchOpt);

@@ -42,11 +42,23 @@ public class SaleSrv {
 		return saleDao.getOneSale(salenum);
 	}
 	
+	public void updateYN(String ordnum) {
+		saleDao.updateYN(ordnum);
+	}
+	
 	public void updateSaleInfo(SaleVO svo) {
 		saleDao.updateSaleInfo(svo);
 	}
 	
+	public void updateStock(StockVO svo) {
+		saleDao.updateStock(svo);
+	}
+	
 	public void deleteSaleInfo(String salenum) {
 		saleDao.deleteSaleInfo(salenum);
+	}
+	
+	public void deleteStock(String salenum) {	
+		saleDao.deleteStock(salenum);
 	}
 }

@@ -25,12 +25,30 @@ public class OrderDao {
 		return sql.selectList("order.getOrderList", hs);
 	}
 	
+	public List<OrderVO> getOrderPopList(int start, int end, String searchOpt,String words) {
+		HashMap<String, Object> hs = new HashMap<String, Object>();
+		hs.put("searchOpt", searchOpt);
+		hs.put("words", words);
+		hs.put("start", start);
+		hs.put("end", end);
+		
+		return sql.selectList("order.getOrderPopList", hs);
+	}
+	
 	public int getOrderCount(String searchOpt,String words) {
 		HashMap<String, String> hs = new HashMap<String, String>();
 		hs.put("searchOpt", searchOpt);
 		hs.put("words", words);
 		
 		return sql.selectOne("order.getOrderCount", hs);
+	}
+	
+	public int getOrderPopCount(String searchOpt,String words) {
+		HashMap<String, String> hs = new HashMap<String, String>();
+		hs.put("searchOpt", searchOpt);
+		hs.put("words", words);
+		
+		return sql.selectOne("order.getOrderPopCount", hs);
 	}
 	
 	public OrderVO getOneOrder(String ordnum) {

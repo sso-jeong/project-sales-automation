@@ -129,4 +129,8 @@ public class ComcodeSrv {
 	public List<ComcodeVO> getAuthList() {
 		return comcodeDao.getauthList();
 	}	
+	
+	public List<ComcodeVO> getAllowList() {
+		return comcodeDao.getallowList();
+	}
 }

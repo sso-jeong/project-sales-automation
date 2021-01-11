@@ -28,8 +28,8 @@ public class CommenctCtr {
 	@RequestMapping("/comment_list")
 	@ResponseBody
 	public Map<String, Object> getCommentList(@ModelAttribute CommentVO cvo) {		
-		List<CommentVO> list = cSrv.getCommentList(cvo); //³»¿ë
-		int count = cSrv.getCommentCount(cvo); //°Ô½Ã¹° °³¼ö
+		List<CommentVO> list = cSrv.getCommentList(cvo); //ï¿½ï¿½ï¿½ï¿½
+		int count = cSrv.getCommentCount(cvo); //ï¿½Ô½Ã¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);

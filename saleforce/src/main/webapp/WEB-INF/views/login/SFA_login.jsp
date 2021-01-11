@@ -7,7 +7,7 @@
 	
 			<span class="logo-text" style="cursor: pointer;"
 				onClick="location.href='${pageContext.request.contextPath}'">
-					<h2>Sale Force Automation</h2> </span>
+					<h2>${com.comname} ${com.comsubname}</h2> </span>
 		
 
 		<form name="frm" id="frm" method="post" autocomplete="off">
@@ -30,11 +30,11 @@
 
 			<div class="register-line">
 				<div class="forgot">
-					<a href="${pageContext.request.contextPath}/pwdFind">비밀번호 찾기</a>
+					<a href="${pageContext.request.contextPath}/pwdpage">비밀번호 찾기</a>
 				</div>
 				<div class="account-top">
 					<span class="signup"> <a
-						href="${pageContext.request.contextPath}/register">회원가입</a>
+						href="${pageContext.request.contextPath}/registerpage">회원가입</a>
 					</span>
 				</div>
 			</div>

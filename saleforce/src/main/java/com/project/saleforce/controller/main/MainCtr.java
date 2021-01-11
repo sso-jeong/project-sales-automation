@@ -1,21 +1,41 @@
 package com.project.saleforce.controller.main;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.saleforce.model.ArticleVO;
+import com.project.saleforce.model.BoardVO;
+import com.project.saleforce.model.ComVO;
 import com.project.saleforce.model.CommuteManageVO;
+import com.project.saleforce.model.OrderVO;
+import com.project.saleforce.paging.Pager;
+import com.project.saleforce.service.BoardSrv;
+import com.project.saleforce.service.CommuteSrv;
 import com.project.saleforce.service.MainSrv;
+import com.project.saleforce.service.OrderSrv;
 
 @Controller
 public class MainCtr {
 
 	@Autowired
 	MainSrv mainSrv;
+	
+	@Autowired
+	OrderSrv oSrv;
+	
+	@Autowired
+	CommuteSrv cSrv;
+	
+	@Autowired
+	BoardSrv bSrv;
 
 	@RequestMapping("")
 	public String getMain() {
@@ -23,16 +43,100 @@ public class MainCtr {
 	}
 
 	@RequestMapping("/SFA_main")
-	public String getSfaMain() {
-		return "main/SFA_main";
+	public ModelAndView getSfaMain() {
+		ModelAndView mav = new ModelAndView();
+		
+		List<ArticleVO> list = mainSrv.getAny();
+		List<ArticleVO> slist = mainSrv.getArtSale();
+		List<ArticleVO> hlist = mainSrv.getArtHuman();
+		List<OrderVO> olist = oSrv.getOrderList(0, 10, "ordnum", "");
+		List<CommuteManageVO> clist = cSrv.getCommuteList(0, 12, "empid", "");
+		
+		int anycnt = mainSrv.getAnyCnt(); 
+		int scnt = mainSrv.getArtSaleCnt();
+		int hcnt = mainSrv.getArtHumanCnt();
+		
+		ComVO cvo = mainSrv.getCompanyInfo();
+		
+		mav.addObject("com", cvo);
+		mav.addObject("anylist", list);
+		mav.addObject("salelist", slist);
+		mav.addObject("humanlist", hlist);
+		mav.addObject("orderlist", olist);
+		mav.addObject("commutelist", clist);
+		mav.addObject("anycnt", anycnt);
+		mav.addObject("salecnt", scnt);
+		mav.addObject("humancnt", hcnt);
+		
+		mav.setViewName("main/SFA_main");
+		
+		return mav;
 	}
 
 	@RequestMapping("/SFA_admin")
-	public String getSfaAdmin() {
-		return "main/SFA_admin";
+	public ModelAndView getSfaAdmin() {
+		ModelAndView mav = new ModelAndView();
+		
+		ComVO cvo = mainSrv.getCompanyInfo();
+
+		mav.addObject("com", cvo);
+		mav.addObject("list", mainSrv.getAuthTen());
+		
+		mav.setViewName("main/SFA_admin");
+		return mav;
+	}
+	
+	@RequestMapping("setCompanyInfo")
+	public String setCompany(ComVO cvo) {
+		mainSrv.setCompanyInfo(cvo);	
+		
+		return "redirect:/SFA_admin";
+	}
+	
+	@RequestMapping("/upBoard")
+	public String upBoard(BoardVO bvo) {
+		mainSrv.upBoard(bvo);
+
+		return "redirect:/SFA_admin";
+	}
+	
+	@RequestMapping("/boardPopup")
+	public ModelAndView boardPopup(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "ntgrpnm") String searchOpt, @RequestParam(defaultValue = "") String words) {
+		ModelAndView mav = new ModelAndView();
+		
+		int count = bSrv.getCount(searchOpt, words);
+		Pager pager = new Pager(count, curPage);
+
+		int start = pager.getPageBegin();
+		int end = pager.getPageEnd();
+
+		List<BoardVO> list = bSrv.getBoard(start, end, searchOpt, words);
+		
+		mav.addObject("boardlist", list);
+		mav.addObject("count", count);
+		mav.addObject("searchOpt", searchOpt);
+		mav.addObject("words", words);
+
+		mav.addObject("start", start);
+		mav.addObject("end", end);
+
+		mav.addObject("blockBegin", pager.getBlockBegin());
+		mav.addObject("blockEnd", pager.getBlockEnd());
+		mav.addObject("curBlock", pager.getCurBlock());
+		mav.addObject("totalBlock", pager.getTotBlock());
+
+		mav.addObject("prevPage", pager.getPrevPage());
+		mav.addObject("nextPage", pager.getNextPage());
+		mav.addObject("curPage", pager.getCurPage());
+		mav.addObject("totalPage", pager.getTotPage());
+
+		mav.addObject("selected", pager.getCurPage());
+		
+		mav.setViewName("popup/boardpopup");
+		
+		return mav;
 	}
 
-	// ±ÙÅÂ
 
 	@RequestMapping(value = "setCommute", method = RequestMethod.POST)
 	public String setCommute(@ModelAttribute CommuteManageVO commutevo) {		
@@ -41,9 +145,9 @@ public class MainCtr {
 		
 		String dlnum = date + empid;
 		
-		commutevo.setDlnum(dlnum); // ±ÙÅÂ¹øÈ£
-		commutevo.setDlgubun(commutevo.getDlnm()); // ±ÙÅÂ±¸ºÐ
-		commutevo.setDldate(commutevo.getRegdate().substring(0, 10)); // ±ÙÅÂÀÏÀÚ
+		commutevo.setDlnum(dlnum); // ï¿½ï¿½ï¿½Â¹ï¿½È£
+		commutevo.setDlgubun(commutevo.getDlnm()); // ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½
+		commutevo.setDldate(commutevo.getRegdate().substring(0, 10)); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 		mainSrv.setCommute(commutevo);		
 		mainSrv.setCommuteInfo(commutevo);		
@@ -91,39 +195,38 @@ public class MainCtr {
 		
 		
 		
-		int count = mainSrv.commuteCnt(commutevo); // ±ÙÅÂ±âº»Å×ÀÌºí Ã¼Å©
-		int seqCnt = mainSrv.seqCnt(commutevo); // ±ÙÅÂ»ó¼¼Å×ÀÌºí Ã¼Å©
+		int count = mainSrv.commuteCnt(commutevo); // ï¿½ï¿½ï¿½Â±âº»ï¿½ï¿½ï¿½Ìºï¿½ Ã¼Å©
+		int seqCnt = mainSrv.seqCnt(commutevo); // ï¿½ï¿½ï¿½Â»ï¿½ï¿½ï¿½ï¿½Ìºï¿½ Ã¼Å©
 		
 		commutevo.setSeq(commutevo.getSeq());
 		
-		//¿¹¿ÜÃ³¸®
+		//ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½
 		if (count == 0) {			
 			String date = commutevo.getRegdate().substring(2, 4) + commutevo.getRegdate().substring(5, 7) + commutevo.getRegdate().substring(8, 10);
 			String empid = commutevo.getEmpid().substring(4, 10);			
 			String dlnum = date + empid;
 			
-			commutevo.setDlnum(dlnum); // ±ÙÅÂ¹øÈ£
-			commutevo.setDlgubun(commutevo.getDlnm()); // ±ÙÅÂ±¸ºÐ
-			commutevo.setDldate(commutevo.getRegdate().substring(0, 10)); // ±ÙÅÂÀÏÀÚ
+			commutevo.setDlnum(dlnum); // ï¿½ï¿½ï¿½Â¹ï¿½È£
+			commutevo.setDlgubun(commutevo.getDlnm()); // ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½
+			commutevo.setDldate(commutevo.getRegdate().substring(0, 10)); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			
 			mainSrv.setCommute(commutevo);
 			mainSrv.setCommuteInfo(commutevo);
 			mainSrv.getStrTime(commutevo);		
 			
 		}else if(seqCnt == 1){
-			mainSrv.dlGubunUp(commutevo); // ±ÙÅÂ±âº»Å×ÀÌºí ±ÙÅÂÀ¯Çü ¾÷µ¥ÀÌÆ®
-			mainSrv.getEndTime(commutevo); // ±ÙÅÂ»ó¼¼Å×ÀÌºí ±âÁ¸ ±ÙÅÂÀ¯Çü Á¾·á½Ã°£ ¾÷µ¥ÀÌÆ®			
+			mainSrv.dlGubunUp(commutevo); // ï¿½ï¿½ï¿½Â±âº»ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+			mainSrv.getEndTime(commutevo); // ï¿½ï¿½ï¿½Â»ï¿½ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®			
 			mainSrv.getTotTime(commutevo);
 			
-			mainSrv.setCommuteInfo(commutevo); // ±ÙÅÂ»ó¼¼Å×ÀÌºí »õ·Î¿î ±ÙÅÂÀ¯Çü »ðÀÔ
+			mainSrv.setCommuteInfo(commutevo); // ï¿½ï¿½ï¿½Â»ï¿½ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			
 			commutevo.setSeq(commutevo.getSeq());
-			mainSrv.getStrTime(commutevo); // ±ÙÅÂ»ó¼¼Å×ÀÌºí »õ·Î¿î ±ÙÅÂÀ¯Çü ½Ã°£ ¾÷µ¥ÀÌÆ®
+			mainSrv.getStrTime(commutevo); // ï¿½ï¿½ï¿½Â»ï¿½ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 			
 		}
 
 		return "redirect:/SFA_main";
 	}
-	
 
 }

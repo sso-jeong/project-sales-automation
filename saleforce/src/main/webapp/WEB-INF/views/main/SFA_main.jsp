@@ -22,6 +22,20 @@
 	width: 65px;
 	height: 30px;
 }
+
+.sale-table tr:first-child {
+	background-color: rgba(219, 228, 232, 0.8);
+}
+
+.fc-view {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.fc-toolbar h2 {
+	font-size: 1.5em;
+}
+
 <%@ include file="/WEB-INF/views/include/modal.jsp"%>
 </style>
 </head>
@@ -31,117 +45,98 @@
 		<div class="main-wrap1  flex flex-justify">
 			<div class="main-notice-wrap">
 				<div class="notice m-lr10 flex flex-justify">
-					<h3 class="font16 noto m-t10 m-b5">공지사항 알림글</h3>
+					<h3 class="font16 noto m-t10 m-b5">전체 게시판</h3>
 					<span class="m-t10 m-b5"> <a href="${pageContext.request.contextPath}/SFA_notice_list?boardCode=any" title="공지사항으로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
 					</span>
 				</div>
 				<div class="tbl-wrap m-b10 m-lr10">
-					<div class="notice-content flex flex-justify p-tb10" style="border-bottom: 1px solid #e7e7e7;">
-						<div class="notice-left">
-							<p class="noto weight700 font14">
-								<a href="SFA_notice_view.html" target="_blank"> <span style="color: #d92550; margin-right: 10px;">[공지]</span> 안녕하세요. SFA에서 공지를 알려드립니다.
-								</a>
-							</p>
-						</div>
-						<div class="notice-right">
-							<span class="noto font14" style="color: #555;">09.10</span>
-						</div>
-					</div>
-					<div class="notice-content flex flex-justify p-tb10" style="border-bottom: 1px solid #e7e7e7;">
-						<div class="notice-left">
-							<p class="noto weight700 font14">
-								<a href="SFA_notice_view.html" target="_blank"> <span style="color: #d92550; margin-right: 10px;">[공지]</span> 게시물 등록 테스트입니다.
-								</a>
-							</p>
-						</div>
-						<div class="notice-right">
-							<span class="noto font14" style="color: #555;">09.10</span>
-						</div>
-					</div>
-					<div class="notice-content flex flex-justify p-tb10" style="border-bottom: 1px solid #e7e7e7;">
-						<div class="notice-left">
-							<p class="noto weight700 font14">
-								<a href="SFA_notice_view.html" target="_blank"> <span style="color: #d92550; margin-right: 10px;">[공지]</span> 게시물 등록 테스트입니다. 공지가 잘 들어갔는지 테스트 중입니다.
-								</a>
-							</p>
-						</div>
-						<div class="notice-right">
-							<span class="noto font14" style="color: #555;">09.10</span>
-						</div>
-					</div>
-					<div class="notice-content flex flex-justify p-tb10" style="border-bottom: 1px solid #e7e7e7;">
-						<div class="notice-left">
-							<p class="noto weight700 font14">
-								<a href="SFA_notice_view.html" target="_blank"> <span style="color: #d92550; margin-right: 10px;">[공지]</span> 게시물 등록 테스트 중입니다. 작성자는 관리자입니다.
-								</a>
-							</p>
-						</div>
-						<div class="notice-right">
-							<span class="noto font14" style="color: #555;">09.10</span>
-						</div>
-					</div>
-					<div class="notice-content flex flex-justify p-tb10" style="border-bottom: 1px solid #e7e7e7;">
-						<div class="notice-left">
-							<p class="noto weight700 font14">
-								<a href="SFA_notice_view.html" target="_blank"> <span style="color: #d92550; margin-right: 10px;">[공지]</span> 안녕하세요. SFA에서 공지를 알려드립니다.
-								</a>
-							</p>
-						</div>
-						<div class="notice-right">
-							<span class="noto font14" style="color: #555;">09.10</span>
-						</div>
-					</div>
-
+					<table class="list center" style="table-layout: fixed;">
+						<c:if test="${anycnt == 0}">
+							<tr>
+								<td class="weight700 center font14 td-main" colspan="3">등록된 게시판이 없습니다.</td>
+							</tr>
+						</c:if>
+						<c:forEach items="${anylist}" var="any" varStatus="status">
+							
+							<c:if test="${any.division == 'Y'}">
+								<tr class="center font14 noto weight700 font14">
+								<td style="color: #d92550" class="td-10 center td-main">[공지]</td>
+							</c:if>
+							<c:if test="${any.division == 'N'}">
+								<tr class="center font14 noto font14">
+								<td class="td-10 center td-main">[일반]</td>
+							</c:if>
+								<td class="left p-lr5 td-main"><a href="${pageContext.request.contextPath}/SFA_notice_view?boardCode=any&aid=${any.aid}">${any.subject}</a></td>
+								<td class="td-10 center p-lr5 td-main">${any.regdate}</td> 
+							</tr>
+						</c:forEach>
+					</table>						
 				</div>
 			</div>
-			<div class="file-wrap">
-				<div class="file m-lr10 flex flex-justify">
-					<h3 class="noto font16 m-t10 m-b5">결재 대기 문서</h3>
-					<span class="m-t10 m-b5"> <a href="SFA_approval_ready.html" title="결재 대기 문서로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
+			<div class="main-notice-wrap">
+				<div class="notice m-lr10 flex flex-justify">
+					<h3 class="font16 noto m-t10 m-b5">${sessionScope.boardTitle}</h3>
+					<span class="m-t10 m-b5"> <a href="${pageContext.request.contextPath}/SFA_notice_list?boardCode=${sessionScope.boardCode}" title="공지사항으로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
 					</span>
 				</div>
-
-				<div class="app-content m-t10 m-lr10">
-					<div style="border-bottom: 1px solid #e7e7e7; padding-bottom: 10px;" class="app-list flex flex-justify noto weight700 font14">
-						<div class="app-date center" style="width: 15%;">기안일</div>
-						<div class="app-form center" style="width: 15%;">결재양식</div>
-						<div class="app-subject center" style="width: 50%;">결재문서제목</div>
-						<div class="app-file center" style="width: 20%;">첨부</div>
-					</div>
-					<div class="p-t10">
-						<div style="border-bottom: 1px solid #e7e7e7;" class="app-list flex flex-justify noto font14 p-tb10">
-							<div class="app-date center" style="width: 15%;">2020.09.16</div>
-							<div class="app-form center" style="width: 15%;">업무일지</div>
-							<div class="app-subject left p-lr5" style="width: 50%;">0916 업무일지입니다.</div>
-							<div class="app-file center" style="width: 20%;">0916_업무일지.pdf</div>
+				<div class="tbl-wrap m-b10 m-lr10">
+					<table class="list center" style="table-layout: fixed;">
+						<c:if test="${sessionScope.boardCode == 'sale'}">
+							<c:if test="${salecnt == 0}">
+								<tr>
+									<td class="weight700 center font14 td-main" colspan="3">등록된 게시판이 없습니다.</td>
+								</tr>
+							</c:if>
+							<c:forEach items="${salelist}" var="sale" varStatus="status">
+								
+								<c:if test="${sale.division == 'Y'}">
+									<tr class="center font14 noto weight700 font14">
+									<td style="color: #d92550" class="td-10 center td-main">[공지]</td>
+								</c:if>
+								<c:if test="${sale.division == 'N'}">
+									<tr class="center font14 noto font14">
+									<td class="td-10 center td-main">[일반]</td>
+								</c:if>
+									<td class="left p-lr5 td-main"><a href="${pageContext.request.contextPath}/SFA_notice_view?boardCode=sale&aid=${sale.aid}">${sale.subject}</a></td>
+									<td class="td-10 center p-lr5 td-main">${sale.regdate}</td> 
+									</tr>
+							</c:forEach>
+						</c:if>
+						<c:if test="${sessionScope.boardCode == 'human'}">
+							<c:if test="${humancnt == 0}">
+								<tr>
+									<td class="weight700 center font14 td-main" colspan="3">등록된 게시판이 없습니다.</td>
+								</tr>
+							</c:if>
+							<c:forEach items="${humanlist}" var="human" varStatus="status">
+								
+								<c:if test="${human.division == 'Y'}">
+									<tr class="center font14 noto weight700 font14">
+									<td style="color: #d92550" class="td-10 center td-main">[공지]</td>
+								</c:if>
+								<c:if test="${human.division == 'N'}">
+									<tr class="center font14 noto font14">
+									<td class="td-10 center td-main">[일반]</td>
+								</c:if>
+									<td class="left p-lr5 td-main"><a href="${pageContext.request.contextPath}/SFA_notice_view?boardCode=human&aid=${human.aid}">${human.subject}</a></td>
+									<td class="td-10 center p-lr5 td-main">${human.regdate}</td> 
+									</tr>
+							</c:forEach>
+						</c:if>
+					</table>	
+					<!-- <div class="notice-content flex flex-justify p-tb10" style="border-bottom: 1px solid #e7e7e7;">
+						<div class="notice-left">
+							<p class="noto weight700 font14">
+								<a href="SFA_notice_view.html" target="_blank"> <span style="color: #d92550; margin-right: 10px;">[공지]</span> 안녕하세요. SFA에서 공지를 알려드립니다.
+								</a>
+							</p>
 						</div>
-					</div>
-					<div class="p-t10">
-						<div style="border-bottom: 1px solid #e7e7e7;" class="app-list flex flex-justify noto font14 p-tb10">
-							<div class="app-date center" style="width: 15%;">2020.09.16</div>
-							<div class="app-form center" style="width: 15%;">업무일지</div>
-							<div class="app-subject left p-lr5" style="width: 50%;">0916 업무일지입니다.</div>
-							<div class="app-file center" style="width: 20%;">0916_업무일지.pdf</div>
+						<div class="notice-right">
+							<span class="noto font14" style="color: #555;">09.10</span>
 						</div>
-					</div>
-					<div class="p-t10">
-						<div style="border-bottom: 1px solid #e7e7e7;" class="app-list flex flex-justify noto font14 p-tb10">
-							<div class="app-date center" style="width: 15%;">2020.09.16</div>
-							<div class="app-form center" style="width: 15%;">업무일지</div>
-							<div class="app-subject left p-lr5" style="width: 50%;">0916 업무일지입니다.</div>
-							<div class="app-file center" style="width: 20%;">0916_업무일지.pdf</div>
-						</div>
-					</div>
-					<div class="p-t10">
-						<div style="border-bottom: 1px solid #e7e7e7;" class="app-list flex flex-justify noto font14 p-tb10">
-							<div class="app-date center" style="width: 15%;">2020.09.15</div>
-							<div class="app-form center" style="width: 15%;">수주처리</div>
-							<div class="app-subject  left p-lr5" style="width: 50%;">0915 신진금속 수주 건입니다.</div>
-							<div class="app-file center" style="width: 20%;">0915_신진금속.pdf</div>
-						</div>
-					</div>
+					</div> -->
 				</div>
-			</div>
+			</div>			
 			
 				<div class="tna-wrap">
 					<div class="tna m-lr10">
@@ -185,94 +180,106 @@
 		<div class="main-wrap2  flex flex-justify">
 			<div class="calendar-wrap" style="width: 39.2%;">
 				<div class="calendar m-lr10 flex flex-justify">
-					<h3 class="noto font16 m-t10 m-b5">결재 대기문서</h3>
+					<h3 class="noto font16 m-t10 m-b5">이번주 일정조회</h3>
 					<span class="m-t10 m-b5"> <a href="${pageContext.request.contextPath}/SFA_schedule" title="일정관리로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
 					</span>
 				</div>
+				<div class="calendar-bottom m-tb5 m-lr10">
+                    <div class="page-content">
+                        <div id="calendar" class="calendar"></div>
 
-				<div class="cal-wrap m-b10 m-lr10">
-					<div class="main">
-						<div class="content-wrap">
-							<div class="content-left">
-								<div class="main-wrap">
-									<div id="main-day" class="main-day"></div>
-									<div id="main-date" class="main-date"></div>
-								</div>
-								<div class="todo-wrap">
-									<div class="todo-title noto">일정리스트</div>
-									<div class="input-wrap">
-										<input type="text" placeholder="일정을 입력해주세요." id="input-box" class="input-box">
-										<button type="button" id="input-data" class="input-data noto">추가</button>
-										<div id="input-list" class="input-list"></div>
-									</div>
-								</div>
-							</div>
-							<div class="content-right">
-								<table id="calendar" class="center">
-									<thead>
-										<tr class="btn-wrap clearfix">
-											<td><label id="prev" style="cursor: pointer;"> &#60; </label></td>
-											<td class="center" id="current-year-month" colspan="5"></td>
-											<td><label id="next" style="cursor: pointer;"> &#62; </label></td>
-										</tr>
-										<tr>
-											<td class="center sun noto">일</td>
-											<td class="center noto">월</td>
-											<td class="center noto">화</td>
-											<td class="center noto">수</td>
-											<td class="center noto">목</td>
-											<td class="center noto">금</td>
-											<td class="center noto sat">토</td>
-										</tr>
-									</thead>
-									<tbody id="calendar-body" class="calendar-body noto" style="cursor: pointer;">
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
+                    </div>
+                </div>
 			</div>
 
 			<div class="sale-wrap" style="width: 60%; margin-top: 15px;">
-				<div class="sale m-lr10 flex flex-justify">
-					<h3 class="font16 noto m-t10 m-b5">수주목록</h3>
-					<span class="m-t5 m-b5"> <a href="${pageContext.request.contextPath}/SFA_order_manage" title="수주관리로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
-					</span>
-				</div>
-
-				<div class="tbl-wrap m-b10 m-lr10">
-					<table id="sale" class="table center" style="table-layout: fixed;">
+				<c:if test="${sessionScope.boardCode == 'sale'}">
+					<div class="sale m-lr10 flex flex-justify">
+						<h3 class="font16 noto m-t10 m-b5">수주목록</h3>
+						<span class="m-t5 m-b5"> <a href="${pageContext.request.contextPath}/SFA_order_manage" title="수주관리로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
+						</span>
+					</div>
+					<div class="tbl-wrap m-b10 m-lr10">
+					<table id="sale" class="sale-table center" style="table-layout: fixed;">
 						<tr class="weight700 center font14">
-							<td class="td-5">순번</td>
-							<td class="td-5">수주번호</td>
-							<td class="td-7">수주일자</td>
+							<td class="td-10">수주번호</td>
+							<td class="td-10">수주일자</td>
 							<td class="td-13">거래처명</td>
-							<td class="td-7">품목코드</td>
+							<td class="td-10">품목코드</td>
 							<td>품목명</td>
-							<td class="td-5">품목구분</td>
-							<td class="td-7">담당자명</td>
+							<td class="td-10">담당자명</td>
 							<td class="td-5">수량</td>
-							<td class="td-7">단가</td>
-							<td class="td-7">공급가액</td>
-							<td class="td-7">부가세</td>
-							<td class="td-5">비고</td>
+							<td class="td-10">공급가액</td>
 						</tr>
-						
-						
+						<c:if test="${orderlist eq null}">
+								<tr>
+									<td class="weight700 center font14 td-main" colspan="8">등록된 수주목록이 없습니다.</td>
+								</tr>
+						</c:if>
+						<c:forEach items="${orderlist}" var="order" varStatus="status">
+							<tr class="center font14">
+								<td class="td-5">${order.ordnum}</td>
+								<td class="td-7">${order.orddt}</td>
+								<td class="td-13 left p-lr5">${order.comnm}</td>
+								<td class="td-7">${order.itemcd}</td>
+								<td class="left p-lr5">${order.itemnm}</td>
+								<td class="td-7">${order.ordperson}</td>
+								<td class="td-5 right p-lr5"><fmt:formatNumber value="${order.qty}" pattern="#,###"/></td>
+								<td class="td-7 right p-lr5"><fmt:formatNumber value="${order.price}" pattern="#,###"/></td>
+							</tr>			
+						</c:forEach>							
 					</table>
-				</div>
+					</div>
+				</c:if>
+				<c:if test="${sessionScope.boardCode == 'human'}">
+					<div class="sale m-lr10 flex flex-justify">
+						<h3 class="font16 noto m-t10 m-b5">근태목록</h3>
+						<span class="m-t5 m-b5"> <a href="${pageContext.request.contextPath}/SFA_commute_manage" title="근태관리로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
+						</span>
+					</div>
+					<div class="tbl-wrap m-b10 m-t15 m-lr10">
+					<table id="sale" class="sale-table center" style="table-layout: fixed;">
+						<tr class="weight700 center font14">
+							<td>부서명</td>
+							<td>사원명</td>
+							<td>근태일자</td>
+							<td>출근시간</td>
+							<td>퇴근시간</td>
+							<td>총근무시간</td>
+						</tr>
+						<c:if test="${orderlist eq null}">
+								<tr>
+									<td class="weight700 center font14 td-main" colspan="6">등록된 근태기록이 없습니다.</td>
+								</tr>
+						</c:if>
+						<c:forEach items="${commutelist}" var="commute" varStatus="status">
+							<tr class="center font14">
+								<td class="td-5">${commute.buseoname}</td>
+								<td class="td-7">${commute.empnm}</td>
+								<td class="td-13 p-lr5">${commute.dldate}</td>
+								<td class="td-7">${commute.ontime}</td>
+								<td class="p-lr5">${commute.offtime}</td>
+								<td class="td-7">${commute.tottime}</td>
+							</tr>			
+						</c:forEach>							
+					</table>
+					</div>
+				</c:if>			
 			</div>
 		</div>
 	</div>
 </main>
 
 </body>
-<script src="${pageContext.request.contextPath}/js/main_cal.js"></script>
+<script src="${pageContext.request.contextPath}/calendar/core/main.js"></script>
+<script src="${pageContext.request.contextPath}/calendar/core/locales/ko.js"></script>
+<script src="${pageContext.request.contextPath}/calendar/interaction/main.js"></script>
+<script src="${pageContext.request.contextPath}/calendar/daygrid/main.js"></script>
 <script>
 	var pre; 
 	$(function(){				
 		tna();
+		getSchedule();
 		var empid = ${sessionScope.empid};
 		//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ근태관리ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ//			
 		commuLoadMain(empid);
@@ -454,13 +461,13 @@
 		var currentDate = new Date(); // 현재시간
 		var calendar = currentDate.getFullYear() + "-"
 				+ (currentDate.getMonth() + 1) + "-" + currentDate.getDate() // 현재 날짜
-		var amPm = 'AM '; // 초기값 AM
+		var amPm = '오전 '; // 초기값 AM
 		var currentHours = addZeros(currentDate.getHours(), 2);
 		var currentMinute = addZeros(currentDate.getMinutes(), 2);
 		var currentSeconds = addZeros(currentDate.getSeconds(), 2);
 		
 		if (currentHours >= 12) { // 시간이 12보다 클 때 PM으로 세팅, 12를 빼줌
-			amPm = 'PM ';
+			amPm = '오후 ';
 			currentHours = addZeros(currentHours - 12, 2);
 		}
 
@@ -486,6 +493,53 @@
 			}
 		}
 		return zero + num;
+	}
+
+	function getSchedule() {
+		$.ajax({
+			url : "${pageContext.request.contextPath}/schedule_list",
+			type : "POST",
+			data : { empid : $("#empid").val()},
+			success : function(resData){
+				for(var i = 0; i < resData.length; i++) {
+					resData[i].start 	= resData[i].startDate;
+					resData[i].end 		= resData[i].endDate;
+					resData[i].title	= resData[i].calContent;
+					resData[i].id	 	= resData[i].cal_id;
+				}
+				getCalendar(resData);
+			},
+			error : function(request, status, error) {
+				alert("code:" + request.status + "\n" + "message:"
+						+ request.responseText + "\n" + "error:" + error);
+			}
+		});
+	}
+
+	function getCalendar(resData){
+		var calendarEl = document.getElementById('calendar');
+
+	    var calendar = new FullCalendar.Calendar(calendarEl, {
+	        plugins: ['interaction', 'dayGrid'],
+	        header: {
+	            left: 'prev,next, today',
+	            center: 'title',
+	            right: 'dayGridWeek,dayGridDay'
+	        },
+	        navLinks: true,
+	        editable: true,
+	        eventLimit: true,
+	        locales: "ko",
+	        // 달력높이 조절
+	        contentHeight: 445,
+	        events: resData,
+	        defaultView: 'dayGridWeek',
+	        eventClick: function() {
+		        window.location.href="${pageContext.request.contextPath}/SFA_schedule";
+	        }
+	    });
+
+	    calendar.render();
 	}
 </script>
 </html>

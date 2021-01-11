@@ -20,6 +20,7 @@
 	<resources location="/WEB-INF/ckeditor/, classpath=/WEB-INF/ckeditor/" mapping="/ckeditor/**" />
 	<resources location="/WEB-INF/file/, classpath=/WEB-INF/file/" mapping="/file/**" />
 	<resources location="/WEB-INF/lib/, classpath=/WEB-INF/lib/" mapping="/lib/**" />
+	<resources location="/img/" mapping="/img/*" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -31,7 +32,7 @@
 	
 	<!-- 업로드 패스 설정 -->
 	<beans:bean class="java.lang.String" id="uploadPath">
-		<beans:constructor-arg value="C:\\upload" />
+		<beans:constructor-arg value="C:\\upload" /> 
 	</beans:bean>
 
 	<beans:bean

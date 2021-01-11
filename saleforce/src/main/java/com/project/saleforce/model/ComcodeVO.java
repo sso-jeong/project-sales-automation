@@ -25,7 +25,24 @@ public class ComcodeVO {
 	private String birttypecd, birttypenm;
 	private String ntgrpcd, ntgrpnm;
 	private String authcd, authnm;
+	private String allowcd, allownm;
 	
+	public String getAllowcd() {
+		return allowcd;
+	}
+
+	public void setAllowcd(String allowcd) {
+		this.allowcd = allowcd;
+	}
+
+	public String getAllownm() {
+		return allownm;
+	}
+
+	public void setAllownm(String allownm) {
+		this.allownm = allownm;
+	}
+
 	public String getNtgrpcd() {
 		return ntgrpcd;
 	}

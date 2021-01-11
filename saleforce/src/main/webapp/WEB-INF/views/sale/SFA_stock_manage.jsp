@@ -66,17 +66,17 @@
 									<td class="td-13 p-lr3"><input type="text" name="itemnm" id="itemnm" class="input-100" disabled readonly required></td>
 
 									<td class="td-7 under center bg-green weight700">입고일자</td>
-									<td class="td-13 p-lr3"><input type="date" name="indt" id="indt" class="input-100 indt" disabled tabindex="2" ></td>
+									<td class="td-13 p-lr3"><input type="date" name="indt" id="indt" class="input-100 indt" disabled tabindex="2" required></td>
 
 									<td class="td-7 under center bg-green weight700">출고일자</td>
-									<td class="td-13 p-lr3"><input type="date" name="outdt" id="outdt" class="input-100 outdt" disabled tabindex="3"></td>
+									<td class="td-13 p-lr3"><input type="date" name="outdt" id="outdt" class="input-100 outdt" disabled tabindex="3" required></td>
 
 								</tr>
 
 								<tr style="height: 50px;">
 									<td class="td-7 under center bg-green weight700">유형</td>
 									<td class="td-13 p-lr3">
-									<select onFocus='this.initialSelect = this.selectedIndex;' onChange='this.selectedIndex = this.initialSelect;' name="type" id="stktypenm" class="sel-100 type" tabindex="1" onchange="change()" disabled required autofocus>
+									<select name="type" id="stktypenm" class="sel-100 type" tabindex="1" onchange="change()" disabled required autofocus>
 										<option value=""></option>
 									</select>
 									</td>
@@ -103,14 +103,13 @@
 
 					<div class="flex flex-justify">
 						<div class="photo-btn center m-t5">
-                                <input type="file" style="width: 150px;" class="file" id="file" />
-                            	<button type="button" class="btn-on picsave" id="picsave">저장</button>
-                            </div>
+                                
+                        </div>
 						<div>
-							<button type="button" class="btn-on center m-t5 stock">추가등록</button>
+							<button type="button" class="btn-on center m-t5 stock">재고입력</button>						
 							<button type="submit" class="btn-on center m-t5 sinsert" style="display: none;">재고등록</button>
 							<button type="button" class="btn-on center m-t5 up2" id="up2" style="display: none;">수정</button>
-							<button type="button" class="btn-on center m-t5 del" id="del" style="display: none;">삭제</button>
+							<!-- <button type="button" class="btn-on center m-t5 del2" id="del2">품목삭제</button> -->
 							
 
 
@@ -153,7 +152,7 @@
 								</tr>
 							<c:if test="${(count == 0) or (count eq null)}">
 								<tr>
-									<td class="weight700 center font14 " colspan="7">등록된 품목건이 없습니다.</td>
+									<td class="weight700 center font14 " colspan="6">등록된 품목건이 없습니다.</td>
 								</tr>
 							</c:if>
 							
@@ -265,10 +264,17 @@
 			var tr = $(this);
 			var td = tr.children();
 			var itemcd = td.eq(1).text();
-			if (itemcd != '품목코드' && itemcd != "")
+			if (itemcd != '품목코드' && itemcd != ""){
 				getOneStock(itemcd);
+				disable();
+			}
+			$('.sinsert').css('display','none');
+			$(".stock").css('display', 'inline-block');	
+			$('.up2').css('display','none');
+			$('#stktypenm').val("");				
 		});
 
+		//재고입력 버튼
 		$(".stock").click(function() {
 			able();
 			$(".sinsert").css('display','inline-block');
@@ -276,45 +282,46 @@
 			$(".stock").css('display', 'none');		
 		});
 
+		//재고등록 버튼
 		$(".sinsert").click(function() {
 			$(".sinsert").css('display','none');
 			$(".stock").css('display', 'inline-block');		
 		});
 
+		//수정 버튼
 		$("#up2").click(function() {
-			updateStock(item, seq);
+			updateStock();
 			$("stock").css('display', 'inline-block');
 			$("#up2").css('display','none');
 			$("#seq").attr('disabled','true');
 		});
 
-		$("#del").click(function() {		
-			var msg = "해당 재고건을 삭제하시겠습니까?"
-
-				if (confirm(msg)) {
-					var formData = {
-						itemcd : $('#itemcd').val(),
-						seq : $('#seq').val()
-					};
-
-					$.ajax({
-						url : "${pageContext.request.contextPath}/stockDelete",
-						type : "POST",
-						data : formData,
-						success : function(data) {
-							if (data == "success") {
-								window.location.reload();
-							} else
-								alert("삭제 오류!!!\n관리자에게 문의 하세요")
-						},
-						error : function(request) {
-							alert("message:" + request.responseText);
-						}
-					});
-				}
-				
-			$("#del").attr('disabled','true');
-		});
+		/* //품목삭제
+		$('#del2').click(function() {
+			var msg = $("#itemnm").val() + "의 재고정보와 품목정보를 함께 삭제 하시겠습니까?\n개별 재고 정보는 팝업창을 통해 삭제 하시기 바랍니다.";
+			
+			if(confirm(msg)) {
+				$.ajax({
+	                url: "${pageContext.request.contextPath}/stockDelete",
+	                type: "POST",
+	                data: {itemcd : $('#itemcd').val()}, 
+	                success: function (resData) {
+		                if(resData == "success"){
+		                	window.location.reload();
+			            }else alert("선택된 품목이 없습니다.");
+	                    
+	                },
+	                error: function (request) {
+	                	alert("message:"+request.responseText);
+	                },
+	                complete: function () {
+	                    
+	                }
+	            });
+			}
+			else return false;
+		}); */
+		
 	})
 	
 	function getOneStock(itemcd) {
@@ -335,7 +342,10 @@
 				$("#std").val(stock.std);
 				$("#qty").val(stock.qty);	
 				$("#stktypenm").val();
-				$("#remark").val();
+				$("#remark").val('');
+				if(stock.itemPhoto != null) {
+					$('#img').attr('src', "/img/"+stock.itemPhoto);
+				}
 			},
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:"
@@ -381,6 +391,17 @@
 		$("#std").removeAttr('disabled');
 		$("#qty").removeAttr('disabled');
 		$("#remark").removeAttr('disabled');
+	}
+
+	function disable() {
+		$("#itemcd").attr('disabled','true');
+		$("#itemnm").attr('disabled','true');
+		$("#indt").attr('disabled','true');
+		$("#outdt").attr('disabled','true');
+		$("#stktypenm").attr('disabled','true');
+		$("#std").attr('disabled','true');
+		$("#qty").attr('disabled','true');
+		$("#remark").attr('disabled','true');
 	}
 </script>
 

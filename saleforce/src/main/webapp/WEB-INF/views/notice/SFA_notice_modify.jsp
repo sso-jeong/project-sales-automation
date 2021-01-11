@@ -13,8 +13,8 @@
                 </div>
                 <div class="n-wrap board-insert m-b10 m-lr10">
                     <form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/SFA_notice_modify" enctype="multipart/form-data" autocomplete="off">
-                        <input type="text" name="aid" value="${modArticle.aid}" />
-						<input type="text" name="boardCode" value="${boardCode}" />
+                        <input type="hidden" name="aid" value="${modArticle.aid}" />
+						<input type="hidden" name="boardCode" value="${boardCode}" />
                         <table>
                             <tr>
                             	<td class="td-10 center weight700 noto under bg-green">게시글 제목</td>

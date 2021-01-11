@@ -41,7 +41,7 @@ $(function login() {
 					alert("로그인 권한이 없습니다.\n관리자에게 로그인 권한을 요청해주세요.");
 					window.location.reload();
 				} else {
-					alert("등록된 사용자가 아닙니다.");
+					alert("등록된 사용자가 아니거나 패스워드가 틀립니다.");
 					window.location.reload();
 				}
 			},
@@ -92,7 +92,7 @@ $(function login() {
 					
 				} else {
 					alert(data);
-					window.location.href = "/saleforce/login";
+					window.location.href = "/saleforce/loginpage";
 				}
 			},
 			error : function(request) {

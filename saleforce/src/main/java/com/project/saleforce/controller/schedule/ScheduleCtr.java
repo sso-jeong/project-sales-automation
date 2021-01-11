@@ -8,18 +8,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.project.saleforce.model.ScheduleVO;
+import com.project.saleforce.service.MainSrv;
 import com.project.saleforce.service.ScheduleSrv;
 
 @Controller
 public class ScheduleCtr {
 	@Autowired
 	ScheduleSrv sSrv;
+	
+	@Autowired
+	MainSrv mSrv;
 
 	@RequestMapping("SFA_schedule")
-	public String getSchedule() {
-		return "schedule/SFA_schedule";
+	public ModelAndView getSchedule() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("com", mSrv.getCompanyInfo());
+		mav.setViewName("schedule/SFA_schedule");
+		return mav;
 	}
 
 	@RequestMapping("/schedule_add")

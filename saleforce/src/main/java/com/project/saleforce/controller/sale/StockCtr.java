@@ -11,12 +11,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.project.saleforce.model.StockVO;
 import com.project.saleforce.paging.Pager;
+import com.project.saleforce.service.ItemSrv;
+import com.project.saleforce.service.MainSrv;
 import com.project.saleforce.service.StockSrv;
 
 @Controller
 public class StockCtr {
 	@Autowired
 	StockSrv sSrv;
+	
+	@Autowired
+	ItemSrv iSrv;
+	
+	@Autowired
+	MainSrv mSrv;
 
 	@RequestMapping("SFA_stock_manage")
 	public ModelAndView getStockList(@RequestParam(defaultValue = "1") int curPage,
@@ -29,6 +37,7 @@ public class StockCtr {
 		int end = pager.getPageEnd();
 
 		List<StockVO> list = sSrv.getStockList(start, end, searchOpt, words);
+		mav.addObject("com", mSrv.getCompanyInfo());
 		mav.addObject("stocklist", list);
 		mav.addObject("count", count);
 		mav.addObject("searchOpt", searchOpt);
@@ -62,17 +71,18 @@ public class StockCtr {
 	@RequestMapping("/stockpopup")
 	public ModelAndView stockpopup(@RequestParam(defaultValue = "1") int curPage,
 			@RequestParam(defaultValue = "d.indt") String searchOpt, @RequestParam(defaultValue = "") String words,
-			String itemcd) {
+			@RequestParam String itemcd) {
 		ModelAndView mav = new ModelAndView();
 		int count = sSrv.getStockDetailCount(searchOpt, words, itemcd);
 		Pager pager = new Pager(count, curPage);
 
 		int start = pager.getPageBegin();
 		int end = pager.getPageEnd();
-
+		
 		List<StockVO> list = sSrv.getStockDetail(start, end, searchOpt, words, itemcd);
 
 		mav.addObject("stockdetaillist", list);
+		mav.addObject("itemcd", itemcd);
 		mav.addObject("count", count);
 		mav.addObject("searchOpt", searchOpt);
 		mav.addObject("words", words);
@@ -92,7 +102,7 @@ public class StockCtr {
 
 		mav.addObject("selected", pager.getCurPage());
 
-		mav.setViewName("/popup/stockpopup");
+		mav.setViewName("/popup/stockpop");
 		return mav;
 	}	
 	
@@ -124,12 +134,31 @@ public class StockCtr {
 	
 	@RequestMapping("/stockDelete")
 	@ResponseBody
-	public String stockDelete(String itemcd, int seq) {
-
+	public String stockDelete(@RequestParam String itemcd) {
 		String msg = "";
-		if(itemcd != "") {
-			sSrv.deleteStockInfo(itemcd, seq);
+		
+		if(itemcd != null) {			
+			sSrv.deleteStock(itemcd);
+			iSrv.deleteItemInfo(itemcd);
+			
+			msg="success";				
+		}else msg="fail";
+		
+		return msg;
+	}
+	
+	@RequestMapping("/stockInfoDeleteAll")
+	@ResponseBody
+	public String stockInfoDeleteAll(@RequestParam(value = "chkArr[]") List<Integer> chkArr, @RequestParam String itemcd){		
+		String msg = "";
+		
+		if(chkArr != null) {
+			
+			for(int seq : chkArr ) { 
+				sSrv.deleteStockInfo(itemcd, seq);
+			}
 			msg="success";
+			
 		}else msg="fail";
 		
 		return msg;

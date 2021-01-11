@@ -72,7 +72,7 @@
 		                        <td>${(count - status.index) - ((curPage - 1) * end)}</td>		                 
 		                        <td>
 			                        <c:if test = "${articleList.division eq 'Y'}">
-			                        	<span class="notice">공지사항</span>
+			                        	<span style="color: #d92550" class="notice weight700">공지사항</span>
 			                        </c:if>
 			                        <c:if test = "${articleList.division eq 'N'}">
 			                        	<span class="normal">일반</span>
@@ -95,6 +95,10 @@
 												<c:when test="${ext eq 'jpg' || ext eq 'png' || ext eq 'gif'}">
 													<i class="far fa-file-image"></i>
 												</c:when>
+													
+												<c:otherwise>
+													<i class="fas fa-file"></i>
+												</c:otherwise>
 											</c:choose>
 										</c:if>
 									</c:forTokens>

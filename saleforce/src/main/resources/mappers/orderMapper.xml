@@ -20,25 +20,50 @@
 	
 	<select id="getOrderList" parameterType="hashmap" resultType="ordervo">
 		SELECT
-		ordnum,
-		orddt,
-		dlvdt,
+		o.ordnum,
+		o.orddt,
+		o.dlvdt,
 		i.itemcd as itemcd,
-		itemnm,
+		i.itemnm,
 		divnm,
 		c.comcd as comcd,
-		comnm,
-		projectnm,
-		ordperson,
-		qty,
+		c.comnm,
+		o.projectnm,
+		o.ordperson,
+		o.qty,
 		i.price as uprice,
 		o.price as price,
 		o.price / 10 as tax,
 		o.regdate as regdate,
 		o.remark as remark,
-		std
+		i.std
+		FROM order_tbl o, item_tbl i, company_tbl c, comcode d		
+		WHERE o.itemcd = i.itemcd AND o.comcd = c.comcd AND itemdiv = divcd
+		<include refid="search"></include>
+		ORDER BY ordnum DESC LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="getOrderPopList" parameterType="hashmap" resultType="ordervo">
+		SELECT
+		o.ordnum,
+		o.orddt,
+		o.dlvdt,
+		i.itemcd as itemcd,
+		i.itemnm,
+		divnm,
+		c.comcd as comcd,
+		c.comnm,
+		o.projectnm,
+		o.ordperson,
+		o.qty,
+		i.price as uprice,
+		o.price as price,
+		o.price / 10 as tax,
+		o.regdate as regdate,
+		o.remark as remark,
+		i.std
 		FROM order_tbl o, item_tbl i, company_tbl c, comcode d
-		WHERE o.itemcd = i.itemcd AND o.comcd = c.comcd AND itemdiv = divcd		
+		WHERE o.itemcd = i.itemcd AND o.comcd = c.comcd AND itemdiv = divcd AND saleyn = 'N'
 		<include refid="search"></include>
 		ORDER BY ordnum DESC LIMIT #{start}, #{end}
 	</select>
@@ -47,6 +72,13 @@
 		SELECT COUNT(ordnum)
 		FROM order_tbl o, item_tbl i, company_tbl c, comcode d
 		WHERE o.itemcd = i.itemcd AND o.comcd = c.comcd AND itemdiv = divcd
+		<include refid="search"></include>
+	</select>
+	
+	<select id="getOrderPopCount" resultType="int">
+		SELECT COUNT(ordnum)
+		FROM order_tbl o, item_tbl i, company_tbl c, comcode d
+		WHERE o.itemcd = i.itemcd AND o.comcd = c.comcd AND itemdiv = divcd AND saleyn = 'N'
 		<include refid="search"></include>
 	</select>
 	
@@ -66,24 +98,26 @@
 	
 	<select id="getOneOrder" parameterType="String" resultType="ordervo">
 		SELECT
-		ordnum,
-		orddt,
-		dlvdt,
+		o.ordnum,
+		o.orddt,
+		o.dlvdt,
 		i.itemcd as itemcd,
-		itemnm,
+		i.itemnm,
 		divnm,
 		c.comcd as comcd,
-		comnm,
-		projectnm,
-		ordperson,
-		qty,
+		c.comnm,
+		o.projectnm,
+		o.ordperson,
+		o.qty,
+		stk.janqty, 
 		i.std as std,
 		i.price as uprice,
 		o.price as price,
 		(o.price / 10) as tax,
 		o.remark as remark
-		FROM order_tbl o, item_tbl i, company_tbl c, comcode 
-		WHERE o.itemcd = i.itemcd AND o.comcd = c.comcd AND itemdiv = divcd AND ordnum= #{ordnum}
+		FROM order_tbl o, item_tbl i, company_tbl c, comcode,
+		(SELECT (sum(inqty) - sum(outqty)) as janqty, itemcd FROM stockInfo_tbl GROUP BY itemcd) stk
+		WHERE o.itemcd = i.itemcd AND o.comcd = c.comcd AND itemdiv = divcd AND o.itemcd = stk.itemcd AND ordnum= #{ordnum}
 	</select>
 	
 	<insert id="setOrder" parameterType="ordervo">

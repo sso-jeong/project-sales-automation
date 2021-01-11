@@ -54,14 +54,14 @@
 							<td class="td-5">종목</td>
 							<td class="td-10">전화/FAX</td>
 							<td>주소</td>
-							<td>홈페이지</td>
+							<td style="display: none;">홈페이지</td>
 							<td class="td-13">담당자/연락처</td>
-							<td class="td-10">비고</td>
+							<td class="td-10" style="display: none;">비고</td>
 						</tr>
 						
 						<c:if test="${count == 0}">
 							<tr>
-								<td class="weight700 center font14 " colspan="11">등록된 거래처가 없습니다.</td>
+								<td class="weight700 center font14 " colspan="9">등록된 거래처가 없습니다.</td>
 							</tr>
 						</c:if>
 						
@@ -75,9 +75,9 @@
 								<td class="td-7">${com.dttypenm}</td>
 								<td class="td-10">${com.tel}<c:if test="${com.fax ne ''}">/${com.fax}</c:if></td>
 								<td class="left p-lr5">${com.addr}</td>
-								<td class="left p-lr5">${com.homepg}</td>
+								<td class="left p-lr5" style="display: none;">${com.homepg}</td>
 								<td class="td-10">${com.customer}<c:if test="${com.custtel ne ''}">/${com.custtel}</c:if></td>
-								<td class="center p-lr5">${com.remark}</td>
+								<td class="center p-lr5" style="display: none;">${com.remark}</td>
 							</tr>		
 						</c:forEach>				
 

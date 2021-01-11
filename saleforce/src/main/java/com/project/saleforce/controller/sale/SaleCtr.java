@@ -19,6 +19,7 @@ import com.project.saleforce.model.StockVO;
 import com.project.saleforce.paging.Pager;
 import com.project.saleforce.service.CompanySrv;
 import com.project.saleforce.service.ItemSrv;
+import com.project.saleforce.service.MainSrv;
 import com.project.saleforce.service.OrderSrv;
 import com.project.saleforce.service.SaleSrv;
 
@@ -36,6 +37,9 @@ public class SaleCtr {
 	@Autowired
 	CompanySrv cSrv;
 	
+	@Autowired
+	MainSrv mSrv;
+	
 	@RequestMapping("SFA_sale_manage")
 	public ModelAndView getSaleList(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "salenum") String searchOpt, @RequestParam(defaultValue = "") String words) {
 		ModelAndView mav = new ModelAndView();
@@ -47,6 +51,7 @@ public class SaleCtr {
 		
 		List<SaleVO> list = sSrv.getSaleList(start, end, searchOpt, words);
 		
+		mav.addObject("com", mSrv.getCompanyInfo());
 		mav.addObject("salelist", list);
 		mav.addObject("count", count);
 		mav.addObject("searchOpt", searchOpt);
@@ -74,14 +79,14 @@ public class SaleCtr {
 	@RequestMapping(value = "/salePopup")
 	public ModelAndView getSPopup(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "ordnum") String searchOpt, @RequestParam(defaultValue = "") String words) {
 		ModelAndView mav = new ModelAndView();
-		int count = oSrv.getOrderCount(searchOpt, words);
+		int count = oSrv.getOrderPopCount(searchOpt, words);
 		
 		Pager pager = new Pager(count, curPage);
 		
 		int start = pager.getPageBegin();
 		int end = pager.getPageEnd();
 		
-		List<OrderVO> list = oSrv.getOrderList(start, end, searchOpt, words);
+		List<OrderVO> list = oSrv.getOrderPopList(start, end, searchOpt, words);
 		
 		mav.addObject("orderlist", list);
 		mav.addObject("count", count);
@@ -213,9 +218,11 @@ public class SaleCtr {
 		stvo.setOutdt(svo.getSaledt());
 		stvo.setOutqty(svo.getQty());
 		stvo.setInsert_person(name);
+		stvo.setOrdnum(svo.getOrdnum());
 		
-		sSrv.setStockInfo(stvo);
+		sSrv.updateYN(svo.getOrdnum());
 		
+		sSrv.setStockInfo(stvo);	
 		return "redirect:/SFA_sale_manage";
 	}
 	
@@ -226,6 +233,12 @@ public class SaleCtr {
 		
 		if(svo != null) {
 			sSrv.updateSaleInfo(svo);
+			StockVO stvo = new StockVO();
+			
+			stvo.setOrdnum(svo.getOrdnum());
+			stvo.setOutdt(svo.getSaledt());
+			stvo.setOutqty(svo.getQty());
+			sSrv.updateStock(stvo);
 			msg = "success";
 		}else msg = "fail";
 		
@@ -236,8 +249,11 @@ public class SaleCtr {
 	@ResponseBody
 	public String deleteSaleInfo(@RequestParam String salenum) {	
 		String msg = "";
-		
-		if(salenum != null) {
+		SaleVO svo = new SaleVO();
+		if(salenum != null) {		
+			svo = sSrv.getOneSale(salenum);
+			sSrv.deleteStock(svo.getOrdnum()); 	
+			
 			sSrv.deleteSaleInfo(salenum);
 			msg = "success";
 		}else msg = "fail";
@@ -250,9 +266,13 @@ public class SaleCtr {
 	public String saleDeleteAll(@RequestParam(value = "chkArr[]") List<String> chkArr){
 		
 		String msg = "";
+		SaleVO svo = new SaleVO();
 		if(chkArr != null) {
 			
-			for(String salenum : chkArr ) { 
+			for(String salenum : chkArr) { 			
+				svo = sSrv.getOneSale(salenum);
+				sSrv.deleteStock(svo.getOrdnum());
+				
 				sSrv.deleteSaleInfo(salenum);
 			}
 			msg="success";

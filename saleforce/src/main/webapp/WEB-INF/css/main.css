@@ -67,7 +67,7 @@ header {
 }
 
 .submenuLink {
-    background-color: rgba(219, 228, 232, 0.8);
+    background-color: rgba(219, 228, 232, 1);
     font-size: 14px;
 }
 
@@ -154,9 +154,16 @@ header {
     margin-top: 15px;
 }
 
-.tbl-wrap tr:first-child,
+/* .tbl-wrap tr:first-child,
 .tbl-wrap table tr:hover {
     background-color: rgba(219, 228, 232, 0.8);
+} */
+
+.td-main {
+	border-left: 1px solid transparent;
+	border-right: 1px solid transparent;
+	boder-top: 1px solid transparent;
+	border-bottom: 1px solid #e7e7e7;
 }
 
 /*******calendar********/

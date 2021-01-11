@@ -1,7 +1,4 @@
 // 영업관리
-순번 SQL
-SET @row_num = 0;
-SELECT @row_num := @row_num + 1 as seq FROM 테이블이름
 
 거래처 
 create table company_tbl(
@@ -33,7 +30,9 @@ create table item_tbl(
 	std varchar(50),			
 	remark varchar(300),		
 	seq int,				
-	insert_person varchar(10),		
+	insert_person varchar(10),
+	itemPhoto varchar(300),
+	photoName varchar(150),	
 	regdate datetime,			
 	primary key(itemcd) 
 );
@@ -78,19 +77,30 @@ create table sale_tbl(
 
 재고 테이블 
 create table stock_tbl (
-	stkcd varchar(12) not null,		
-	itemcd varchar(50) not null ,  		
-	indt char(10),			
-	outdt char(10),			
-	stktype char(2) not null,		
-	inqty int default 0 , 		
-	outqty int default 0,		
-	janqty int,				
-	remark varchar(300),		
-	insert_person varchar(10),		
-	regdate datetime,			
-	primary key(stkcd),
-	foreign key(itemcd) references item_tbl(itemcd)
+ itemcd varchar(20) not null,
+ itemnm varchar(20),
+ std varchar(50),
+ qty int,
+ itemPhoto varchar(300),
+ photoName varchar(100),
+ regdate datetime,
+ foreign key(itemcd) references item_tbl(itemcd),
+ primary key(itemcd)
+);
+
+create table stockInfo_tbl(
+ itemcd varchar(20) not null,
+ seq int not null,
+ type char(2) not null,
+ indt datetime,
+ outdt datetime,
+ inqty int default 0,
+ outqty int default 0,
+ remark varchar(100),
+ insert_person varchar(10),
+ regdate datetime,
+ foreign key(itemcd) references stock_tbl(itemcd),
+ primary key(itemcd, seq)
 );
 
 [ 판매출고 선택시 팝업창 띄워서 판매리스트중 하나를 골라와
@@ -99,36 +109,36 @@ create table stock_tbl (
 
 /////////////////////////////////////////////////////////////////////////인사/급여
 //사원
-create table EMP_TBL(
-	EMPID int not null,				
-	DEPTID int not null,			
-	DEPTNM varchar(5),			
-	GRADE char(8) not null,	
-	EMPAUTH CHAR(1) NOT NULL,			
-	EMPNM varchar(14) not null,			
-	EMPPWD varchar(14) not null,		
-	GENDER char(1),			
-	BIRTH char(10) not null,			
-	BIRTHTYPE char(1) not null,			
-	REGNUM varchar(14) not null,		
-	EMPADDR varchar(50) not null,		
-	EMPHP varchar(12) not null,			
-	EMPCP varchar(12) not null,			
-	EMAIL varchar(25) default(''),			
-	ACCOUNTNUM varchar(20),			
-	HOPE varchar(10),				
-	LICENCE varchar(20),			
-	HOBBY varchar(20),				
-	FORTE varchar(20),				
-	CHAGUBUN char(1),			
-	MILIGUBUN char(1),			
-	IMPEDIMENT char(1),			
-	PATRIOTISM char(1),			
-	RELIGION char(1),				
-	MARRYGUBUN char(1),			
-	LINGUISTIC varchar(20),				
-	REWARD	varchar(20),			
-	JOINDATE char(10),			
+create table emp_tbl(
+	empid int not null,				
+	deptid int not null,			
+	deptnm varchar(5),			
+	grade char(8) not null,	
+	empauth char(1) not null,			
+	empnm varchar(14) not null,			
+	emppwd varchar(14) not null,		
+	gender char(1),			
+	birth char(10) not null,			
+	birthtype char(1) not null,			
+	regnum varchar(14) not null,		
+	empaddr varchar(50) not null,		
+	emphp varchar(12) not null,			
+	empcp varchar(12) not null,			
+	email varchar(25) default(''),			
+	accountnum varchar(20),			
+	hope varchar(10),				
+	licence varchar(20),			
+	hobby varchar(20),				
+	forte varchar(20),				
+	chagubun char(1),			
+	miligubun char(1),			
+	impediment char(1),			
+	patriotism char(1),			
+	religion char(1),				
+	marrygubun char(1),			
+	linguistic varchar(20),				
+	reward	varchar(20),			
+	joindate char(10),		
 	seq int,				
 	insert_person varchar(10),		
 	regdate datetime,				
@@ -136,46 +146,110 @@ create table EMP_TBL(
 );
 
 // 근태
-CREATE TABLE DL_TAL (
-	DLNUM INT NOT NULL,				
-	EMPID INT NOT NULL,				
-	DLGUBUN CHAR(1) NOT NULL,			
-	DLDATE DATE NOT NULL,				
-	ONTIME TIME,					
-	OFFTIME TIME,					
-	EXTIME TIME DEFAULT('00:00'),			
-	TOTTIME TIME,	
-	seq int,				
+CREATE TABLE dl_tbl(
+	dlnum varchar(20) NOT NULL,				
+	empid varchar(10) NOT NULL,				
+	dlgubun CHAR(1) NOT NULL,			
+	dldate DATE NOT NULL,				
+	ontime TIME,					
+	offtime TIME,					
+	exttime TIME,			
+	tottime TIME,			
 	insert_person varchar(10),		
-	regdate datetime,						
-	REMARK VARCHAR(30),				
-	PRIMARY KEY(DLNUM),
-	FOREIGN KEY(EMPID), REFERENCES EMP_TAL(EMPID)
+	regdate datetime,			
+	PRIMARY KEY(dlnum),
+	FOREIGN KEY(empid) REFERENCES emp_tbl(empid)
+);
+
+CREATE TABLE dlInfo_tbl(
+	dlnum varchar(20) not null,
+	seq varchar(20) not null,
+	empid varchar(10) not null,
+	dlgubun char(1) not null,
+	dldate varchar(20),
+	strtime time,
+	endtime time,
+	tottime time,
+	remark varchar(30),
+	insert_person varchar(10),
+	regdate datetime,
+	primary key(dlunum, seq),
+	FOREIGN KEY(empid) REFERENCES emp_tbl(empid)	
 );
 
 급여
 CREATE TABLE HU_TBL(
-	HUNUM INT NOT NULL,				
-	HUGUBUN CHAR(1) NOT NULL DEFAULT('A'),		
-	PAYGUBUN CHAR(1) NOT NULL DEFAULT('A'),		
-	PAYNM VARCHAR(10) NOT NULL,			
-	EMPID INT NOT NULL,				
-	HUSTDATE DATE NOT NULL,				
-	HUENDDATE DATE NOT NULL,			
-	PAYYA INT,					
-	PAYHU INT,					
-	PAYYEON INT,					
-	PAYGI INT,					
-	PAYDATE DATE,					
-	TOTPAY INT,	
+	hunum varchar(12) NOT NULL,				
+	hugubun CHAR(1) NOT NULL, 		
+	paygubun CHAR(1) NOT NULL,	
+	paynm VARCHAR(10) NOT NULL,			
+	empid INT NOT NULL,				
+	hustdate DATE NOT NULL,				
+	huenddate DATE NOT NULL,			
+	fund int,
+	totpay int,					
+	payday date,
+	paystdate date,
+	payenddate date,
 	seq int,				
 	insert_person varchar(10),		
 	regdate datetime,						
-	PRIMARY KEYHUNUM 
-	FOREIGN KEY(EMPID), REFERENCES EMP_TAL(EMPID)
+	primary key(hunum),
+	foreign key(empid) references emp_tbl(empid)
 );
 
-///////////////////////////////////////////////////////////// 전자결재
+CREATE TABLE huInfo_tbl(
+	hunum varchar(12) not null,
+	seq int,
+	dldate date,
+	empid varchar(12),
+	allowcd char(2),
+	allowpay int,
+	remark varchar(100),
+	insert_person varchar(10),
+	regdate datetime,
+	foreign key(hunum) references hu_tbl(hunum)
+);
+
+//////////////////////////////////////////////////////////// 시스템
+
+게시판 권환 관리
+create table boardauth_tbl (
+	bid int not null auto_increment,
+	boardGrp varchar(20) not null,
+	boardCode varchar(20) not null,
+	boardMaker varchar(20) not null,
+	boardTitle varchar(255) not null,
+	boardRead varchar(3) not null,
+	boardWrite varchar(3) not null,
+	boardReply varchar(3) not null,
+	boardDownload varchar(3) not null,
+	boardRegdate date,
+	primary key(bid);	
+);
+
+일정관리 테이블
+create table schedule_tbll (
+	cal_id int not null auto_increment,
+	startDate char(12),
+	endDate char(12),
+	calContent varchar(255),
+	empid varchar(10),
+	primary key(cai_id);
+);
+
+
+//첨부파일 안쓰는걸로
+CREATE TABLE ATTACH_TBL (
+	ATTDATNUM VARCHAR(30),		
+	ATTNM VARCHAR(100),		
+	ATTSIZE VARCHAR(30),		
+	ATTORINM VAHRCHAR(300),		
+	ATTDATE DATETIME,		
+	PRIMARY KEY(ATTDATNUM) 
+);
+
+///////////////////////////////////////////////////////////// 전자결재 보류
 
 CREATE TABLE APPROVAL_TAL(
 	APRNUM INT NOT NULL,			
@@ -202,57 +276,22 @@ CREATE TABLE APPROVAL_TAL(
 	PRIMARY APPNUM, 
 	FOREIGN KEY(EMPID) REFERENCES EMP_TAL(EMPID),
 	foreign key(attdatnum ) references ATTACH_TBL (attdatnum)
-
 );
 
-//////////////////////////////////////////////////////////// 시스템
 게시판 테이블 
 create table notice_tbl (
-	datnum varchar(10) not null,		
-	category char(2) not null,		
-	datgrp char(2) not null,		
-	title varchar(100) not null,		
-	sctchk char(1) not null,		
-	contents text,			
-	person varchar(10) not null,		
-	attdatnum varchar(30),		
-	insert_person varchar(10),		
- 	regdate datetime,			
-	primary key(datnum)
-);
-영업게시판관리자, 인사게시판관리자, 영업부원, 인사부원, 관리자
-create table notice_auth (
-	grpnum varchar(10) not null,		
-	grpnm varchar(30) not null,		
-	grpman char(10) not null,		
-	readauth int(3) default '0'		
-	writeauth int(3) default '0'		
-	commauth int(3) default '0'		
-	downauth int(3) default '0'		
-);
-
-일정관리 테이블
-create table todo_tbl (
-	todonum VARCHAR(10) auto_increment not null,	
-	todo varchar(100),					
-	empid int not null,
-	todoyn varchar(1),
-	STRDATE DATE,
-	ENDDATE DATE,
-	seq int,
+	aid int not null auto_increment,
+	division char(1),
+	subject varchar(300) not null,
+	writer varchar(20) not null,
+	content text,
 	regdate datetime,
-	insert_person varchar(10),	
-	primary key(todonum),
-	foreign key(empid) references emp_tbl(empid)
-);
-
-
-첨부파일
-CREATE TABLE ATTACH_TBL (
-	ATTDATNUM VARCHAR(30),		
-	ATTNM VARCHAR(100),		
-	ATTSIZE VARCHAR(30),		
-	ATTORINM VAHRCHAR(300),		
-	ATTDATE DATETIME,		
-	PRIMARY KEY(ATTDATNUM) 
+	hit int default 0,
+	fileName varchar(300),
+	fileOriName varchar(300),
+	fileUrl varchar(500),
+	ref int,
+	re_step int,
+	re_level int,
+	primary key(aid);
 );

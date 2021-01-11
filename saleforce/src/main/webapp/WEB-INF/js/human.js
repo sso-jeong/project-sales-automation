@@ -164,8 +164,10 @@ function tna() {
             alert("시스템 에러");
         }
     });
+}
 
-    $.ajax({
+function wage() {
+	$.ajax({
         url: "/saleforce/getHuList",
         type: "POST",
         data: "",
@@ -182,9 +184,7 @@ function tna() {
             alert("시스템 에러");
         }
     });
-}
-
-function wage() {
+    
     $.ajax({
         url: "/saleforce/getPayList",
         type: "POST",
@@ -202,7 +202,25 @@ function wage() {
             alert("시스템 에러");
         }
     });
+    
+    $.ajax({
+        url: "/saleforce/getAllowList",
+        type: "POST",
+        data: "",
+        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
+        dataType: "json", // 수신 데이터 타입
+        success: function (resData) {
 
+            $.each(resData, function (key, value) {
+                $("#allownm").append("<option value=" + value.allowcd + ">" + value.allownm + "</option>");
+            });
+
+        },
+        error: function () {
+            alert("시스템 에러");
+        }
+    });
+    
     $.ajax({
         url: "/saleforce/getCaList",
         type: "POST",

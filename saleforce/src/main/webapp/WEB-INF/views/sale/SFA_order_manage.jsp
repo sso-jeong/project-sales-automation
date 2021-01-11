@@ -23,7 +23,7 @@
 							<tr>
 								<td class="td-7 under center bg-green weight700">수주번호</td>
 								<td class="td-13 p-lr3">
-									<input type="text" name="ordnum" id="ordnum" class="input-100" readonly>
+									<input type="text" name="ordnum" id="ordnum" class="input-100" readonly placeholder="수주코드는 자동생성 입니다." style="background-color: #f3f4f4" />
 								</td>
 
 								<td class="td-7 under center bg-green weight700">품목코드/품목명</td>
@@ -71,6 +71,7 @@
 								<td class="td-15 p-lr3">
 									<input type="text" name="remark" id="remark" class="input-100" tabindex="13">
 									<input type="date" name="regdate" id="regdate" value="${sessionScope.nowdate}" style="display: none;" />
+									<input type="number" id="janqty" style="display: none;" />
 								</td>
 
 							</tr>
@@ -159,10 +160,10 @@
 								<td class="left p-lr5">${order.itemnm}</td>
 								<td class="td-5">${order.divnm}</td>
 								<td class="td-7">${order.ordperson}</td>
-								<td class="td-5 right p-lr5">${order.qty}</td>
-								<td class="td-7 right p-lr5">${order.uprice}</td>
-								<td class="td-7 right p-lr5">${order.price}</td>
-								<td class="td-7 right p-lr5">${order.tax}</td>
+								<td class="td-5 right p-lr5"><fmt:formatNumber value="${order.qty}" pattern="#,###"/></td>
+								<td class="td-7 right p-lr5"><fmt:formatNumber value="${order.uprice}" pattern="#,###"/></td>
+								<td class="td-7 right p-lr5"><fmt:formatNumber value="${order.price}" pattern="#,###"/></td>
+								<td class="td-7 right p-lr5"><fmt:formatNumber value="${order.tax}" pattern="#,###"/></td>
 								<td class="td-13 center p-lr5">${order.remark}</td>
 							</tr>		
 						</c:forEach>				
@@ -266,6 +267,17 @@
 			var sum = $("#uprice").val() * $(this).val();
 			$("#price").val(sum);
 			$("#tax").val(sum/10);
+		});
+
+		$("#qty").blur(function(){
+			var janqty = $('#janqty').val();
+			var qty = $(this).val();
+			
+			if( parseInt(janqty) < qty ){
+				alert("입력한 수량이 재고량을 초과합니다.\n현재 재고량은 "+ janqty + "개 입니다.");
+				$('#qty').focus();
+				$('#qty').val(0);
+			}
 		});
 
 		//수정버튼클릭시
@@ -412,7 +424,8 @@
 		        $("#uprice").val(order.uprice);
 		        $("#price").val(order.price);
 		        $("#tax").val(order.tax);
-		        $("#remark").val(order.remark);            	     
+		        $("#remark").val(order.remark);    
+		        $("#janqty").val(order.janqty);       	     
 	        },
 	        error: function(request) {
 	            alert("message:"+request.responseText);

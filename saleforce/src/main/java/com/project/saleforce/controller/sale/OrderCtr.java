@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.project.saleforce.model.OrderVO;
 import com.project.saleforce.paging.Pager;
+import com.project.saleforce.service.MainSrv;
 import com.project.saleforce.service.OrderSrv;
 
 @Controller
@@ -21,6 +22,9 @@ public class OrderCtr {
 	
 	@Autowired
 	OrderSrv oSrv;
+	
+	@Autowired
+	MainSrv mSrv;
 
 	@RequestMapping("SFA_order_manage")
 	public ModelAndView getOrderList(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "ordnum") String searchOpt, @RequestParam(defaultValue = "") String words) {
@@ -34,6 +38,8 @@ public class OrderCtr {
 		
 		List<OrderVO> list = oSrv.getOrderList(start, end, searchOpt, words);
 		
+
+		mav.addObject("com", mSrv.getCompanyInfo());
 		mav.addObject("orderlist", list);
 		mav.addObject("count", count);
 		mav.addObject("searchOpt", searchOpt);

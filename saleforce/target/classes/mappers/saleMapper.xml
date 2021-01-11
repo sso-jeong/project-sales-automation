@@ -133,9 +133,16 @@
 		outdt = #{outdt},
 		outqty = #{outqty},
 		insert_person = #{insert_person},
+		ordnum = #{ordnum},
 		regdate = now();
 		
 	</insert>
+	
+	<update id="updateYN" parameterType="String">
+		UPDATE order_tbl
+		SET saleyn = 'Y'
+		WHERE ordnum = #{ordnum}
+	</update>
 	
 	<update id="updateSaleInfo" parameterType="salevo">
 		UPDATE sale_tbl
@@ -150,10 +157,22 @@
 		remark = #{remark}
 		WHERE salenum = #{salenum}
 	</update>
+	
+	<update id="updateStock" parameterType="stockvo">
+		UPDATE stockInfo_tbl
+		SET outdt = #{outdt},
+		outqty = #{outqty}
+		WHERE ordnum = #{ordnum}
+	</update>
 
 	<delete id="deleteSaleInfo" parameterType="String">
 		DELETE FROM sale_tbl
 		WHERE salenum = #{salenum}
 	</delete>
 	
+	<delete id="deleteStock" parameterType="String">
+		DELETE FROM stockInfo_tbl
+		WHERE ordnum = #{ordnum}
+	</delete>
+ 	
 </mapper>

@@ -25,7 +25,7 @@
 		D.empid, 
 		empnm, 
 		deptid, 
-		buseo_name AS buseoName, 
+		buseo_name AS buseoname, 
 		dlgubun,
 		dlnm,
 		dldate, 

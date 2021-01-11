@@ -26,8 +26,8 @@
 
 							<td class="td-7 under center bg-green weight700">품목코드/품목명</td>
 							<td class="td-13 p-lr3" style="position: relative;">
-							<input type="text" name="itemcd" id="itemcd" class="input-40"  required> 
-							<input type="text" name="itemnm" id="itemnm" class="input-58" tabindex="1" autofocus>
+							<input type="text" name="itemcd" id="itemcd" class="input-40"  required readonly style="background-color: #f3f4f4"> 
+							<input type="text" name="itemnm" id="itemnm" class="input-58" readonly style="background-color: #f3f4f4">
 								<span id="itemnmp" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 50%; transform: translateY(-50%); right: 15px; color: #000000;"> <i class="fas fa-search"></i>
 								</span>
 							</td>
@@ -50,13 +50,13 @@
 						<tr>
 							<td class="td-7 under center bg-green weight700">수주번호</td>
 							<td class="td-13 p-lr3" style="position: relative;">
-								<input type="text" name="ordnum" id="ordnum" class="input-100" required> 
+								<input type="text" name="ordnum" id="ordnum" class="input-100" tabindex="1" autofocus required> 
 								<span id="ordnump" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 50%; transform: translateY(-50%); right: 15px; color: #000000;"> <i class="fas fa-search"></i>
 								</span>
 							</td>
 							<td class="td-7 under center bg-green weight700">거래처코드/거래처명</td>
-							<td class="td-13 p-lr3" style="position: relative;"><input type="text" name="comcd" id="comcd" class="input-40" tabindex="9" required> 
-								<input type="text"name="comnm" id="comnm" class="input-58" tabindex="10">
+							<td class="td-13 p-lr3" style="position: relative;"><input type="text" name="comcd" id="comcd" class="input-40" tabindex="9" required readonly style="background-color: #f3f4f4"> 
+								<input type="text"name="comnm" id="comnm" class="input-58" tabindex="10" readonly style="background-color: #f3f4f4">
 								<span id="comnmp" onclick="popup(this)" style="cursor:pointer; position: absolute; top: 50%; transform: translateY(-50%); right: 15px; color: #000000;"> <i class="fas fa-search"></i>
 								</span>	
 							</td>
@@ -78,14 +78,15 @@
 						<div></div>
 						<div>
 							<c:if test="${count eq 0}">
-								<button type="reset" class="btn-on center m-t5 new" id="new1">초기화</button>
-								<button type="submit" class="btn-on center m-t5 insert">신규등록</button>
+								<button type="reset" class="btn-on center m-t5 new" id="new1">초기화</button>	
+								<button type="submit" class="btn-on center m-t5 insert">신규등록</button>													
 							</c:if>
 							<c:if test="${count ne 0}">
 								<button type="reset" class="btn-on center m-t5 new" id="new2">초기화</button>
-								<button type="button" class="btn-on center m-t5 up" id="up">수정</button>
 								<button type="submit" class="btn-on center m-t5 insert" id="insert" style="display: none;">신규등록</button>
+								<button type="button" class="btn-on center m-t5 up" id="up">수정</button>							
 								<button type="button" class="btn-off center m-t5 del" id="del">삭제</button>
+								
 							</c:if>
 						</div>
 					</div>
@@ -152,10 +153,10 @@
 							<td class="left p-lr5">${sale.itemnm}</td>
 							<td class="td-5">${sale.divnm}</td>
 							<td class="td-7">${sale.saleperson}</td>
-							<td class="td-5 right p-lr5">${sale.qty}</td>
-							<td class="td-7 right p-lr5">${sale.uprice}</td>
-							<td class="td-7 right p-lr5">${sale.price}</td>
-							<td class="td-7 right p-lr5">${sale.tax}</td>
+							<td class="td-5 right p-lr5"><fmt:formatNumber value="${sale.qty}" pattern="#,###"/></td>
+							<td class="td-7 right p-lr5"><fmt:formatNumber value="${sale.uprice}" pattern="#,###"/></td>
+							<td class="td-7 right p-lr5"><fmt:formatNumber value="${sale.price}" pattern="#,###"/></td>
+							<td class="td-7 right p-lr5"><fmt:formatNumber value="${sale.tax}" pattern="#,###"/></td>
 							<td class="td-13 center p-lr5">${sale.remark}</td>
 						</tr>
 					</c:forEach>

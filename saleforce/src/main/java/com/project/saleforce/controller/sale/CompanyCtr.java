@@ -14,12 +14,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.project.saleforce.model.CompanyVO;
 import com.project.saleforce.paging.Pager;
 import com.project.saleforce.service.CompanySrv;
+import com.project.saleforce.service.MainSrv;
 
 @Controller
 public class CompanyCtr {
 	
 	@Autowired
 	CompanySrv companySrv;
+	
+	@Autowired
+	MainSrv mSrv;
 	
 	@RequestMapping("SFA_company_manage")
 	public ModelAndView getCompanyList(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "comcd") String searchOpt, @RequestParam(defaultValue = "") String words) {
@@ -33,6 +37,8 @@ public class CompanyCtr {
 		int end = pager.getPageEnd();
 		
 		List<CompanyVO> list = companySrv.getCompanyList(start, end, searchOpt, words);
+		
+		mav.addObject("com", mSrv.getCompanyInfo());
 		mav.addObject("companylist", list);
 		mav.addObject("count", count);
 		mav.addObject("searchOpt", searchOpt);

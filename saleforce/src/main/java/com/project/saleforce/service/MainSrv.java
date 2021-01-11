@@ -1,9 +1,15 @@
 package com.project.saleforce.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.saleforce.model.ArticleVO;
+import com.project.saleforce.model.BoardVO;
+import com.project.saleforce.model.ComVO;
 import com.project.saleforce.model.CommuteManageVO;
+import com.project.saleforce.model.EmpVO;
 import com.project.saleforce.repository.MainDao;
 
 @Service
@@ -11,6 +17,22 @@ public class MainSrv {
 
 	@Autowired
 	MainDao mainDao;
+	
+	public List<EmpVO> getAuthTen() {
+		return mainDao.getAuthTen();
+	}
+	
+	public void setCompanyInfo(ComVO cvo) {
+		mainDao.setCompany(cvo);
+	}
+	
+	public ComVO getCompanyInfo() {
+		return mainDao.getCompany();
+	}
+	
+	public void upBoard(BoardVO bvo) {
+		mainDao.upBoard(bvo);
+	}
 
 	public void setCommute(CommuteManageVO commutevo) {
 		mainDao.setCommute(commutevo);
@@ -58,5 +80,29 @@ public class MainSrv {
 
 	public CommuteManageVO getCount(String dlnum) {
 		return mainDao.getCount(dlnum);
+	}
+	
+	public List<ArticleVO> getAny() {
+		return mainDao.getAny();
+	}
+	
+	public int getAnyCnt() {
+		return mainDao.getAnyCnt();
+	}
+	
+	public List<ArticleVO> getArtSale() {
+		return mainDao.getArtSale();
+	}
+	
+	public int getArtSaleCnt() {
+		return mainDao.getArtSaleCnt();
+	}	
+	
+	public List<ArticleVO> getArtHuman() {
+		return mainDao.getArtHuman();
+	}
+	
+	public int getArtHumanCnt() {
+		return mainDao.getArtHumanCnt();
 	}
 }

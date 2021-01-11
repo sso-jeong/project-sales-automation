@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wage">
+	<sql id="search">
+		<choose>
+			<when test="words == ''">
+			</when>
+			
+			<when test="searchOpt=='all'">
+				AND (h.empid LIKE CONCAT('%', #{words}, '%')
+				OR paystdate LIKE CONCAT('%', #{words} ,'%'))
+			</when>
+			
+			<otherwise>
+				AND ${searchOpt} LIKE CONCAT('%', #{words} ,'%')
+			</otherwise>
+			
+		</choose>
+	</sql>
+	
+	<insert id="setWage" parameterType="wagevo">
+		INSERT INTO hu_tbl
+		SET hunum = #{hunum},
+		hugubun = #{hugubun},
+		paygubun = #{paygubun},
+		paynm = #{paynm},
+		empid = #{empid},
+		hustdate = #{hustdate},
+		huenddate = #{huenddate},
+		fund = #{fund},
+		paystdate = #{paystdate},
+		payenddate = #{payenddate},
+		payday = #{payday},
+		insert_person = #{insert_person},
+		regdate = SUBSTR(now(),1,10)
+	</insert>
+	
+	<insert id="setWageInfo" parameterType="wagevo">
+		<selectKey keyProperty="seq" order="BEFORE" resultType="int">
+			SELECT CASE WHEN MAX(seq) IS NULL THEN 1
+						ELSE MAX(seq) + 1 
+				   END
+			FROM huInfo_tbl
+			WHERE hunum = #{hunum}
+		</selectKey>
+		INSERT INTO huInfo_tbl 
+		SET hunum = #{hunum},
+		seq = #{seq},
+		dldate = #{dldate},
+		empid = #{empid},
+		allowcd = #{allownm},
+		allowpay = #{allowpay},
+		remark = #{remark},
+		insert_person = #{insert_person},
+		regdate = now()
+	</insert>
+	
+	<insert id="setWageInfoD" parameterType="wagevo">
+		INSERT INTO huInfo_tbl 
+		SET hunum = #{hunum},
+		seq = 0,
+		allowcd = #{allowcd},
+		allowpay = 0,
+		empid = #{empid},
+		insert_person = #{insert_person},
+		regdate = now()
+	</insert>
+	
+	<select id="getWageList" resultType="wagevo">
+		SELECT 
+		h.hunum,
+		CONCAT('20',SUBSTR(h.hunum,3,2),'-',SUBSTR(h.hunum,5,2)) as attrmh,
+		empnm,
+		accountnum,
+		hu.hunm as hugbname,
+		hugubun,
+		paygubun,
+		h.paynm as paynm,
+		pay.paynm as paygbname,
+		hustdate,
+		huenddate,
+		paystdate,
+		payenddate,
+		payday,
+		h.insert_person as insert_person,
+		h.regdate as regdate,
+		e.deptid,
+		e.grade,
+		fund,
+		(CASE WHEN e.grade = 6 THEN fund + ya.allow * 53950 + etc.allow
+			WHEN e.grade = 5 THEN fund + ya.allow * 44750 + etc.allow
+			WHEN e.grade = 4 THEN fund + ya.allow * 39360 + etc.allow
+			WHEN e.grade = 3 THEN fund + ya.allow * 30520 + etc.allow
+			WHEN e.grade = 2 THEN fund + ya.allow * 24120 + etc.allow
+			WHEN e.grade = 1 THEN fund + ya.allow * 19860 END)as totpay
+		FROM hu_tbl h, emp_tbl e, 
+		(SELECT hucd, hunm FROM comcode) as hu,
+		(SELECT paycd, paynm FROM comcode) as pay, 
+		(SELECT hunum, sum(allowpay) as allow FROM huInfo_tbl WHERE allowcd = 'A' GROUP BY hunum) as ya,  
+		(SELECT hunum, sum(allowpay) as allow FROM huInfo_tbl WHERE allowcd != 'A' GROUP BY hunum) as etc
+		WHERE h.empid = e.empid AND h.hugubun = hu.hucd
+		AND h.paygubun = pay.paycd AND h.hunum = ya.hunum AND h.hunum = etc.hunum
+		<include refid="search"></include>
+		ORDER BY regdate DESC LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="getWageInfoList" resultType="wagevo">
+		SELECT
+		h.seq as seq,
+		hunum,
+		dldate,
+		h.empid,
+		e.empnm,
+		h.allowcd,
+		c.allownm as allownm, 
+		allowpay,
+		remark,
+		h.insert_person,
+		h.regdate
+		FROM huInfo_tbl h, emp_tbl e, comcode c
+		WHERE hunum = #{hunum} AND h.empid = e.empid
+		AND h.allowcd = c.allowcd AND h.seq != 0
+		ORDER BY h.dldate ASC LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="getWageCount" resultType="int">
+		SELECT COUNT(hunum)
+		FROM hu_tbl h, comcode c
+		WHERE h.hugubun = c.hucd
+		<include refid="search"></include>
+	</select>
+	
+	<select id="getWageInfoCount" resultType="int">
+		SELECT COUNT(seq)
+		FROM huInfo_tbl
+		WHERE hunum = #{hunum} AND seq != 0
+	</select>
+	
+	<select id="getWageOne"  parameterType="String" resultType="wagevo">
+		SELECT 
+		hunum,
+		empnm,
+		hugubun,
+		paygubun,
+		h.paynm as paynm,
+		hustdate,
+		huenddate,
+		fund,
+		paystdate,
+		payenddate,
+		payday,
+		e.deptid,
+		e.grade,
+		e.empid
+		FROM hu_tbl h, emp_tbl e, comcode c
+		WHERE h.empid = e.empid AND h.hugubun = c.hucd
+		AND hunum = #{hunum}
+	</select>
+	
+	<select id="getWageInfoOne"  parameterType="String" resultType="wagevo">
+		SELECT 
+		hunum,
+		hu.seq,
+		dldate,
+		hu.empid,
+		allowcd,
+		allowpay,
+		hu.remark
+		FROM huInfo_tbl hu, emp_tbl e
+		WHERE hu.empid = e.empid AND hunum = #{hunum} AND hu.seq = #{seq}
+	</select>
+	
+	<select id="dayCount" resultType="int">
+		SELECT
+		count(dlnum)
+		FROM dl_tbl
+		WHERE empid = #{empid}
+		AND SUBSTR(dldate,6,2) = SUBSTR(now(),6,2) 
+	</select>
+	
+	<update id="updateWage" parameterType="wagevo">
+		UPDATE hu_tbl 
+		SET hugubun = #{hugubun},
+		paygubun = #{paygubun},
+		paynm = #{paynm},
+		empid = #{empid},
+		hustdate = #{hustdate},
+		huenddate = #{huenddate},
+		fund = #{fund},
+		paystdate = #{paystdate},
+		payenddate = #{payenddate},
+		payday = #{payday}
+		WHERE hunum = #{hunum}
+	</update>
+	
+	<update id="updateWageInfo" parameterType="wagevo">
+		UPDATE huInfo_tbl 
+		SET dldate = #{dldate},
+		allowcd = #{allownm},
+		allowpay = #{allowpay},
+		remark = #{remark},
+		insert_person = #{insert_person},
+		regdate = now()
+		WHERE hunum = #{hunum}
+		AND seq = #{seq}
+	</update>
+	
+	<delete id="deleteWage" parameterType="String">
+		DELETE FROM hu_tbl WHERE hunum = #{hunum}	
+	</delete>
+	
+	<delete id="deleteWageInfo" parameterType="String">
+		DELETE FROM huInfo_tbl WHERE hunum = #{hunum} AND seq = #{seq}	
+	</delete>
+	
+	
+	
+</mapper>

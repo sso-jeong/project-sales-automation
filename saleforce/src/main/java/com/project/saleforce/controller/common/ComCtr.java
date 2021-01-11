@@ -187,5 +187,12 @@ public class ComCtr {
 		List<ComcodeVO> list = cSrv.getAuthList();
 		return list;
 	}
+	
+	@RequestMapping("/getAllowList")
+	@ResponseBody
+	public List<ComcodeVO> getAllowList() {
+		List<ComcodeVO> list = cSrv.getAllowList();
+		return list;
+	}
 
 }

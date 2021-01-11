@@ -1,7 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="main">
-
+	<!-- 홈페이지 타이틀 -->
+	<insert id="setCompany" parameterType="cominfovo">
+		UPDATE companyInfo
+		SET comname = #{comname},
+		comsubname = #{comsubname},
+		comauth = #{comauth}
+	</insert>
+	
+	<select id="getCompany" resultType="cominfovo">
+		SELECT 
+		comname,
+		comsubname,
+		comauth
+		FROM companyInfo
+	</select>
+	<!-- 홈페이지 타이틀 -->
+	
+	<!-- 게시판 권한 -->
+	<insert id="upBoard" parameterType="boardvo">
+		UPDATE boardauth_tbl
+		SET boardRead = #{boardRead},
+		boardWrite = #{boardWrite},
+		boardReply = #{boardReply},
+		boardDownload = #{boardDownload}
+		WHERE boardCode = #{boardCode}
+	</insert>
+	<!-- 게시판 권한 -->
+	
+	<!-- 사용자 권한 -->
+	<select id="getAuthTen" resultType="empvo">
+		SELECT
+		empid,
+		empnm,
+		deptid,
+		buseo_name AS buseoname,
+		grade,
+		grade_name AS gradename,
+		empauth
+		FROM emp_tbl E, buseo_tbl B, grade_tbl G
+		WHERE empid != 'admin' AND E.deptid
+		= B.buseo_id AND E.grade = G.grade_id
+		ORDER BY regdate DESC LIMIT 13
+	</select>
+	<!-- 사용자 권한 -->
+	
 	<!-- 근태 시작 -->
 	<insert id="setCommute" parameterType="commutevo">
 		INSERT INTO dl_tbl SET 
@@ -110,6 +154,56 @@
 		UPDATE dl_tbl 
 		SET dlgubun = #{dlnm} WHERE dlnum = #{dlnum} AND empid = #{empid}
 	</update>
+	
 	<!-- 근태 끝 -->
+	
+	<!-- 게시판 시작 -->
+	<select id="getAny" resultType="articlevo">
+		SELECT 
+			aid,
+			division,
+			subject,
+			writer,
+			content,
+			SUBSTR(regdate,6,5) as regdate
+		FROM article_any
+		ORDER BY division DESC, aid DESC LIMIT 5
+	</select>
+	
+	<select id="getAnyCnt" resultType="int">
+		SELECT count(aid) FROM article_any
+	</select>
+	
+	<select id="getArtSale" resultType="articlevo">
+		SELECT 
+			aid,
+			division,
+			subject,
+			writer,
+			content,
+			SUBSTR(regdate,6,5) as regdate
+		FROM article_sale
+		ORDER BY division DESC, aid DESC LIMIT 5
+	</select>
+	
+	<select id="getArtSaleCnt" resultType="int">
+		SELECT count(aid) FROM article_sale
+	</select>
+	
+	<select id="getArtHuman" resultType="articlevo">
+		SELECT 
+			aid,
+			division,
+			subject,
+			writer,
+			content,
+			SUBSTR(regdate,6,5) as regdate
+		FROM article_human
+		ORDER BY division DESC, aid DESC LIMIT 5
+	</select>
+	
+	<select id="getArtHumanCnt" resultType="int">
+		SELECT count(aid) FROM article_human
+	</select>
 	
 </mapper>

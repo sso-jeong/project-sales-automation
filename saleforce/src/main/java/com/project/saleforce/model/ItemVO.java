@@ -1,9 +1,27 @@
 package com.project.saleforce.model;
 
 public class ItemVO {
-	private String itemcd, itemnm, itemdiv, itemgrp, std, remark, insert_person, regdate, attdatnum, seq, itemdivname, itemgrpname;
+	private String itemcd, itemnm, itemdiv, itemgrp, std, remark, insert_person, regdate, attdatnum, seq, itemdivname, itemgrpname, itemPhoto, photoName, qty;
 	private int price;
 	
+	public String getQty() {
+		return qty;
+	}
+	public void setQty(String qty) {
+		this.qty = qty;
+	}
+	public String getPhotoName() {
+		return photoName;
+	}
+	public void setPhotoName(String photoName) {
+		this.photoName = photoName;
+	}
+	public String getItemPhoto() {
+		return itemPhoto;
+	}
+	public void setItemPhoto(String itemPhoto) {
+		this.itemPhoto = itemPhoto;
+	}
 	public String getItemcd() {
 		return itemcd;
 	}

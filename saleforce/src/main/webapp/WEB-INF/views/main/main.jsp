@@ -163,7 +163,7 @@
 			</div>
 			<div class="login">
 				<h2>
-					<a class="noto weight700 font18 f6" href="${pageContext.request.contextPath}/login" title="HOME">그룹웨어 로그인</a>
+					<a class="noto weight700 font18 f6" href="${pageContext.request.contextPath}/loginpage" title="HOME">그룹웨어 로그인</a>
 				</h2>
 			</div>
 		</div>

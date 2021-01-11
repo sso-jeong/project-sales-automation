@@ -338,44 +338,25 @@ function tna() {
             alert("시스템 에러");
         }
     });
+}
 
-    $.ajax({
+function wage() {
+
+     $.ajax({
         url: "/saleforce/getHuList",
         type: "POST",
         data: "",
         contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
         dataType: "json", // 수신 데이터 타입
         success: function (resData) {
-
-            $.each(resData, function (key, value) {
-                $("#hunm").append("<option value=" + value.hucd + ">" + value.hunm + "</option>");
-            });
-
+            alert("성공");
         },
         error: function () {
             alert("시스템 에러");
         }
     });
-}
-
-function wage() {
-    $.ajax({
-        url: "/saleforce/getPayList",
-        type: "POST",
-        data: "",
-        contentType: 'application/x-www-urlencoded; charset=utf-8', // 수신 방식
-        dataType: "json", // 수신 데이터 타입
-        success: function (resData) {
-
-            $.each(resData, function (key, value) {
-                $("#paynm").append("<option value=" + value.paycd + ">" + value.paynm + "</option>");
-            });
-
-        },
-        error: function () {
-            alert("시스템 에러");
-        }
-    });
+    
+    
 
     $.ajax({
         url: "/saleforce/getCaList",

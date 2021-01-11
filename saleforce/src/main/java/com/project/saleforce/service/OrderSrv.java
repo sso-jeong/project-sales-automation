@@ -18,6 +18,10 @@ public class OrderSrv {
 		return ordDao.getOrderList(start, end, searchOpt, words);
 	}
 	
+	public List<OrderVO> getOrderPopList(int start, int end, String searchOpt,String words) {
+		return ordDao.getOrderPopList(start, end, searchOpt, words);
+	}
+	
 	public OrderVO getOneOrder(String ordnum) {
 		return ordDao.getOneOrder(ordnum);
 	}
@@ -32,6 +36,10 @@ public class OrderSrv {
 	
 	public int getOrderCount(String searchOpt, String words) {
 		return ordDao.getOrderCount(searchOpt, words);
+	}
+	
+	public int getOrderPopCount(String searchOpt,String words) {
+		return ordDao.getOrderPopCount(searchOpt, words);
 	}
 	
 	public void setOrder(OrderVO ovo) {

@@ -227,7 +227,7 @@ var inputList = document.getElementById('input-list');
 var delText = 'X';
 inputDate.addEventListener('click', addTodoList);
 var dataCnt = 1;
-var keyValue = today.getFullYear() + '' + (today.getMonth() + 1) + '' + today.getDate();
+var keyValue = today.getFullYear() + '' + today.getMonth() + 1 + '' + today.getDate();
 let todoList = [];
 todoList[keyValue] = [];
 

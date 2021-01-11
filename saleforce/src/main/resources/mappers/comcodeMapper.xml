@@ -98,4 +98,8 @@
 		SELECT authcd, authnm FROM comcode WHERE authnm IS NOT NULL ORDER BY authcd DESC;
 	</select>
 	
+	<select id="getallowList" resultType="comcodevo">
+		SELECT allowcd, allownm FROM comcode WHERE allownm IS NOT NULL ORDER BY allowcd ASC;
+	</select>
+	
 </mapper>

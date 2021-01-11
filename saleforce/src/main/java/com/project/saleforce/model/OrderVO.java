@@ -1,8 +1,15 @@
 package com.project.saleforce.model;
 
 public class OrderVO {
-	String ordnum, orddt, dlvdt, itemcd, itemnm, divnm, comcd, comnm, projectnm, ordperson, remark, regdate, seq, insert_person, std;
+	String ordnum, orddt, dlvdt, itemcd, itemnm, divnm, comcd, comnm, projectnm, ordperson, remark, regdate, seq, insert_person, std, janqty;
 	int qty, price, uprice, tax;
+	
+	public String getJanqty() {
+		return janqty;
+	}
+	public void setJanqty(String janqty) {
+		this.janqty = janqty;
+	}
 	public String getOrdnum() {
 		return ordnum;
 	}

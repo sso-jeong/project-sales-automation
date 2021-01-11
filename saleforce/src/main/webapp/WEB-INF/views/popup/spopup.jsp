@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="KO">
@@ -60,7 +61,7 @@
 						
 						<c:if test="${count == 0}">
 							<tr>
-								<td class="weight700 center font14 " colspan="11">등록된 수주 건이 없습니다.</td>
+								<td class="weight700 center font14 " colspan="11">등록된 수주 건이 없거나 판매가 완료되었습니다.</td>
 							</tr>
 						</c:if>
 						
@@ -76,7 +77,7 @@
 								<td class="td-5">${order.divnm}</td>
 								<td class="td-7">${order.ordperson}</td>
 								<td class="td-5 right p-lr5">${order.qty}</td>
-								<td class="td-7 right p-lr5">${order.price}</td>
+								<td class="td-7 right p-lr5"><fmt:formatNumber value="${order.price}" pattern="#,###"/></td>
 								<td class="td-13 center p-lr5">${order.remark}</td>
 								<td style="display: none;">${order.std}</td>
 							</tr>		
@@ -161,6 +162,14 @@
 			var itemcd = td.eq(5).text();
 			var itemnm = td.eq(6).text();
 			var qty = td.eq(9).text();
+			
+			var price = td.eq(10).text();
+			
+			var rprice = price.split(",");
+			var realprice ="";
+			for(var i = 0; i < rprice.length; i++){
+				realprice += rprice[i];
+			}	
 			var std = td.eq(12).text();
 			
 			$(opener.document).find("#ordnum").val(ordnum);
@@ -169,7 +178,13 @@
 			$(opener.document).find("#itemcd").val(itemcd);
 			$(opener.document).find("#itemnm").val(itemnm);
 			$(opener.document).find("#qty").val(qty);
+			$(opener.document).find("#uprice").val(realprice/qty);
+			$(opener.document).find("#price").val(realprice);
+			$(opener.document).find("#tax").val(realprice / 10);
 			$(opener.document).find("#std").val(std);
+
+			$(opener.document).find("#qty").attr('readonly','true');
+			$(opener.document).find("#qty").css('background-color', '#f3f4f4');
 
 			window.close();
 		}

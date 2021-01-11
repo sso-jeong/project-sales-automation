@@ -25,10 +25,7 @@ public class CommuteCtr {
 	MainSrv mainSrv;
 	
 	@RequestMapping("SFA_commute_manage")
-	public ModelAndView getCommuteList(@RequestParam(defaultValue = "1") int curPage, 
-									@RequestParam(defaultValue = "empnm") String searchOpt, 
-									@RequestParam(defaultValue = "") String words) {
-		
+	public ModelAndView getCommuteList(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "empnm") String searchOpt, @RequestParam(defaultValue = "") String words) {	
 		ModelAndView mav = new ModelAndView();
 		
 		int count = commuSrv.getCommuteCount(searchOpt, words);
@@ -40,13 +37,14 @@ public class CommuteCtr {
 		
 		List<CommuteManageVO> list = commuSrv.getCommuteList(start, end, searchOpt, words);
 		
+		mav.addObject("com", mainSrv.getCompanyInfo());
 		mav.addObject("commuList", list);
 		mav.addObject("count", count);
 		mav.addObject("searchOpt", searchOpt);
 		mav.addObject("words", words);
 		
-		mav.addObject("start", start); // °Ô½Ã¹° °³¼ö ÀÚ¸¦ ½ÃÀÛ¹øÈ£
-		mav.addObject("end", end); // °Ô½Ã¹° ÀÚ¸¦ ³¡¹øÈ£
+		mav.addObject("start", start);
+		mav.addObject("end", end); 
 		
 		mav.addObject("blockBegin", pager.getBlockBegin());
 		mav.addObject("blockEnd", pager.getBlockEnd());
@@ -58,7 +56,7 @@ public class CommuteCtr {
 		mav.addObject("curPage", pager.getCurPage());
 		mav.addObject("totalPage", pager.getTotPage());
 		
-		// ÆäÀÌÁö ¹øÈ£¸¦ Å¬¸¯ÇßÀ» ¶§ css active Å¬·¡½º Ã³¸®
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ css active Å¬ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 		mav.addObject("selected", pager.getCurPage());
 		
 		mav.setViewName("employee/SFA_commute_manage");
@@ -107,9 +105,9 @@ public class CommuteCtr {
 		String empid = cvo.getEmpid().substring(4, 10);	
 		String dlnum = date + empid;
 		
-		cvo.setDlnum(dlnum); // ±ÙÅÂ¹øÈ£
-		cvo.setDlgubun(cvo.getDlnm()); // ±ÙÅÂ±¸ºÐ
-		cvo.setDldate(cvo.getRegdate().substring(0, 10)); // ±ÙÅÂÀÏÀÚ
+		cvo.setDlnum(dlnum); // ï¿½ï¿½ï¿½Â¹ï¿½È£
+		cvo.setDlgubun(cvo.getDlnm()); // ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½
+		cvo.setDldate(cvo.getRegdate().substring(0, 10)); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		
 		commuSrv.setCommuteP(cvo);
 		String gubun = cvo.getDlnm();

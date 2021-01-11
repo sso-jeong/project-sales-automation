@@ -131,30 +131,30 @@
 							
 							<td class="">
 								<c:choose>
-									<c:when test="${board.boardRead eq '100'}">영업</c:when>
-									<c:when test="${board.boardRead eq '200'}">인사</c:when>
+									<c:when test="${board.boardRead eq '100'}">인사</c:when>
+									<c:when test="${board.boardRead eq '200'}">영업</c:when>
 									<c:otherwise>전체</c:otherwise>
 								</c:choose>								
 							</td>
 							<td class="td-7">
 								<c:choose>
-									<c:when test="${board.boardWrite eq '100'}">영업</c:when>
-									<c:when test="${board.boardWrite eq '200'}">인사</c:when>
+									<c:when test="${board.boardWrite eq '100'}">인사</c:when>
+									<c:when test="${board.boardWrite eq '200'}">영업</c:when>
 									<c:otherwise>전체</c:otherwise>
 								</c:choose>	
 							</td>
 							<td class="">
 								<c:choose>
-									<c:when test="${board.boardReply eq '100'}">영업</c:when>
-									<c:when test="${board.boardReply eq '200'}">인사</c:when>
+									<c:when test="${board.boardReply eq '100'}">인사</c:when>
+									<c:when test="${board.boardReply eq '200'}">영업</c:when>
 									<c:otherwise>전체</c:otherwise>
 								</c:choose>	
 							</td>
 							
 							<td class="">
 								<c:choose>
-									<c:when test="${board.boardDownload eq '100'}">영업</c:when>
-									<c:when test="${board.boardDownload eq '200'}">인사</c:when>
+									<c:when test="${board.boardDownload eq '100'}">인사</c:when>
+									<c:when test="${board.boardDownload eq '200'}">영업</c:when>
 									<c:otherwise>전체</c:otherwise>
 								</c:choose>	
 							</td>

@@ -72,10 +72,17 @@ public class StockDao {
 		sql.update("stock.updateStockOut", svo);
 	}	
 	
+	public void deleteStock(String itemcd) {
+		sql.delete("stock.deleteStock2", itemcd);
+		sql.delete("stock.deleteStock1", itemcd);	
+	}
+	
 	public void deleteStockInfo(String itemcd, int seq) {
 		HashMap<String, Object> hs = new HashMap<String, Object>();
 		hs.put("itemcd", itemcd);
 		hs.put("seq", seq);
+		String seq2 = String.valueOf(hs.get("seq"));
+		hs.replace("seq", seq, seq2);
 		
 		sql.delete("stock.deleteStockInfo", hs);
 	}

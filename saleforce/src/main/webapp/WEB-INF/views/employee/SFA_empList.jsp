@@ -25,12 +25,12 @@
 		<div class="page-wrap m-tb10">
 			<div class="container">
 				<div class="title">
-					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">사원관리 > 사원
+					<p class="noto font16 weight500 m-t5 m-b5 m-lr15">사원관리 > 사원
 						등록</p>
 				</div>
-				<div class="emp-insert m-b15 m-lr15">
+				<div class="emp-insert m-b5 m-lr15">
 					<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setRegAll"
-						autocomplete="off">
+						autocomplete="off" enctype="multipart/form-data">
 						<div class="emp-info flex flex-justify">
 							<div class="emp-left">
 								<div class="photo-area" style="margin-right:5px;">
@@ -137,8 +137,9 @@
 										<td class="td-7 under center bg-green weight700">어학/상벌사항</td>
 										<td class="p-lr3" colspan="3"><input type="text" name="linguistic"
 											id="linguistic" class="input-49" required> <input type="text"
-											name="reward" id="reward" class="input-49" maxlength="20" required></td>
-
+											name="reward" id="reward" class="input-49" maxlength="20" required>
+											<input type="hidden" name="emppwd" id="emppwd">
+										</td>
 									</tr>
 									
 									
@@ -150,9 +151,9 @@
 								<button class="s-btn-on">수정</button>
 								<button class="s-btn-off del">삭제</button>
 							</div> -->
-							<div class="photo-btn center m-t15">
-                                <input type="file" style="width: 120px;" class="file" id="file" />
-                            	<button type="button" class="btn-on picsave" id="picsave">저장</button>
+							<div class="photo-btn center m-t5" style="position: relative;">
+                                <input type="file" style="width: 237px;" class="file" id="file" name="file" accept="image/*" />
+                                <input type="text" style="width: 163px; left: 75px; position: absolute;" id="filesrc" />
                             </div>
 							<div>
 							
@@ -162,15 +163,15 @@
 								[초기화], [등록] -->
 								
 								<c:if test="${count == 0}">
-									<button type="reset" class="btn-on center m-t15 m-l5 new"
+									<button type="reset" class="btn-on center m-t5 new"
 									>초기화</button>
-									<button type="submit" class="btn-off center m-t15 m-l5 insert">신규등록</button>
+									<button type="submit" class="btn-off center m-t5 insert">신규등록</button>
 								</c:if>
 								<c:if test="${count != 0}">
-									<button type="reset" class="btn-on center m-t15 m-l5 new">초기화</button>
-									<button type="button" title="UPDATE" class="btn-on center m-t15 m-l5 up" id="up">수정</button>
-									<button type="button" class="btn-off center m-t15 m-l5 del" id="del">삭제</button>	
-									<button type="submit" title="INSERT" style="display:none;" class="btn-on center m-t15 m-l5 insert">신규등록</button>
+									<button type="reset" class="btn-on center m-t5 new">초기화</button>
+									<button type="button" title="UPDATE" class="btn-on center m-t5 up" id="up">수정</button>
+									<button type="button" class="btn-off center m-t5 del" id="del">삭제</button>	
+									<button type="submit" title="INSERT" style="display:none;" class="btn-on center m-t5 insert">신규등록</button>
 								</c:if>
 							</div>
 						</div>
@@ -178,17 +179,17 @@
 
 					</form>
 
-					<hr style="border: solid 1px #0C4A60; margin-top: 15px;">
+					<hr style="border: solid 1px #0C4A60; margin-top: 5px;">
 				</div>
 
 				<div class="title">
-					<p class="noto font16 weight500 m-t15 m-b15 m-lr15">사원관리 > 사원
+					<p class="noto font16 weight500 m-t5 m-b5 m-lr15">사원관리 > 사원
 						목록</p>
 				</div>
 
 				<div class="search-wrap flex flex-justify">
 					<div class="">
-						<button type="button" class="btn-on m-lr15 m-b15" id="deleteAll">선택삭제</button>
+						<button type="button" class="btn-on m-l15 m-b5" id="deleteAll">선택삭제</button>
 						<span class="btn-normal ">검색 된 품목수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>					
 					</div>
 					<div class="form-wrap">
@@ -210,7 +211,7 @@
 					</div>
 				</div>
 
-				<div class="emp-list m-b15 m-lr15">
+				<div class="emp-list m-b5 m-lr15">
 					<table class="list center empList" id="empList" style="table-layout: fixed;">
 						<tr class="weight700 center font14">
 							<td class="td-3">
@@ -266,7 +267,7 @@
 				</div>
 				<!-- 페이징 ui 시작 -->
 				<c:if test="${count > 0}">
-					<div class="page-grp center m-t15">
+					<div class="page-grp center m-t5">
 
 						<!-- 맨 앞으로 -->
 						<c:choose>
@@ -377,16 +378,24 @@
 
 		});
 
+		$('#new').click(function() {
+	    	$('#img').attr('src', "${pageContext.request.contextPath}/images/noImage2.jpg");
+		});
+
 		$('#up').click(function() {		
 			//alert("성공");
 			var msg = $("#empnm").val() + "의 정보를 수정하시겠습니까?";
+
+			var formData = new FormData($("#frm")[0]);
 			
 			if(confirm(msg)) {
 				
 				$.ajax({
 					url: "${pageContext.request.contextPath}/SFA_setEmpOthers",
 			        type: "post",
-			        data: $('#frm').serialize(),
+			        data: formData,
+			        processData: false, 
+			       	contentType: false,
 			        success : function(data) {
 				        window.location.reload();
 			        },
@@ -417,6 +426,19 @@
 				});
 			}
 		});
+
+		$('#file').on("change", function () {
+	        var input = document.getElementById("file");
+	        var fReader = new FileReader();
+	        $('#filesrc').val(input.files[0].name);
+	        fReader.readAsDataURL(input.files[0]);
+	        fReader.onloadend = function (event) {
+	            var img = document.getElementById("img");
+	            img.src = event.target.result;
+	            img.height = 100;
+	        }
+	    });
+	    
 
 		$("#deleteAll").click(function(){
 			//alert("성공");
@@ -475,6 +497,7 @@ function empload(empID){
 		success : function(emp) {
 		 	$('#empid').val(emp.empid);
 			$('#empnm').val(emp.empnm);
+			$('#emppwd').val(emp.emppwd);
 			$('#deptid').val(emp.deptid);
 			$('#grade').val(emp.grade);
 			$('#birth').val(emp.birth);
@@ -498,7 +521,11 @@ function empload(empID){
 			$('#relinm').val(emp.religion);
 			$('#linguistic').val(emp.linguistic);
 			$('#marnm').val(emp.marrygubun);
-			$('#reward').val(emp.reward); 
+			$('#reward').val(emp.reward);
+			if(emp.empPhoto != null){
+        		$('#img').attr('src', "/img/"+emp.empPhoto);
+	        }else $('#img').attr('src',"${pageContext.request.contextPath}/images/noImage2.jpg");
+	        $("#filesrc").val(emp.photoName);  
 		},
 		error : function(request) {
 			alert("message:" + request.responseText + "\n");

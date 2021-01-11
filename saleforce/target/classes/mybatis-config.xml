@@ -16,5 +16,7 @@
 		<typeAlias type="com.project.saleforce.model.ArticleVO" alias="articlevo" />
 		<typeAlias type="com.project.saleforce.model.CommentVO" alias="commentvo" />
 		<typeAlias type="com.project.saleforce.model.ScheduleVO" alias="schedulevo" />
+		<typeAlias type="com.project.saleforce.model.WageVO" alias="wagevo" />
+		<typeAlias type="com.project.saleforce.model.ComVO" alias="cominfovo" />
 	</typeAliases>
 </configuration>

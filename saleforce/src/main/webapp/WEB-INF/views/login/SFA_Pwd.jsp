@@ -6,7 +6,7 @@
 
 		<span class="logo-text" style="cursor: pointer;"
 			onClick="location.href='${pageContext.request.contextPath}'">
-			<h2>Sale Force Automation</h2>
+			<h2>${com.comname} ${com.comsubname}</h2>
 		</span>
 		<form name="" method="POST" autocomplete="off">
 			<div class="pos">
@@ -26,7 +26,7 @@
 			<div class="register-line2">
 
 				<span class="account">회원가입 정보가 없습니까? </span> <span class="signup"><a
-					href="${pageContext.request.contextPath}/register">회원가입</a></span>
+					href="${pageContext.request.contextPath}/registerpage">회원가입</a></span>
 
 			</div>
 		</form>

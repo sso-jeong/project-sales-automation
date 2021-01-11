@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.project.saleforce.model.BuseoVO;
 import com.project.saleforce.model.EmpVO;
@@ -17,6 +18,7 @@ import com.project.saleforce.model.GradeVO;
 import com.project.saleforce.service.BuseoSrv;
 import com.project.saleforce.service.EmpSrv;
 import com.project.saleforce.service.GradeSrv;
+import com.project.saleforce.service.MainSrv;
 
 @Controller
 public class registerCtr {
@@ -28,6 +30,10 @@ public class registerCtr {
 	
 	@Autowired
 	GradeSrv gradeSrv;
+	
+	@Autowired
+	MainSrv mSrv;
+	
 	
 	@RequestMapping("/getBuseoList")
 	@ResponseBody
@@ -42,10 +48,15 @@ public class registerCtr {
 		List<GradeVO> list = gradeSrv.getGradeList();
 		return list;
 	}
-	
-	@RequestMapping(value = "register", method = RequestMethod.GET) //서버 실행시 첫 화면
-	public String getRegister() {
-		return "register/SFA_register";
+		
+	@RequestMapping("registerpage")
+	public ModelAndView getRegister() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("com", mSrv.getCompanyInfo());
+		
+		mav.setViewName("register/SFA_register");		
+		return mav;
 	}
 	
 	@RequestMapping(value = "register", method = RequestMethod.POST) //서버 실행시 첫 화면

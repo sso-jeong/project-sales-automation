@@ -42,11 +42,11 @@
 					<p class="noto font16 weight500 m-t5 m-b5 m-l15">품목관리 > 품목 등록</p>
 				</div>
 				<div class="item-insert m-b5 m-lr15">
-					<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/insert_item" autocomplete="off">
+					<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/insert_item" enctype="multipart/form-data" autocomplete="off">
 						<div class="member-info flex flex-justify">
 							<div class="item-left">
 								<div class="photo-area">
-									<img id="img" name="img" src="${pageContext.request.contextPath}/images/noImage.jpg" alt="" />
+									<img id="img" name="img" src="${pageContext.request.contextPath}/images/noImage.jpg" alt="" />								
 								</div>
 							</div>
 							<div class="item-right">
@@ -100,9 +100,9 @@
 
 						<div class="flex flex-justify">
 										
-							<div class="photo-btn center m-t5">
-                                <input type="file" style="width: 150px;" class="file" id="file" />
-                            	<button type="button" class="btn-on picsave" id="picsave">저장</button>
+							<div class="photo-btn center m-t5" style="position: relative;" >
+                                <input type="file" style="width: 237px;" class="file" id="file" name="file" accept="image/*" />
+                                <input type="text" style="width: 163px; left: 75px; position: absolute;" id="filesrc" />
                             </div>
 							
 							<div>
@@ -181,7 +181,7 @@
 								<td class="td-7">${item.itemdivname}</td>
 								<td class="td-11 left p-lr5">${item.itemgrpname}</td>								
 								<td class="td-11 left p-lr5">${item.std}</td>
-								<td class="td-7 right p-lr5">${item.price}</td>
+								<td class="td-7 right p-lr5"><fmt:formatNumber value="${item.price}" pattern="#,###"/></td>
 								<td class="left p-lr5">${item.remark}</td>
 							</tr>
 						</c:forEach>						
@@ -266,10 +266,16 @@
 		
 		var td2 = $(".item-list tr:eq(1)").children();
 		var item_cd = td2.eq(2).text();	
-		if(item_cd != "") getOneItem(item_cd); 
-
+		if(item_cd != "") {
+			getOneItem(item_cd); 
+			$('#itemnm').attr('readonly','true');
+			$('#itemnm').css('background-color', '#F3F4F4');
+		}
 		//테이블 열 클릭시 품목코드 Search
 		$(".item-list tr").click(function() {
+
+			$('#itemnm').attr('readonly','true');
+			$('#itemnm').css('background-color', '#F3F4F4');
 	        var tr = $(this);
 	        var td = tr.children();
 
@@ -277,24 +283,29 @@
 	        if(itemcd != '품목코드' && itemcd != "") getOneItem(itemcd);
 		});
 
+
 		//수정버튼클릭시
 		$('#up').click(function() {		
 			var msg = $("#itemnm").val() + "의 정보 수정하시겠습니까?";
+
+			var formData = new FormData($("#frm")[0]);
 			
 			if(confirm(msg)) {
 				$.ajax({
 					url: "${pageContext.request.contextPath}/updateItemInfo",
 			        type: "post",
-			        data: $('#frm').serialize(),
+			        data: formData,
+			        processData: false, 
+			       	contentType: false,
 			        success : function(data) {
 				        if(data == "success") {
 					        window.location.reload();
 				        }
 				        else alert("수정 오류!!\n관리자에게 문의 하세요");
 			        },
-			        error: function(request) {
-			            alert("message:"+request.responseText);
-			        },
+			        error:function(request, status, error){
+			    		alert("message:"+request.responseText);
+			    	}
 				});
 			}
 		});
@@ -317,7 +328,10 @@
 				        }
 				        else alert("삭제 오류!!!\n관리자에게 문의 하세요")
 			        },
-			        error: function(request) {
+			        error: function(request, status, error) {
+				        if(request.status == "500") {
+							alert("재고 관리 해당 제품 데이터를 먼저 삭제해주시기바랍니다.");
+					    }
 			            alert("message:"+request.responseText);
 			        }
 				});
@@ -353,10 +367,10 @@
 	            });
 	        }
 		});
-
-		$('#picsave').click(function () {
+		$('#file').on("change", function () {
 	        var input = document.getElementById("file");
 	        var fReader = new FileReader();
+	        $('#filesrc').val(input.files[0].name);
 	        fReader.readAsDataURL(input.files[0]);
 	        fReader.onloadend = function (event) {
 	            var img = document.getElementById("img");
@@ -364,9 +378,21 @@
 	            img.height = 100;
 	        }
 	    });
+
+	    $('#new1').click(function() {
+	    	$('#img').attr('src', "${pageContext.request.contextPath}/images/noImage.jpg");
+	    	$('#itemnm').removeAttr('readonly');
+	    	$('#itemnm').css('background-color', '#fff');
+		});
+
+	    $('#new2').click(function() {
+	    	$('#img').attr('src', "${pageContext.request.contextPath}/images/noImage.jpg");
+	    	$('#itemnm').removeAttr('readonly');
+	    	$('#itemnm').css('background-color', '#fff');
+		});
 	    
 	});
-
+	
 	function getOneItem(itemcd) {
 		var formData = {itemcd : itemcd};
 		
@@ -382,7 +408,11 @@
 	        	$("#std").val(item.std);
 	        	$("#itemdiv").val(item.itemdiv);
 	        	$("#itemgrp").val(item.itemgrp);
-	        	$("#remark").val(item.remark);	        	     
+	        	$("#remark").val(item.remark);
+	        	if(item.itemPhoto != null){
+	        		$('#img').attr('src', "/img/"+item.itemPhoto);
+		        }
+		        $("#filesrc").val(item.photoName);      	        	      	     
 	        },
 	        error: function(request) {
 	            alert("message:"+request.responseText);

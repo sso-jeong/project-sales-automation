@@ -50,6 +50,10 @@ public class StockSrv {
 		stockDao.updateStockOut(svo);
 	}
 	
+	public void deleteStock(String itemcd) {
+		stockDao.deleteStock(itemcd);
+	}
+	
 	public void deleteStockInfo(String itemcd, int seq) {
 		stockDao.deleteStockInfo(itemcd, seq);
 	}

@@ -2,7 +2,7 @@
 <<<<<<<=HEAD
 >>>>>>>=branch 'master' of https\://github.com/yeongil4764/project.git
 eclipse.preferences.version=1
-encoding//src/main/java/com/project/saleforce/controller/board/ArticelCtr.java=UTF-8
+encoding//src/main/java/com/project/saleforce/controller/board/ArticleCtr.java=UTF-8
 encoding//src/main/java/com/project/saleforce/controller/emp/EmpCtr.java=UTF-8
 encoding//src/main/java/com/project/saleforce/controller/sale/ItemCtr.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/login/SFA_login.jsp=UTF-8

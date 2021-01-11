@@ -158,9 +158,9 @@ regdate datetime,			[등록일자]
 
 급여
 CREATE TABLE HU_TBL(
-	HUNUM INT NOT NULL,				[급여코드]
-	HUGUBUN CHAR(1) NOT NULL DEFAULT('A'),		[급여구분 - A/B - 급여/상여]
-	PAYGUBUN CHAR(1) NOT NULL DEFAULT('A'),		[급여형태 - A/B/C - 월급직/일반직/시간직]
+	HUNUM VARCHAR(12)  NOT NULL,			[급여코드] 202012100001
+	HUGUBUN CHAR(1) NOT NULL,			[급여구분 - A/B - 급여/상여]
+	PAYGUBUN CHAR(1) NOT NULL,			[급여형태 - A/B/C - 월급직/일반직/시간직]
 	PAYNM VARCHAR(10) NOT NULL,			[급여지급명] 예시 - 2020-08 정기급여 월급
 	EMPID INT NOT NULL,				[사원번호]
 	HUSTDATE DATE NOT NULL,				[급여적용기간-시작일]
@@ -173,7 +173,7 @@ CREATE TABLE HU_TBL(
 	TOTPAY INT,					[지급총액]
 	seq int,						[순번]
 	insert_person varchar(10),				[등록자]
-regdate datetime,			[등록일자]
+	regdate datetime,			[등록일자]
 	PRIMARY KEYHUNUM,
 	FOREIGN KEY(EMPID) REFERENCES EMP_TAL(EMPID)
 );

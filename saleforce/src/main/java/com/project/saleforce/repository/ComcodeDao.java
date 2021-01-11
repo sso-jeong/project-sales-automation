@@ -131,5 +131,9 @@ public class ComcodeDao {
 	public List<ComcodeVO> getauthList() {
 		return sqlSession.selectList("com.getauthList");
 	}
+	
+	public List<ComcodeVO> getallowList() {
+		return sqlSession.selectList("com.getallowList");
+	}
 
 }

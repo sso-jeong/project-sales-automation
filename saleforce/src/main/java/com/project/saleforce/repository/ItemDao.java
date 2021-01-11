@@ -52,6 +52,18 @@ public class ItemDao {
 		sql.update("item.updateItemInfo", ivo);
 	}
 	
+	public void updateItemInfoNo(ItemVO ivo) {
+		sql.update("item.updateItemInfoNo", ivo);
+	}
+	
+	public void updateImgup(ItemVO ivo) {
+		sql.update("item.updateImgup", ivo);
+	}
+	
+	public void updateStd(ItemVO ivo) {
+		sql.update("item.updateStd", ivo);
+	}
+	
 	public void deleteItemInfo(String itemcd) {
 		sql.delete("item.deleteItemInfo", itemcd);
 	}

@@ -43,6 +43,42 @@ public class EmpVO {
 	private String reward;
 	private String insert_person;
 	private String seq;
+	private String boardCode;
+	private String boardTitle;
+	private String photoName;
+	private String empPhoto;
+	
+	public String getPhotoName() {
+		return photoName;
+	}
+
+	public void setPhotoName(String photoName) {
+		this.photoName = photoName;
+	}
+
+	public String getEmpPhoto() {
+		return empPhoto;
+	}
+
+	public void setEmpPhoto(String empPhoto) {
+		this.empPhoto = empPhoto;
+	}
+
+	public String getBoardCode() {
+		return boardCode;
+	}
+
+	public void setBoardCode(String boardCode) {
+		this.boardCode = boardCode;
+	}
+
+	public String getBoardTitle() {
+		return boardTitle;
+	}
+
+	public void setBoardTitle(String boardTitle) {
+		this.boardTitle = boardTitle;
+	}
 
 	public String getEmpid() {
 		return empid;

@@ -1,14 +1,24 @@
 package com.project.saleforce.controller.sale;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.saleforce.model.ItemVO;
@@ -16,15 +26,22 @@ import com.project.saleforce.model.StockVO;
 import com.project.saleforce.paging.Pager;
 import com.project.saleforce.service.ComcodeSrv;
 import com.project.saleforce.service.ItemSrv;
+import com.project.saleforce.service.MainSrv;
 
 @Controller
 public class ItemCtr {
+	
+	@Resource(name="uploadPath")
+	private String uploadPath = "C:\\upload";
 
 	@Autowired
 	ItemSrv iSrv;
 	
 	@Autowired
 	ComcodeSrv cSrv;
+	
+	@Autowired
+	MainSrv mSrv;
 	
 	@RequestMapping("SFA_item_manage")
 	public ModelAndView getItemList(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "itemcd") String searchOpt, @RequestParam(defaultValue = "") String words) {
@@ -38,6 +55,7 @@ public class ItemCtr {
 		
 		List<ItemVO> list = iSrv.getItemList(start, end, searchOpt, words);
 		
+		mav.addObject("com", mSrv.getCompanyInfo());
 		mav.addObject("itemlist", list);
 		mav.addObject("count", count);
 		mav.addObject("searchOpt", searchOpt);
@@ -62,8 +80,10 @@ public class ItemCtr {
 		return mav;
 	}
 
-	@RequestMapping(value = "insert_item", method = RequestMethod.POST) //占쎄퐣甕곤옙 占쎈뼄占쎈뻬占쎈뻻 筌ｏ옙 占쎌넅筌롳옙
-	public String setItem(@ModelAttribute ItemVO ivo) {
+	@RequestMapping(value = "insert_item", method = RequestMethod.POST) 
+	public String setItem(@ModelAttribute ItemVO ivo, @RequestPart MultipartFile file) throws IOException {
+		StockVO svo = new StockVO(); 
+		
 		String div = ivo.getItemdiv();
 		String grp = ivo.getItemgrp();
 		String name = ivo.getInsert_person();
@@ -74,9 +94,23 @@ public class ItemCtr {
 		ivo.setItemcd(itemcd);
 		ivo.setRegdate(ivo.getRegdate().substring(5,7));
 		
-		iSrv.setItem(ivo);
+		UUID uuid = UUID.randomUUID();
 		
-		StockVO svo = new StockVO(); 
+		if(file.getOriginalFilename() != "") {
+			String orgFileName = uuid.toString() + "_" + file.getOriginalFilename();
+			File location = new File(uploadPath, orgFileName);
+			FileCopyUtils.copy(file.getBytes(), location);
+			
+			ivo.setPhotoName(file.getOriginalFilename());
+			ivo.setItemPhoto(orgFileName);
+			
+			svo.setItemPhoto(orgFileName);
+		}
+		
+		  
+		iSrv.setItem(ivo);
+
+		
 		svo.setItemcd(ivo.getItemcd() + ivo.getSeq());
 		svo.setItemnm(ivo.getItemnm()); 
 		svo.setStd(ivo.getStd()); 
@@ -93,13 +127,29 @@ public class ItemCtr {
 	
 	@RequestMapping("/updateItemInfo")
 	@ResponseBody
-	public String updateItemInfo(@ModelAttribute ItemVO ivo){
+	public String updateItemInfo(@ModelAttribute ItemVO ivo, @RequestPart MultipartFile file) throws IOException{
 		String msg = "";
 		
 		if(ivo != null) {
-			iSrv.updateItemInfo(ivo);
-			msg="success";
+			UUID uuid = UUID.randomUUID();
+			
+			if(file.getOriginalFilename() != "") {
+				String orgFileName = uuid.toString() + "_" + file.getOriginalFilename();
+				
+				System.out.println("파일이름 : "+file.getOriginalFilename());
+				File location = new File(uploadPath, orgFileName);
+				FileCopyUtils.copy(file.getBytes(), location);
+				ivo.setPhotoName(file.getOriginalFilename());
+				ivo.setItemPhoto(orgFileName);
+				 iSrv.updateItemInfo(ivo);
+				 iSrv.updateImgup(ivo);
+			}else {
+				iSrv.updateItemInfoNo(ivo);
+				iSrv.updateStd(ivo);
+			}									
+			 msg="success";
 		}else msg="fail";
+			
 		
 		return msg;
 	}
