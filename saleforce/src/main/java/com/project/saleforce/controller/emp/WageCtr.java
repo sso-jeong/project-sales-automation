@@ -63,6 +63,17 @@ public class WageCtr {
 		return mav;
 	}
 	
+	@RequestMapping("payslip")
+	public ModelAndView payslip(@RequestParam String hunum) {
+		ModelAndView mav = new ModelAndView();
+		WageVO wvo =  wSrv.wageform(hunum);
+		
+		mav.addObject("info", wvo);
+		mav.setViewName("../file/payslip");
+		
+		return mav;
+	}
+	
 	@RequestMapping("/wagepopup")
 	public ModelAndView getWagePop(@RequestParam String hunum, @RequestParam(defaultValue = "1") int curPage) {
 		ModelAndView mav = new ModelAndView();
@@ -119,6 +130,12 @@ public class WageCtr {
 		wSrv.setWageInfoD(wvo);
 		
 		wvo.setAllowcd("B");
+		wSrv.setWageInfoD(wvo);
+		
+		wvo.setAllowcd("C");
+		wSrv.setWageInfoD(wvo);
+		
+		wvo.setAllowcd("D");
 		wSrv.setWageInfoD(wvo);
 		
 		

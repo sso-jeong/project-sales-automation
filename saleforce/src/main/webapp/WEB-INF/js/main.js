@@ -3,8 +3,7 @@ $(function () {
     $(window).scroll(function () {
         if ($(window).scrollTop() > head) {
         	$('header').addClass('fixed');
-		}
-		else { // 아니면 클래스 제거
+		}else { // 아니면 클래스 제거
 			$('header').removeClass('fixed');
 		}
     });
@@ -12,7 +11,13 @@ $(function () {
     $(document).keydown(function (event) {
         if ($(".modal-wrapper").hasClass("open")) {
             if (event.keyCode == 27 || event.which == 27) {
+            	window.location.reload();
+            	$('#menu-list').css('display','none');
+            	$('.modal').css('width','1200px');
+		    	$('.docform').css('margin-left','10px');
+		    	$('.appr-title').html("결재문서양식");
                 $(".modal-wrapper").removeClass("open");
+                $('#formIframe').attr('src','saleforce/b_log');
             }
         }
     });

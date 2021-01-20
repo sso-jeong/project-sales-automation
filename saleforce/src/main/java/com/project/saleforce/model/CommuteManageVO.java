@@ -20,7 +20,17 @@ public class CommuteManageVO {
 	private String regdate;
 	private String regtime;
 	private String remark;
+	private String defstr;
 	private int count;
+
+	
+	public String getDefstr() {
+		return defstr;
+	}
+
+	public void setDefstr(String defstr) {
+		this.defstr = defstr;
+	}
 
 	public int getCount() {
 		return count;

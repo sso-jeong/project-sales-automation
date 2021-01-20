@@ -4,7 +4,6 @@
 .emp-list tr:first-child {
 	background-color: rgba(219, 228, 232, 0.8);
 }
-
 .emp-list .tr-even:hover {
 	background-color: rgba(219, 228, 232, 0.8);
 }
@@ -241,7 +240,7 @@
 							</tr>
 						</c:if>
 						<c:forEach items="${list}" var="emp" varStatus="status">
-							<tr>
+							<tr style="cursor: pointer;">
 								<td class="td-3">
 								<input type="checkbox" id="chk2" name="chk" class="chk" data-uid="${emp.empid}" style="width: 20px; height: 20px;" />
 								</td>
@@ -360,6 +359,7 @@
 </body>
 <script>
 	$(function(){
+		$("tr:nth-child(n)").addClass("tr-even");
 		//alert("성공");
 		load();
 		empList();
@@ -523,7 +523,7 @@ function empload(empID){
 			$('#marnm').val(emp.marrygubun);
 			$('#reward').val(emp.reward);
 			if(emp.empPhoto != null){
-        		$('#img').attr('src', "/img/"+emp.empPhoto);
+        		$('#img').attr('src', "images/upload/emp/"+emp.empPhoto);
 	        }else $('#img').attr('src',"${pageContext.request.contextPath}/images/noImage2.jpg");
 	        $("#filesrc").val(emp.photoName);  
 		},

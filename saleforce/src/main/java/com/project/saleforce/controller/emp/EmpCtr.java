@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ import com.project.saleforce.service.ManageSrv;
 public class EmpCtr {
 	
 	@Resource(name="uploadPath")
-	private String uploadPath = "C:\\upload";
+	private String uploadPath = "C:/upload";
 	
 	@Autowired
 	EmpSrv eSrv;
@@ -97,17 +98,26 @@ public class EmpCtr {
 	
 	@RequestMapping(value = "SFA_setEmpOthers", method = RequestMethod.POST)
 	@ResponseBody
-	public String setEmpOthers(@ModelAttribute EmpVO empvo, @RequestPart MultipartFile file) throws IOException {
+	public String setEmpOthers(@ModelAttribute EmpVO empvo, @RequestPart MultipartFile file, HttpServletRequest request) throws IOException {
 		//System.out.println(empvo.getEmpid());
 		
 		UUID uuid = UUID.randomUUID();
 		
 		if(file.getOriginalFilename() != "") {
 			String orgFileName = uuid.toString() + "_" + file.getOriginalFilename();
-			File location = new File(uploadPath, orgFileName);
-			FileCopyUtils.copy(file.getBytes(), location);
+			String root_path = request.getSession().getServletContext().getRealPath("/WEB-INF/");
+			String attach_path = "images/upload/emp/";
 			
-			empvo.setPhotoName(file.getOriginalFilename());
+			
+			/* 절대주소 파일 업로드
+			File location = new File(uploadPath, orgFileName); 
+			FileCopyUtils.copy(file.getBytes(), location); */
+			
+			/*상대주소 파일 업로드*/
+			File location2 = new File(root_path + attach_path, orgFileName);
+			FileCopyUtils.copy(file.getBytes(), location2);
+			
+			empvo.setPhotoName(file.getOriginalFilename());			
 			empvo.setEmpPhoto(orgFileName);
 		}
 		
@@ -117,7 +127,7 @@ public class EmpCtr {
 	}
 	
 	@RequestMapping(value = "setRegAll", method = RequestMethod.POST)
-	public String getEmpDO(@ModelAttribute EmpVO evo, @RequestPart MultipartFile file) throws IOException {
+	public String getEmpDO(@ModelAttribute EmpVO evo, @RequestPart MultipartFile file, HttpServletRequest request) throws IOException {
 		int enter = Integer.parseInt(evo.getJoindate().substring(0,4));
 		String dept = evo.getDeptid();
 		String empid = enter + dept;
@@ -127,8 +137,16 @@ public class EmpCtr {
 		
 		if(file.getOriginalFilename() != "") {
 			String orgFileName = uuid.toString() + "_" + file.getOriginalFilename();
-			File location = new File(uploadPath, orgFileName);
-			FileCopyUtils.copy(file.getBytes(), location);
+			String root_path = request.getSession().getServletContext().getRealPath("/WEB-INF/");
+			String attach_path = "images/upload/emp/";
+			
+			/*
+			 * File location = new File(uploadPath, orgFileName);
+			 * FileCopyUtils.copy(file.getBytes(), location);
+			 */
+			
+			File location2 = new File(root_path + attach_path, orgFileName);
+			FileCopyUtils.copy(file.getBytes(), location2);
 			
 			evo.setPhotoName(file.getOriginalFilename());
 			evo.setEmpPhoto(orgFileName);
@@ -260,4 +278,42 @@ public class EmpCtr {
 			
 		return mav;
 	}
+	
+	@RequestMapping("empApprPopup")
+	public ModelAndView getApprEmpList(@RequestParam(defaultValue = "1") int curPage, @RequestParam String grade) {
+		ModelAndView mav = new ModelAndView();
+		
+		int count = eSrv.getApprCount(grade);
+			
+		Pager pager = new Pager(count, curPage);
+
+		int start = pager.getPageBegin();
+		int end = pager.getPageEnd();	
+			
+		List<EmpVO> list = eSrv.getApprEmpList(start, end, grade);
+			
+		mav.addObject("gd", grade);
+		mav.addObject("contactList", list);
+		mav.addObject("count", count);
+			
+		mav.addObject("start", start); // 게시물 개수 자를 시작번호
+		mav.addObject("end", end); // 게시물 자를 끝번호
+		
+		mav.addObject("blockBegin", pager.getBlockBegin());
+		mav.addObject("blockEnd", pager.getBlockEnd());
+		mav.addObject("curBlock", pager.getCurBlock());
+		mav.addObject("totalBlock", pager.getTotBlock());
+		
+		mav.addObject("prevPage", pager.getPrevPage());
+		mav.addObject("nextPage", pager.getNextPage());
+		mav.addObject("curPage", pager.getCurPage());
+		mav.addObject("totalPage", pager.getTotPage());
+			
+		// 페이지 번호를 클릭했을 때 css active 클래스 처리
+		mav.addObject("selected", pager.getCurPage());
+			
+		mav.setViewName("popup/emppopup");			
+		return mav;
+	}
+	
 }

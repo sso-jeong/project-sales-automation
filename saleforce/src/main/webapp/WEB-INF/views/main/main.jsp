@@ -28,7 +28,6 @@
 	height: 110px;
 	color: #000;
 	line-height: 20px;
-	margin: 30px 30px;
 }
 
 .nav a {
@@ -92,7 +91,6 @@
 .main-box {
 	width: 100%;
 	position: absolute;
-	top: 45%;
 	left: 50%;
 	transform: translate(-50%, -45%);
 	padding: 35px 40px;
@@ -149,8 +147,8 @@
 <body>
 
 	<div class="nav">
-		<div class="flex flex-justify">
-			<div class="logo">
+		<div class="flex flex-justify" style="padding: 30px 0px">
+			<div class="logo" style="margin-left: 50px">
 				<h2>
 					<a class="roboto font22" href="${pageContext.request.contextPath}/" title="HOME">SALE FORCE </a>
 				</h2>
@@ -180,7 +178,7 @@
 		</div>
 		<!-- section2 -->
 		<div class="section bg">
-			<div class="main-box flex flex-justify">
+			<div class="main-box flex flex-justify" style="top:32%;">
 				<div class="main-left">
 					<div class="">
 						<span class="main-title noto weight300">
@@ -208,10 +206,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- section3 -->
-		<div class="section bg" style="background-color: #f5f6f7;">
-			<div class="main-box">
+			<div class="main-box" style="top:78%;">
 				<div class="main">
 					<span class="main-title noto weight300">
 						<h2 style="font-size: 30px; margin-bottom: 15px;">제품소개</h2>
@@ -268,7 +263,6 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</div>
 
@@ -279,14 +273,15 @@
 		navigation : true,
 		easingcss3 : 'cubic-bezier(0.175, 0.585, 0.820, 1.275)',
 		menu : '#menu',
-		anchors : [ '1stPage', '2ndPage', '3rdPage' ],
+		anchors : [ '1stPage', '2ndPage'],
 		scrollingSpeed : 600,
 
 		afterLoad : function(origin, destination) {
 			if (destination.anchor != '1stPage') {
-				$(".nav a").css('color', '#000');
+				$(".nav > .flex").css('background-color','#0C4A60');
 			} else {
 				$(".nav a").css('color', '#fff');
+				$(".nav > .flex").css('background-color','transparent');
 
 			}
 		}

@@ -213,6 +213,37 @@
 		DELETE FROM huInfo_tbl WHERE hunum = #{hunum} AND seq = #{seq}	
 	</delete>
 	
+	<select id="wageform" parameterType="String" resultType="wagevo">
+		SELECT 
+			e.empnm,
+			b.buseo_name,
+			g.grade_name,
+			h.payday,
+			h.fund,
+			(CASE WHEN e.grade = 6 THEN  ya.allow * 53950
+			WHEN e.grade = 5 THEN ya.allow * 44750
+			WHEN e.grade = 4 THEN ya.allow * 39360
+			WHEN e.grade = 3 THEN ya.allow * 30520
+			WHEN e.grade = 2 THEN ya.allow * 24120
+			WHEN e.grade = 1 THEN ya.allow * 19860 END) as ya,
+			hu.allow as hu,
+			yeon.allow as yeon,
+			gi.allow as gi,
+			(CASE WHEN e.grade = 6 THEN fund + ya.allow * 53950 + etc.allow
+			WHEN e.grade = 5 THEN fund + ya.allow * 44750 + etc.allow
+			WHEN e.grade = 4 THEN fund + ya.allow * 39360 + etc.allow
+			WHEN e.grade = 3 THEN fund + ya.allow * 30520 + etc.allow
+			WHEN e.grade = 2 THEN fund + ya.allow * 24120 + etc.allow
+			WHEN e.grade = 1 THEN fund + ya.allow * 19860 END)as totpay
+		FROM hu_tbl h, emp_tbl e, grade_tbl g, buseo_tbl b,
+		(SELECT hunum, (CASE WHEN allowpay IS NULL THEN 0 ELSE sum(allowpay) END) as allow FROM huInfo_tbl WHERE allowcd = 'A' GROUP BY hunum) as ya,
+		(SELECT hunum, (CASE WHEN allowpay IS NULL THEN 0 ELSE sum(allowpay) END) as allow FROM huInfo_tbl WHERE allowcd = 'B' GROUP BY hunum) as hu,
+		(SELECT hunum, (CASE WHEN allowpay IS NULL THEN 0 ELSE sum(allowpay) END) as allow FROM huInfo_tbl WHERE allowcd = 'C' GROUP BY hunum) as yeon,  
+		(SELECT hunum, (CASE WHEN allowpay IS NULL THEN 0 ELSE sum(allowpay) END) as allow FROM huInfo_tbl WHERE allowcd = 'D' GROUP BY hunum) as gi,
+		(SELECT hunum, (CASE WHEN allowpay IS NULL THEN 0 ELSE sum(allowpay) END) as allow FROM huInfo_tbl WHERE allowcd != 'A' GROUP BY hunum) as etc
+		WHERE h.hunum = #{hunum} AND h.empid = e.empid AND e.grade = g.grade_id AND e.deptid = b.buseo_id 
+		AND h.hunum = ya.hunum AND h.hunum = etc.hunum AND h.hunum = hu.hunum AND h.hunum = yeon.hunum AND h.hunum = gi.hunum
+	</select>
 	
 	
 </mapper>

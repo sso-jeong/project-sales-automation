@@ -42,7 +42,7 @@ public class LoginCtr {
 		String msg="";
 		
 		if (vo != null) {
-			if(vo.getDeptid().equals("777")) {
+			if(vo.getGrade().equals("777")) {
 				msg = "admin";
 			}
 			else if (vo.getEmpauth().equals("N")) {

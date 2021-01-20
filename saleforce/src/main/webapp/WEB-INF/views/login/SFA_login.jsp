@@ -2,12 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/login_header.jsp"%>
 <body>
-	<div class="login-box">
+	<div class="login-box" style="height: 380px">
 
-	
-			<span class="logo-text" style="cursor: pointer;"
+			<div>
+			<span class="logo-text" style="cursor: pointer; color: #0C4A60; font-size: 1.5em; font-weight: bold;"
 				onClick="location.href='${pageContext.request.contextPath}'">
 					<h2>${com.comname} ${com.comsubname}</h2> </span>
+			</div>
 		
 
 		<form name="frm" id="frm" method="post" autocomplete="off">
@@ -41,6 +42,12 @@
 		</form>
 
 
+	</div>
+	
+	<div style="position: absolute; top: 45%; left: 70%">
+			<p>관리자 : admin / admin</p>
+			<p>영업 : sale / 200 , 2020200001 / 1</p>
+			<p>인사 : human / 100 , 2020100001 / 1</p>
 	</div>
 
 </body>

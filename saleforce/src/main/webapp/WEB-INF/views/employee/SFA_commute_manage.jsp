@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/main_header.jsp"%>
 <style>
- .tna-list tr:first-child {
-            background-color: rgba(219, 228, 232, 0.8);
-        }
+.tna-list tr:first-child {
+    background-color: rgba(219, 228, 232, 0.8);
+}
 
 .tna-list .tr-even:hover {
-            background-color: rgba(219, 228, 232, 0.8);
-        }
+    background-color: rgba(219, 228, 232, 0.8);
+}
 
  .tna-left {
             width: 100%;
@@ -108,7 +108,7 @@
 						<span class="btn-normal">검색 된 근태 정보 수 : ${count}개 | ${curPage}/${totalPage} PAGE</span>
 					</div>
 					<div class="form-wrap">
-						<form method="post" action="${pageContext.request.contextPath}/SFA_company_manage" style="margin: 0 15px;" autocomplete="off">
+						<form method="post" action="${pageContext.request.contextPath}/SFA_commute_manage" style="margin: 0 15px;" autocomplete="off">
 							<select class="" name="searchOpt">
 								<option <c:if test="${searchOpt eq 'all'}">selected</c:if> value="all">전체검색</option>
 								<option <c:if test="${searchOpt eq 'empnm'}">selected</c:if> value="empnm" >사원명</option>
@@ -144,7 +144,7 @@
 							</c:if>
 						
 							<c:forEach items="${commuList}" var="commute" varStatus="status">
-								<tr class="center font14">
+								<tr class="center font14" style="cursor: pointer;">
 									<td class="td-3">
 									 <input type="checkbox" name="chk" class="chk" data-uid="${commute.dlnum}" style="width: 20px; height: 20px;" />
 									</td>
@@ -237,6 +237,7 @@
 <script>
 	$(function(){
 		tna();
+		$("tr:nth-child(n)").addClass("tr-even");
 		var tr = $("#commuteList tr:nth-child(2)");
 		var td = tr.children();
 		var dlnum = td.eq(2).text();
@@ -272,7 +273,37 @@
 					    },
 					});
 				}
-			});
+		});
+
+		$("#deleteAll").click(function(){
+			//alert("성공");
+			var msg = "선택하신 정보를 삭제합니다.\n삭제 후에는 복원할 수 없습니다.";
+			
+	         if ( confirm(msg) ) {
+		        var chkArray = new Array();
+		        $(".chk:checked").each(function() { //each = 향상된 for
+		        	chkArray.push( $(this).attr("data-uid") );
+			    });
+
+		        $.ajax({
+	                url: "${pageContext.request.contextPath}/commuteDeleteAll",
+	                type: "POST",
+	                data: {chkArr : chkArray}, //controller <- chkArr
+	                success: function (resData) {
+		                if(resData == "success"){
+		                	window.location.reload();
+			            }else alert("선택된 사원이없습니다.");
+	                    
+	                },
+	                error: function (request) {
+	                	alert("message:"+request.responseText);
+	                },
+	                complete: function () {
+	                    
+	                }
+	            });
+	        }
+		});
 	});
 
 	function commuteLoad(dlnum){

@@ -34,7 +34,7 @@
                         
                         <tr>
                             <td class="td-10 center weight700 noto under bg-green">작성자</td>
-                            <td class="center p-lr5">${article.writer}
+                            <td class="center p-lr5" id="writer">${article.writer}
                             </td>
 
                             <td class="td-10 center weight700 noto under bg-green">첨부파일</td>
@@ -77,7 +77,7 @@
                                 class="btn-red">게시글목록</button>
                         </div>
                         <div class="btn-right">
-                        	<c:if test="${sessionScope.empname == boardMaker}">
+                        	<c:if test="${article.division == 'N'}">
                         		<button type="button" class="btn-on" onclick="location.href='${pageContext.request.contextPath}/SFA_notice_reply?boardCode=${boardCode}&aid=${article.aid}'">게시글답글</button>
                         	</c:if>                          
                             <button type="button" class="btn-on" onclick="location.href='${pageContext.request.contextPath}/SFA_notice_insert?boardCode=${boardCode}'">게시글작성</button>
@@ -104,7 +104,7 @@
 	                <form id="frm">
 	                	<input type="hidden" id="boardCode" name="boardCode" value="${boardCode}" />
 	                	<input type="hidden" name="aid" value="${article.aid}" />
-	                	<input type="hidden" name="who" value="${sessionScope.empname}" readonly />
+	                	<input type="hidden" id="who" name="who" value="${sessionScope.empname}" readonly />
 	                    <textarea id="comment" name="comment" 
 	                        style="border:1px solid #e7e7e7;width:100%;height:100px;" 
 	                        placeholder="댓글 내용을 입력하세요." class="p10 noto font16"></textarea>
@@ -195,6 +195,8 @@
 	}
 
 	function listComment() {
+		var name = $('#who').val();
+		var writer = $('#writer').val();
 		var formData = $("#frm").serialize();
 		
 		$.ajax({
@@ -221,7 +223,16 @@
                     		a += '<i class="far fa-calendar-alt"></i> '+value.regdate +'</span>';
                     	a += '</div>';
                     	a += '<div id="" class="viewComment'+value.cid+' noto font16" style="margin-top:5px;color:#666;">';
-                    		a += "<span>"+value.comment+"</span>";
+                    	if(value.pwd == "on"){	
+							if(name == value.who || name == writer) {
+								a += "<span>"+ value.comment+"</span>";
+							}else {
+								a += '<i class="fas fa-lock"></i><span>&nbsp비밀 댓글입니다.</span>'; 
+							}
+        				}else {
+        					a += "<span>"+ value.comment+"</span>";
+        				}
+                    		
                     	a += "</div>";
                     	
     
@@ -230,8 +241,10 @@
                     a += '</div>';
                  a += '</div>';
                  a += '<div style="text-align: right;">';
-                 	a += '<button class="s-btn-on" onClick="changeComment('+value.cid+', \''+value.comment+'\')">수정</button>';
-                 	a += '<button class="s-btn-off" onClick="deleteComment('+value.cid+')">삭제</button>';
+                 	if(name == value.who) {
+                 		a += '<button class="s-btn-on" onClick="changeComment('+value.cid+', \''+value.comment+'\')">수정</button>';
+                     	a += '<button class="s-btn-off" onClick="deleteComment('+value.cid+')">삭제</button>';
+                     }           	
                  a += '</div>';
 
 					a += '<hr style="margin:20px 0;border:1px solid #f7f7f7;" />';

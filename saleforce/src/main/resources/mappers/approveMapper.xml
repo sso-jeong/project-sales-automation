@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="approve">
+	<sql id="search">
+		<choose>
+			<when test = "searchOpt == 'all'">
+				WHERE (SUBSTR(a.regdate,1,10) LIKE CONCAT('%', #{words}, '%') 
+				OR c.docnm LIKE CONCAT('%', #{words}, '%'))
+			</when>
+			<otherwise> 
+				WHERE ${searchOpt} LIKE CONCAT('%', #{words}, '%')
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<select id="getApprove" resultType="approvevo">
+		SELECT 
+			docnum,
+			dttype,
+			c.docnm,
+			subject,
+			a.empid,
+			e.empnm,
+			content,
+			docst,
+			apprst,
+			SUBSTR(a.regdate,1,10) as regdate,
+			a.empnm2,
+			a.empnm3
+		FROM approve_tbl a, comcode c, emp_tbl e
+		<include refid="search"></include>
+		AND a.dttype = c.doccd AND a.empid = e.empid AND apprst = #{apprst} 
+		AND( e.empnm = #{empnm} OR a.empnm2 = #{empnm} OR a.empnm3= #{empnm} )
+		ORDER BY docst DESC, regdate DESC LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="getApprCnt" resultType="int">
+		SELECT count(a.docnum) FROM approve_tbl a, comcode c, emp_tbl e 
+		<include refid="search"></include>	
+		AND a.empid = e.empid AND a.dttype = c.doccd AND apprst = #{apprst} AND ( e.empnm = #{empnm} OR a.empnm2 = #{empnm} OR a.empnm3= #{empnm} )
+	</select>
+	
+	<select id="getOneAppr" resultType="approvevo">
+		SELECT
+			a.empid,
+			e.empnm,
+			b.buseo_name as buseoname,
+			g.grade_name as gradename,
+			SUBSTR(a.regdate,1,10) as regdate,
+			a.docnum,
+			a.docst,
+			a.docdate,
+			a.subject,			
+			a.content,
+			a.chk1,
+			a.chk2,
+			a.chk3,
+			a.empnm2,
+			a.empnm3,
+			a.apprst
+		FROM approve_tbl a, buseo_tbl b, grade_tbl g, emp_tbl e
+		WHERE a.empid = e.empid AND e.deptid = b.buseo_id AND e.grade = g.grade_id
+		AND a.docnum = #{docnum}
+	</select>
+	
+	<insert id="setApprove" parameterType="approvevo">
+	<selectKey keyProperty="seq" order="BEFORE" resultType="String">
+			SELECT CASE
+			WHEN MAX(docnum) IS NULL THEN '001'
+			WHEN CONVERT(SUBSTR(MAX(docnum),9,3),UNSIGNED) + 1 <![CDATA[<]]> 10
+			THEN CONCAT('00',RIGHT(CAST(MAX(CONVERT(SUBSTR(docnum,9,3),UNSIGNED)) AS CHAR(8)), 1) +1)
+			WHEN CHAR_LENGTH(CAST(MAX(CONVERT(SUBSTR(docnum,9, 3),UNSIGNED)) AS CHAR(3)) + 1) = 2
+			THEN CONCAT('0',CAST(MAX(CONVERT(SUBSTR(docnum,9, 3),UNSIGNED)) AS CHAR(2)) + 1)		
+			ELSE CAST(MAX(CONVERT(SUBSTR(docnum,9,3),UNSIGNED)) AS CHAR(3)) + 1
+			END as seq
+			FROM approve_tbl
+			WHERE SUBSTR(regdate,1,10) = #{regdate}
+	</selectKey>
+	INSERT INTO approve_tbl
+	SET docnum = CONCAT(#{docnum},#{seq}),
+	dttype = #{dttype},
+	subject = #{subject},
+	empid = #{empid},
+	empnm2 = #{empnm2},
+	empnm3 = #{empnm3},
+	chk1 = #{chk1},
+	chk2 = #{chk2},
+	chk3 = #{chk3},
+	content = #{content},
+	docst = #{docst},
+	apprst = #{apprst},
+	regdate = now(),
+	docdate = #{docdate}
+	</insert>
+	
+	<update id="upApprove" parameterType="approvevo">
+		UPDATE approve_tbl 
+		SET chk2 = #{chk2},
+		chk3 = #{chk3},
+		apprst = #{apprst}
+		WHERE docnum = #{docnum}
+	</update>
+	
+	<delete id="delApprove">
+		DELETE FROM approve_tbl WHERE docnum = #{docnum}
+	</delete>
+
+	
+</mapper>

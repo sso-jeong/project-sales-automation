@@ -91,7 +91,7 @@
 							</tr>
 						</c:if>
 						<c:forEach items="${list}" var="manage" varStatus="status">
-						<tr>						
+						<tr style="cursor: pointer;">						
 							<td>${ (count - status.index) - ( (curPage - 1) * end ) }</td>
 							<td id=buseotd>${manage.buseoname}</td>
 							<td id=gradetd>${manage.gradename}</td>

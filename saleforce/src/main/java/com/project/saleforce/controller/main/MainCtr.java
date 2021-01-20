@@ -49,8 +49,8 @@ public class MainCtr {
 		List<ArticleVO> list = mainSrv.getAny();
 		List<ArticleVO> slist = mainSrv.getArtSale();
 		List<ArticleVO> hlist = mainSrv.getArtHuman();
-		List<OrderVO> olist = oSrv.getOrderList(0, 10, "ordnum", "");
-		List<CommuteManageVO> clist = cSrv.getCommuteList(0, 12, "empid", "");
+		List<OrderVO> olist = oSrv.getOrderList(0, 11, "ordnum", "");
+		List<CommuteManageVO> clist = cSrv.getCommuteList(0, 11, "empid", "");
 		
 		int anycnt = mainSrv.getAnyCnt(); 
 		int scnt = mainSrv.getArtSaleCnt();

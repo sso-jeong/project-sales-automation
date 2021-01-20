@@ -36,14 +36,31 @@
 <script src="${pageContext.request.contextPath}/js/comcode.js"></script>
 <script src="${pageContext.request.contextPath}/js/jquery.ztree.core.js"></script>
 <script src="${pageContext.request.contextPath}/ckeditor/ckeditor.js"></script>
+
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
 <script>
 	$(function() {
 		$(".popup").click(function() {
 			$(".modal-wrapper").toggleClass("open");
 		});
+
+		$("#hu").click(function() {
+			alert("인사부 과장급 이상만 열람가능합니다.");
+		});
+
+		$("#exit").click(function(){
+			window.location.reload();
+			$('#menu-list').css('display','inline-block');
+			$('.modal').css('width','1200px');
+	    	$('.docform').css('margin-left','10px');
+	    	$('.appr-title').html("결재문서양식");
+			$(".modal-wrapper").removeClass("open");
+			$('#formIframe').attr('src','${pageContext.request.contextPath}/b_log');
+		});
 	});
 </script>
-<SCRIPT type="text/javascript">
+<script>
 	var aTree;
 	var formIframe;
 
@@ -82,23 +99,24 @@
 		name : "[인사총무부 문서양식]",
 		open : true
 	}, {
-		id : 101,
+		id : "A",
 		pId : 1,
 		name : "업무일지",
-		file : "${pageContext.request.contextPath}/file/b_log"
+		file : "${pageContext.request.contextPath}/b_log"
 	}, {
-		id : 102,
+		id : "B",
 		pId : 1,
 		name : "연차처리",
-		file : "${pageContext.request.contextPath}/file/day_off"
-	}, {
+		file : "${pageContext.request.contextPath}/day_off"
+	}];
+	/* , {
 		id : 103,
 		pId : 1,
 		name : "급여명세서",
-		file : "${pageContext.request.contextPath}/file/payslip"
-	},
+		file : "${pageContext.request.contextPath}/payslip"
+	} */
 
-	{
+	/* {
 		id : 2,
 		pId : 0,
 		name : "[영업부 문서양식]",
@@ -113,27 +131,25 @@
 		pId : 2,
 		name : "판매처리",
 		file : "${pageContext.request.contextPath}/file/sale_manager"
-	} ];
+	} */ 
 
 	$(document).ready(function() {
 		var t = $("#ztree");
 		t = $.fn.zTree.init(t, setting, zNodes);
 		formIframe = $("#formIframe");
-		formIframe.bind("load", loadReady);
+		/* formIframe.bind("load", loadReady); */
 		var zTree = $.fn.zTree.getZTreeObj("tree");
-		zTree.selectNode(zTree.getNodeByParam("id", 101));
+		zTree.selectNode(zTree.getNodeByParam("id", "A"));
 	});
 
-	function loadReady() {
-		var bodyH = formIframe.contents().find("body").get(0).scrollHeight, htmlH = formIframe
-				.contents().find("html").get(0).scrollHeight, maxH = Math.max(
-				bodyH, htmlH), minH = Math.min(bodyH, htmlH), h = formIframe
-				.height() >= maxH ? minH : maxH;
-		if (h < 760)
-			h = 760;
+	/* function loadReady() {
+		var bodyH = formIframe.contents().find("body").get(0).scrollHeight, 
+		htmlH = formIframe.contents().find("html").get(0).scrollHeight, 
+		maxH = Math.max(bodyH, htmlH), 
+		minH = Math.min(bodyH, htmlH), 
+		h = formIframe.height() >= maxH ? minH : maxH;
+		if (h < 760)h = 760;
 		formIframe.height(h);
-	}
-</SCRIPT>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+	} */
+</script>
 </head>

@@ -97,4 +97,8 @@ public class WageDao {
 	public int dayCount(String empid) {
 		return sql.selectOne("wage.dayCount", empid);
 	}
+	
+	public WageVO wageform(String hunum) {
+		return sql.selectOne("wage.wageform", hunum);
+	}
 }

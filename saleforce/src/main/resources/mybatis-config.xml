@@ -18,5 +18,6 @@
 		<typeAlias type="com.project.saleforce.model.ScheduleVO" alias="schedulevo" />
 		<typeAlias type="com.project.saleforce.model.WageVO" alias="wagevo" />
 		<typeAlias type="com.project.saleforce.model.ComVO" alias="cominfovo" />
+		<typeAlias type="com.project.saleforce.model.ApproveVO" alias="approvevo" />
 	</typeAliases>
 </configuration>

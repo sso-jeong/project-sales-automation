@@ -37,7 +37,7 @@
 		AND D.dlgubun = C.dlcd 
 		AND E.deptid = B.buseo_id
 		<include refid="search"></include>
-		ORDER BY deptid, dlnum DESC LIMIT #{start}, #{end}
+		ORDER BY d.dldate DESC LIMIT #{start}, #{end}
 	</select>
 	
 	<select id="getCommuteCount" resultType="int">
@@ -122,5 +122,44 @@
 		remark			= #{remark},
 		regdate			= now()
 	</insert>
+	
+	<delete id="deleteCommute">
+		DELETE FROM dl_tbl WHERE dlnum = #{dlnum}
+	</delete>
+	
+	<delete id="deleteCommuteInfo">
+		DELETE FROM dlInfo_tbl WHERE dlnum = #{dlnum}
+	</delete>
+	
+	<select id="perCommuteList" resultType="commutevo" parameterType="String">
+		SELECT 
+		dlnum, 
+		D.empid, 
+		empnm, 
+		deptid, 
+		buseo_name AS buseoname, 
+		dlgubun,
+		dlnm,
+		dldate, 
+		ontime, 
+		offtime, 
+		tottime
+		FROM dl_tbl D, emp_tbl E, buseo_tbl B, comcode C
+		WHERE D.empid = E.empid 
+		AND D.dlgubun = C.dlcd 
+		AND E.deptid = B.buseo_id
+		AND D.empid = #{empid}
+		<include refid="search"></include>
+		ORDER BY d.regdate DESC LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="perCommuteCount" resultType="int">
+		SELECT COUNT(dlnum) 
+		FROM dl_tbl D, emp_tbl E, buseo_tbl B 
+		WHERE D.empid = E.empid 
+		AND E.deptid = B.buseo_id
+		AND D.empid = #{empid}
+		<include refid="search"></include>
+	</select>
 
 </mapper>

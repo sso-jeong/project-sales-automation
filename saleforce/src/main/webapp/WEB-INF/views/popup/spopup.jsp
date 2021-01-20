@@ -150,6 +150,7 @@
 				<!--  페이징 ui -->
 </body>
 <script>
+	$("tr:nth-child(n)").addClass("tr-even");
 	$(".order-list tr td").click(function() {
 		var tdid = $(this).attr("id");
 		if(tdid == "ordnum"){

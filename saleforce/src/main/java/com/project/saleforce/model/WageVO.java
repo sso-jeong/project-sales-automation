@@ -1,9 +1,45 @@
 package com.project.saleforce.model;
 
 public class WageVO {
-	private String totpay, remark, dldate, allowcd, allownm, hunum, hugubun, paygubun, hugbname, paygbname, paynm, empid, empnm, hustdate, huenddate, paystdate, payenddate, insert_person, regdate, payday, attrmh, period, accountnum, deptid, grade;
-	private int allowpay, fund, seq, yapay, etcpay;
+	private String totpay, remark, dldate, allowcd, allownm, hunum, hugubun, paygubun, hugbname, paygbname, paynm, empid, empnm, hustdate, huenddate, paystdate, payenddate, insert_person, regdate, payday, attrmh, period, accountnum, deptid, grade, buseo_name, grade_name;
+	private int allowpay, fund, seq, yapay, etcpay, ya, hu, yeon, gi;
 	
+	public String getBuseo_name() {
+		return buseo_name;
+	}
+	public void setBuseo_name(String buseo_name) {
+		this.buseo_name = buseo_name;
+	}
+	public String getGrade_name() {
+		return grade_name;
+	}
+	public void setGrade_name(String grade_name) {
+		this.grade_name = grade_name;
+	}
+	public int getYa() {
+		return ya;
+	}
+	public void setYa(int ya) {
+		this.ya = ya;
+	}
+	public int getHu() {
+		return hu;
+	}
+	public void setHu(int hu) {
+		this.hu = hu;
+	}
+	public int getYeon() {
+		return yeon;
+	}
+	public void setYeon(int yeon) {
+		this.yeon = yeon;
+	}
+	public int getGi() {
+		return gi;
+	}
+	public void setGi(int gi) {
+		this.gi = gi;
+	}
 	public int getYapay() {
 		return yapay;
 	}

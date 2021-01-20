@@ -21,8 +21,7 @@ public class CommuteDao {
 		map.put("start", start);
 		map.put("end", end); 
 		
-		return sql.selectList("commute.getCommuteList", map);
-		
+		return sql.selectList("commute.getCommuteList", map);		
 	}
 	
 	public int getCommuteCount(String searchOpt, String words) {
@@ -31,6 +30,26 @@ public class CommuteDao {
 		map.put("words", words);
 		
 		return sql.selectOne("commute.getCommuteCount", map);
+	}
+	
+	public List<CommuteManageVO> perCommuteList(int start, int end, String searchOpt, String words, String empid){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("searchOpt", searchOpt);
+		map.put("words", words);
+		map.put("start", start);
+		map.put("end", end); 
+		map.put("empid", empid);
+		
+		return sql.selectList("commute.perCommuteList", map);	
+	}
+	
+	public int perCommuteCount(String searchOpt, String words, String empid) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("searchOpt", searchOpt);
+		map.put("words", words);
+		map.put("empid", empid);
+		
+		return sql.selectOne("commute.perCommuteCount", map);
 	}
 	
 	public CommuteManageVO getCommuteListOne(String dlnum) {
@@ -56,6 +75,11 @@ public class CommuteDao {
 	
 	public void setCommuteInfoP(CommuteManageVO cvo) {
 		sql.insert("commute.setCommuteInfoP", cvo);
+	}
+	
+	public void deleteCommuteInfo(String dlnum) {
+		sql.delete("commute.deleteCommuteInfo", dlnum);
+		sql.delete("commute.deleteCommute", dlnum);
 	}
 
 }

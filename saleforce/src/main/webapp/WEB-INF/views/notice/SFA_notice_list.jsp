@@ -79,8 +79,7 @@
 			                        </c:if>
 		                        </td>
 		                        <td class="left p-lr10">
-		                        <c:forEach begin="1" end="${articleList.re_level}">
-		                        	&nbsp;<img src="${pageContext.request.contextPath}/images/icon_reply.gif" />
+		                        <c:forEach begin="1" end="${articleList.re_level}">&nbsp;<img style="display: inline-block;" src="${pageContext.request.contextPath}/images/icon_reply.gif" />
 		                        </c:forEach>
 		                            <a href="${pageContext.request.contextPath}/SFA_notice_view?boardCode=${boardCode}&aid=${articleList.aid}" class="under weight700">${articleList.subject}</a>
 		                            <span class="tomato">(${articleList.cnt})</span>

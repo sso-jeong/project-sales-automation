@@ -14,9 +14,9 @@
 		<div class="page-wrap m-tb10">
 			<div class="container">
 				<div class="title">
-					<p class="noto font16 weight500 m-t10 m-b10 m-lr10">인사급여 > 급여계산/대장</p>
+					<p class="noto font16 weight500 m-t5 m-b5 m-lr15">인사급여 > 급여계산/대장</p>
 				</div>
-				<div class="wage-insert m-b10 m-lr10">
+				<div class="wage-insert m-b5 m-lr15">
 					<form name="frm" id="frm" action="${pageContext.request.contextPath}/setWage" method="post" autocomplete="off">
 						<div class="wage">
 							<table>
@@ -143,7 +143,7 @@
 							<td class="td-7">사원명</td>
 							<td class="td-10">지급일자</td>
 							<td class="td-5">추가작업</td>
-							<td style="display: none;" class="td-5">명세서</td>
+							<td class="td-5">명세서</td>
 							<td class="td-10">지급총액(원)</td>
 						</tr>
 						<c:if test="${count == 0}">
@@ -152,7 +152,7 @@
 						</tr>
 						</c:if>
 					<c:forEach items="${wagelist}" var="wage" varStatus="status">
-						<tr class="center font14">
+						<tr class="center font14" style="cursor: pointer;">
 							<td class="td-3"><input type="checkbox" name="chk" class="chk" data-uid="${wage.hunum}" style="width: 20px; height: 20px;" /></td>
 							<td class="td-5">${ (count - status.index) - ( (curPage - 1) * end ) }</td>
 							<td class="td-7">${wage.attrmh}</td>
@@ -162,7 +162,7 @@
 							<td class="td-5 p-lr5">${wage.empnm}</td>
 							<td class="td-7 p-lr5">${wage.payday}</td>
 							<td class="td-7 p-lr5"><button class="after" style="background-color: #d6dce7; padding:5px 5px;" onclick="wagepop('${wage.hunum}')">추가작업</button></td>
-							<td style="display: none;" class="td-7 p-lr5"><button id="wage" style="background-color: #d6dce7; padding:5px 5px;">명세서</button></td>
+							<td class="td-7 p-lr5"><button id="wage" style="background-color: #d6dce7; padding:5px 5px;" onclick="payslip('${wage.hunum}')">명세서</button></td>
 							<td class="td-13 right p-lr5"> <fmt:formatNumber value="${wage.totpay}" pattern="#,###"/> </td>
 							<td style="display: none;">${wage.hunum}</td>
 						</tr>
@@ -377,6 +377,13 @@
 		var name = "추가수당 입력";
 
 		window.open(url, name, "width=1200, height=500, toolbar=no, status=no, location=no, scrollbars=yes, memubar=no, resizable=no, top=100");
+	}
+
+	function payslip(hunum) {
+		var url = "${pageContext.request.contextPath}/payslip?hunum=" + hunum;
+		var name = "명세서";
+
+		window.open(url, name, "width=1000, height=500, toolbar=no, status=no, location=no, scrollbars=yes, memubar=no, resizable=no, top=100")
 	}
 
 	function getOneWage(hunum) {

@@ -3,7 +3,7 @@
 <mapper namespace="buseo">
 
 	<select id="getBuseoList" resultType="buseovo">
-		SELECT * FROM buseo_tbl ORDER BY buseo_name 
+		SELECT * FROM buseo_tbl WHERE buseo_id != '300' ORDER BY buseo_name 
 	</select>
 	
 </mapper>

@@ -70,6 +70,7 @@
 	</div>
 </body>
 <script>
+	$("tr:nth-child(n)").addClass("tr-even");
 	$(".tna-list tr td").click(function() {
 		var tdid = $(this).attr("id");
 		if (tdid == "seq") {

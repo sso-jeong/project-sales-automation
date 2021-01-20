@@ -90,7 +90,7 @@
 					</a>
 				</c:when>
 				<c:otherwise>
-					<span class="page"> <i class="fas fa-angle-double-left"></i></a>
+					<span class="page"> <i class="fas fa-angle-double-left"></i>
 					</span>
 				</c:otherwise>
 			</c:choose>
@@ -105,7 +105,7 @@
 					</a>
 				</c:when>
 				<c:otherwise>
-					<span class="page"> <i class="fas fa-angle-left"></i></a>
+					<span class="page"> <i class="fas fa-angle-left"></i>
 					</span>
 				</c:otherwise>
 			</c:choose>
@@ -136,7 +136,7 @@
 					</a>
 				</c:when>
 				<c:otherwise>
-					<span class="page"> <i class="fas fa-angle-right"></i></a>
+					<span class="page"> <i class="fas fa-angle-right"></i>
 					</span>
 				</c:otherwise>
 			</c:choose>
@@ -151,7 +151,7 @@
 					</a>
 				</c:when>
 				<c:otherwise>
-					<span class="page"> <i class="fas fa-angle-double-right"></i></a>
+					<span class="page"> <i class="fas fa-angle-double-right"></i>
 					</span>
 				</c:otherwise>
 			</c:choose>
@@ -161,24 +161,31 @@
 	<!-- 페이징 ui 끝 -->
 </body>
 <script>
-	$(".emp-list tr td").click(function() {
+	$("tr:nth-child(n)").addClass("tr-even");
+	$(".emp-list tr td").click(function() {	
+		var grad = ${gd};	
 		var tdid = $(this).attr("id");
+		
 		if(tdid == "empname"){
 			var tr = $(this).parent();
 			var td = tr.children();
-
 
 			var deptid = td.eq(1).text();		
 			var grade = td.eq(3).text();
 			var empid = td.eq(5).text();
 			var empnm = td.eq(6).text();
-
-			$(opener.document).find("#dept").val(deptid);
-			$(opener.document).find("#deptid").val(deptid);
-			$(opener.document).find("#grade").val(grade);			
-			$(opener.document).find("#empid").val(empid);
-			$(opener.document).find("#empnm").val(empnm);
 			
+			if(grad == "5") {
+				$(opener.document).find("#empnm2").val(empnm);
+			}else if(grad == "6") {
+				$(opener.document).find("#empnm3").val(empnm);
+			}else {
+				$(opener.document).find("#dept").val(deptid);
+				$(opener.document).find("#deptid").val(deptid);
+				$(opener.document).find("#grade").val(grade);			
+				$(opener.document).find("#empid").val(empid);
+				$(opener.document).find("#empnm").val(empnm);
+			}						
 			window.close();
 		}else return false;
 	});

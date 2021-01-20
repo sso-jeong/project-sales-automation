@@ -344,8 +344,8 @@
 				$("#stktypenm").val();
 				$("#remark").val('');
 				if(stock.itemPhoto != null) {
-					$('#img').attr('src', "/img/"+stock.itemPhoto);
-				}
+					$('#img').attr('src', "images/upload/item/"+stock.itemPhoto);
+				}else $('#img').attr('src', "${pageContext.request.contextPath}/images/noImage.jpg");
 			},
 			error : function(request, status, error) {
 				alert("code:" + request.status + "\n" + "message:"

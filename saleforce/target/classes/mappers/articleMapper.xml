@@ -4,9 +4,9 @@
 	<sql id="search">
 		<choose>
 			<when test = "searchOpt == 'all'">
-				WHERE subject LIKE CONCAT('%', #{words}, '%') 
+				WHERE (subject LIKE CONCAT('%', #{words}, '%') 
 				OR writer LIKE CONCAT('%', #{words}, '%') 
-				OR content LIKE CONCAT('%', #{words}, '%')
+				OR content LIKE CONCAT('%', #{words}, '%'))
 			</when>
 			<otherwise> 
 				WHERE ${searchOpt} LIKE CONCAT('%', #{words}, '%')

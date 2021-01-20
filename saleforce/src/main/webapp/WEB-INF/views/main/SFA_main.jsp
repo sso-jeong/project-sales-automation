@@ -46,7 +46,7 @@
 			<div class="main-notice-wrap">
 				<div class="notice m-lr10 flex flex-justify">
 					<h3 class="font16 noto m-t10 m-b5">전체 게시판</h3>
-					<span class="m-t10 m-b5"> <a href="${pageContext.request.contextPath}/SFA_notice_list?boardCode=any" title="공지사항으로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
+					<span class="m-t10 m-b5"> <a href="${pageContext.request.contextPath}/SFA_notice_list?boardCode=any" title="전체 게시판으로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
 					</span>
 				</div>
 				<div class="tbl-wrap m-b10 m-lr10">
@@ -76,7 +76,7 @@
 			<div class="main-notice-wrap">
 				<div class="notice m-lr10 flex flex-justify">
 					<h3 class="font16 noto m-t10 m-b5">${sessionScope.boardTitle}</h3>
-					<span class="m-t10 m-b5"> <a href="${pageContext.request.contextPath}/SFA_notice_list?boardCode=${sessionScope.boardCode}" title="공지사항으로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
+					<span class="m-t10 m-b5"> <a href="${pageContext.request.contextPath}/SFA_notice_list?boardCode=${sessionScope.boardCode}" title="게시판으로 이동" alt="" class="font16"><i class="fas fa-share-square"></i></a>
 					</span>
 				</div>
 				<div class="tbl-wrap m-b10 m-lr10">
@@ -139,8 +139,14 @@
 			</div>			
 			
 				<div class="tna-wrap">
-					<div class="tna m-lr10">
-						<h3 class="noto font16 m-t10 m-b5">${sessionScope.empid}  ${sessionScope.empname} 근태기록</h3>
+					<div class="notice m-lr10 flex flex-justify">
+						<div class="tna">
+							<h3 class="noto font16 m-t10 m-b5">${sessionScope.empid}  ${sessionScope.empname} 근태기록</h3>
+						</div>
+						<div class="m-t10 m-b5">
+							<span class="m-t10 m-b5"> <a href="${pageContext.request.contextPath}/perCommute?empid=${sessionScope.empid}" title="개인 근태기록으로 이동" class="font16"><i class="fas fa-share-square"></i></a>
+							</span>
+						</div>
 					</div>
 				<form name="frm" id="frm" method="post" action="${pageContext.request.contextPath}/setCommute" autocomplete="off">					
 					<div class="tbl-wrap m-b10 m-lr10">
@@ -531,7 +537,7 @@
 	        eventLimit: true,
 	        locales: "ko",
 	        // 달력높이 조절
-	        contentHeight: 445,
+	        contentHeight: 440,
 	        events: resData,
 	        defaultView: 'dayGridWeek',
 	        eventClick: function() {

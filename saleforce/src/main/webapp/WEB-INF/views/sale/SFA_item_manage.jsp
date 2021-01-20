@@ -171,7 +171,7 @@
 						</c:if>
 						
 						<c:forEach items="${itemlist}" var="item" varStatus="status">
-							<tr class="center font14">
+							<tr class="center font14" style="cursor: pointer;">
 								<td class="td-3">
 								<input type="checkbox" name="chk" class="chk" data-uid="${item.itemcd}" style="width: 20px; height: 20px;" />
 								</td>
@@ -410,8 +410,8 @@
 	        	$("#itemgrp").val(item.itemgrp);
 	        	$("#remark").val(item.remark);
 	        	if(item.itemPhoto != null){
-	        		$('#img').attr('src', "/img/"+item.itemPhoto);
-		        }
+	        		$('#img').attr('src', "images/upload/item/"+item.itemPhoto);
+		        }else $('#img').attr('src', "${pageContext.request.contextPath}/images/noImage.jpg");
 		        $("#filesrc").val(item.photoName);      	        	      	     
 	        },
 	        error: function(request) {

@@ -56,10 +56,48 @@ public class CommuteCtr {
 		mav.addObject("curPage", pager.getCurPage());
 		mav.addObject("totalPage", pager.getTotPage());
 		
-		// ������ ��ȣ�� Ŭ������ �� css active Ŭ���� ó��
 		mav.addObject("selected", pager.getCurPage());
 		
 		mav.setViewName("employee/SFA_commute_manage");
+		
+		return mav;
+	}
+	
+	@RequestMapping("perCommute")
+	public ModelAndView perCommute(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "empnm") String searchOpt, @RequestParam(defaultValue = "") String words, @RequestParam String empid) {	
+		ModelAndView mav = new ModelAndView();
+		
+		int count = commuSrv.perCommuteCount(searchOpt, words, empid);
+
+		Pager pager = new Pager(count, curPage);
+
+		int start = pager.getPageBegin();
+		int end = pager.getPageEnd();	
+		
+		List<CommuteManageVO> list = commuSrv.perCommuteList(start, end, searchOpt, words, empid);
+		
+		mav.addObject("com", mainSrv.getCompanyInfo());
+		mav.addObject("commuList", list);
+		mav.addObject("count", count);
+		mav.addObject("searchOpt", searchOpt);
+		mav.addObject("words", words);
+		
+		mav.addObject("start", start);
+		mav.addObject("end", end); 
+		
+		mav.addObject("blockBegin", pager.getBlockBegin());
+		mav.addObject("blockEnd", pager.getBlockEnd());
+		mav.addObject("curBlock", pager.getCurBlock());
+		mav.addObject("totalBlock", pager.getTotBlock());
+		
+		mav.addObject("prevPage", pager.getPrevPage());
+		mav.addObject("nextPage", pager.getNextPage());
+		mav.addObject("curPage", pager.getCurPage());
+		mav.addObject("totalPage", pager.getTotPage());
+		
+		mav.addObject("selected", pager.getCurPage());
+		
+		mav.setViewName("employee/perCommute");
 		
 		return mav;
 	}
@@ -119,5 +157,20 @@ public class CommuteCtr {
 		commuSrv.setCommuteInfoP(cvo);
 		return "redirect:/SFA_commute_manage";
 	}			
+	
+	@RequestMapping("/commuteDeleteAll")
+	@ResponseBody
+	public String commuteDeleteAll(@RequestParam(value = "chkArr[]") List<String> chkArr){
+		
+		String msg = "";
+		if(chkArr != null) {		
+			for(String dlnum : chkArr) { 			
+				commuSrv.deleteCommuteInfo(dlnum);
+			}
+			msg="success";		
+		}else msg="fail";
+		
+		return msg;
+	}
 
 }

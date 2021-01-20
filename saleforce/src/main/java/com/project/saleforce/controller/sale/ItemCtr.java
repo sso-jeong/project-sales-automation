@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -32,7 +31,7 @@ import com.project.saleforce.service.MainSrv;
 public class ItemCtr {
 	
 	@Resource(name="uploadPath")
-	private String uploadPath = "C:\\upload";
+	private String uploadPath = "C:/upload";
 
 	@Autowired
 	ItemSrv iSrv;
@@ -81,7 +80,7 @@ public class ItemCtr {
 	}
 
 	@RequestMapping(value = "insert_item", method = RequestMethod.POST) 
-	public String setItem(@ModelAttribute ItemVO ivo, @RequestPart MultipartFile file) throws IOException {
+	public String setItem(@ModelAttribute ItemVO ivo, @RequestPart MultipartFile file, HttpServletRequest request) throws IOException {
 		StockVO svo = new StockVO(); 
 		
 		String div = ivo.getItemdiv();
@@ -98,8 +97,17 @@ public class ItemCtr {
 		
 		if(file.getOriginalFilename() != "") {
 			String orgFileName = uuid.toString() + "_" + file.getOriginalFilename();
-			File location = new File(uploadPath, orgFileName);
-			FileCopyUtils.copy(file.getBytes(), location);
+			String root_path = request.getSession().getServletContext().getRealPath("/WEB-INF/");
+			String attach_path = "images/upload/item/";
+			
+			File location2 = new File(root_path + attach_path, orgFileName);
+			FileCopyUtils.copy(file.getBytes(), location2);
+			
+			
+			/*
+			 * File location = new File(uploadPath, orgFileName);
+			 * FileCopyUtils.copy(file.getBytes(), location);
+			 */
 			
 			ivo.setPhotoName(file.getOriginalFilename());
 			ivo.setItemPhoto(orgFileName);
@@ -127,7 +135,7 @@ public class ItemCtr {
 	
 	@RequestMapping("/updateItemInfo")
 	@ResponseBody
-	public String updateItemInfo(@ModelAttribute ItemVO ivo, @RequestPart MultipartFile file) throws IOException{
+	public String updateItemInfo(@ModelAttribute ItemVO ivo, @RequestPart MultipartFile file, HttpServletRequest request) throws IOException{
 		String msg = "";
 		
 		if(ivo != null) {
@@ -135,14 +143,22 @@ public class ItemCtr {
 			
 			if(file.getOriginalFilename() != "") {
 				String orgFileName = uuid.toString() + "_" + file.getOriginalFilename();
+				String root_path = request.getSession().getServletContext().getRealPath("/WEB-INF/");
+				String attach_path = "images/upload/item/";
 				
-				System.out.println("파일이름 : "+file.getOriginalFilename());
-				File location = new File(uploadPath, orgFileName);
-				FileCopyUtils.copy(file.getBytes(), location);
+				File location2 = new File(root_path + attach_path, orgFileName);
+				FileCopyUtils.copy(file.getBytes(), location2);
+				
+				/*
+				 * File location = new File(uploadPath, orgFileName);
+				 * FileCopyUtils.copy(file.getBytes(), location);
+				 */
+				
 				ivo.setPhotoName(file.getOriginalFilename());
 				ivo.setItemPhoto(orgFileName);
-				 iSrv.updateItemInfo(ivo);
-				 iSrv.updateImgup(ivo);
+				
+				iSrv.updateItemInfo(ivo);
+				iSrv.updateImgup(ivo);
 			}else {
 				iSrv.updateItemInfoNo(ivo);
 				iSrv.updateStd(ivo);

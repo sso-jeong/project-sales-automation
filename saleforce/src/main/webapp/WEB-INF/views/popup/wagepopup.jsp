@@ -191,7 +191,7 @@
 <script>
  	$(function() {
 		wage();
-
+		$("tr:nth-child(n)").addClass("tr-even");
 		$(".wage-list tr").click(function() {
 			var tr = $(this);
 			var td = tr.children();

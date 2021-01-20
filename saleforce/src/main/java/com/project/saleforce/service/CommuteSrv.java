@@ -22,6 +22,14 @@ public class CommuteSrv {
 		return commuDao.getCommuteCount(searchOpt, words);
 	}
 	
+	public List<CommuteManageVO> perCommuteList(int start, int end, String searchOpt, String words, String empid){
+		return commuDao.perCommuteList(start, end, searchOpt, words, empid);
+	}
+	
+	public int perCommuteCount(String searchOpt, String words, String empid) {
+		return commuDao.perCommuteCount(searchOpt, words, empid);
+	}
+	
 	public CommuteManageVO getCommuteListOne(String dlnum) {
 		return commuDao.getCommuteListOne(dlnum);
 	}
@@ -44,6 +52,10 @@ public class CommuteSrv {
 	
 	public void setCommuteInfoP(CommuteManageVO cvo) {
 		commuDao.setCommuteInfoP(cvo);
+	}
+	
+	public void deleteCommuteInfo(String dlnum) {
+		commuDao.deleteCommuteInfo(dlnum);
 	}
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 
 import com.project.saleforce.model.EmpVO;
@@ -31,7 +30,7 @@ public class EmpDao {
 		return sql.selectOne("emp.pwdFind", evo);
 	}
 	
-	// ################################# »ç¿ø¸ñ·Ï ¼Ò½º ½ÃÀÛ   #################################
+	// ################################# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½ï¿½   #################################
 
 		public List<EmpVO> getEmpList(int start, int end, String searchOpt, String words) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
@@ -42,6 +41,21 @@ public class EmpDao {
 			
 			return sql.selectList("emp.getEmpList", map);
 		}
+		
+		public List<EmpVO> getApprEmpList(int start, int end, String grade) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("start", start);
+			map.put("end", end);
+			map.put("grade", grade);
+			
+			return sql.selectList("emp.getApprEmpList", map);
+		}
+		
+		public int getApprCount(String grade) {	
+			return sql.selectOne("emp.getApprCount", grade);
+		}
+		
+		
 
 		public EmpVO getEmpListOne(String empID) {
 			return sql.selectOne("emp.getEmpListOne", empID);
@@ -56,9 +70,9 @@ public class EmpDao {
 			sql.insert("emp.setRegAll", evo);
 		}
 		
-		// ################################# »ç¿ø¸ñ·Ï ¼Ò½º ³¡   ##################################
+		// ################################# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò½ï¿½ ï¿½ï¿½   ##################################
 		
-	// ### »ç³»¿¬¶ô¸Á
+	// ### ï¿½ç³»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		public List<EmpVO> getEmpContactList(int start, int end, String searchOpt, String words) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("searchOpt", searchOpt);

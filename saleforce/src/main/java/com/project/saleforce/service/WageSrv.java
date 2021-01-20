@@ -65,9 +65,12 @@ public class WageSrv {
 	public void deleteWageInfo(String hunum, int seq) {
 		wDao.deleteWageInfo(hunum, seq);
 	}
-		
-	
+			
 	public int dayCount(String empid) {
 		return wDao.dayCount(empid);
+	}
+	
+	public WageVO wageform(String hunum) {
+		return wDao.wageform(hunum);
 	}
 }

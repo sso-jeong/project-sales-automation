@@ -148,7 +148,7 @@
 						</c:if>
 						
 						<c:forEach items="${orderlist}" var="order" varStatus="status">
-							<tr class="center font14">
+							<tr class="center font14" style="cursor: pointer;">
 								<td class="td-3">
 									<input type="checkbox" name="chk" class="chk" data-uid="${order.ordnum}" style="width: 20px; height: 20px;" />
 								</td>

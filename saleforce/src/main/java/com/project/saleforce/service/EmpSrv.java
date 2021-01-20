@@ -26,13 +26,16 @@ public class EmpSrv {
 
 	public EmpVO setSessionLogin(EmpVO evo, HttpSession session) {
 		EmpVO vo = empDao.setSessionLogin(evo);
+		
 
 		if (vo != null) {
 			session.setAttribute("empid", vo.getEmpid());
 			session.setAttribute("emppwd", vo.getEmppwd());
 			session.setAttribute("empname", vo.getEmpnm());
 			session.setAttribute("deptid", vo.getDeptid());
+			session.setAttribute("buseonm", vo.getBuseoname());
 			session.setAttribute("grade", vo.getGrade());
+			session.setAttribute("gradenm", vo.getGradename());
 			session.setAttribute("empauth", vo.getEmpauth());
 			session.setAttribute("email", vo.getEmail());
 			session.setAttribute("birth", vo.getBirth());
@@ -65,11 +68,19 @@ public class EmpSrv {
 		return empDao.pwdFind(evo);
 	}
 	
-	// ################################# »ç¿ø¸ñ·Ï ¼Ò½º ½ÃÀÛ   ##################################
+	// ################################# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½ï¿½   ##################################
 
 	
 		public List<EmpVO> getEmpList(int start, int end, String searchOpt, String words) {
 			return empDao.getEmpList(start, end, searchOpt, words);
+		}
+		
+		public List<EmpVO> getApprEmpList(int start, int end, String grade) {
+			return empDao.getApprEmpList(start, end, grade);
+		}
+		
+		public int getApprCount(String grade) {
+			return empDao.getApprCount(grade);
 		}
 
 	
@@ -87,9 +98,9 @@ public class EmpSrv {
 			empDao.setRegAll(evo);
 		}
 
-		// ################################# »ç¿ø¸ñ·Ï ¼Ò½º ³¡   #################################
+		// ################################# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò½ï¿½ ï¿½ï¿½   #################################
 		
-	// ### »ç³»¿¬¶ô¸Á
+	// ### ï¿½ç³»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		public List<EmpVO> getEmpContactList(int start, int end, String searchOpt, String words) {
 			return empDao.getEmpContactList(start, end, searchOpt, words);
 		}

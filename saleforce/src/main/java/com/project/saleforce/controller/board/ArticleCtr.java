@@ -85,6 +85,7 @@ public class ArticleCtr {
 		mav.addObject("boardCode", boardCode);
 
 		BoardVO bvo = artSrv.getBoardOne(boardCode);
+		mav.addObject("com", mSrv.getCompanyInfo());
 		mav.addObject("boardColor", bvo.getBoardColor());
 		mav.addObject("boardTitle", bvo.getBoardTitle());
 		mav.addObject("boardWrite", bvo.getBoardWrite());
@@ -94,17 +95,20 @@ public class ArticleCtr {
 	}
 
 	@RequestMapping(value = "/SFA_notice_insert", method = RequestMethod.POST)
-	public String setArticleDo(@ModelAttribute ArticleVO avo, @RequestPart MultipartFile files)
+	public String setArticleDo(@ModelAttribute ArticleVO avo, @RequestPart MultipartFile files, HttpServletRequest request)
 			throws IllegalStateException, IOException {
 		if (files.isEmpty()) {
-			System.out.println("첨부파일없음");
 			artSrv.setArticle(avo);
 		} else {
 			String fileName = files.getOriginalFilename();
 			String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
 			File destinationFile;
 			String destinationFileName;
-			String fileUrl = "c://upload//";
+			
+			String root_path = request.getSession().getServletContext().getRealPath("/WEB-INF/");
+			String attach_path = "images/upload/board/";
+			
+			String fileUrl = root_path+attach_path;
 
 			do {
 				destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
@@ -129,6 +133,7 @@ public class ArticleCtr {
 		BoardVO bvo = artSrv.getBoardOne(vo.getBoardCode());
 
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("com", mSrv.getCompanyInfo());
 		mav.addObject("modArticle", avo);
 		mav.addObject("boardColor", bvo.getBoardColor());
 		mav.addObject("boardTitle", bvo.getBoardTitle());
@@ -139,7 +144,7 @@ public class ArticleCtr {
 	}
 
 	@RequestMapping(value = "/SFA_notice_modify", method = RequestMethod.POST)
-	public String modArticleDo(@ModelAttribute ArticleVO avo, @RequestPart MultipartFile files)
+	public String modArticleDo(@ModelAttribute ArticleVO avo, @RequestPart MultipartFile files, HttpServletRequest request)
 			throws IllegalStateException, IOException {
 		if (files.isEmpty()) {
 			System.out.println("첨부파일없음");
@@ -149,7 +154,11 @@ public class ArticleCtr {
 			String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
 			File destinationFile;
 			String destinationFileName;
-			String fileUrl = "c://upload//";
+			
+			String root_path = request.getSession().getServletContext().getRealPath("/WEB-INF/");
+			String attach_path = "images/upload/board/";
+			
+			String fileUrl = root_path+attach_path;
 
 			do {
 				destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
@@ -177,6 +186,7 @@ public class ArticleCtr {
 		artSrv.hitUp(vo);
 		mav.addObject("article", avo);
 
+		mav.addObject("com", mSrv.getCompanyInfo());
 		mav.addObject("boardCode", vo.getBoardCode());
 		mav.addObject("boardMaker", bvo.getBoardMaker());
 		mav.addObject("boardTitle", bvo.getBoardTitle());
@@ -197,6 +207,7 @@ public class ArticleCtr {
 
 		if (avo != null) {
 			mav.addObject("replyArticle", avo);
+			mav.addObject("com", mSrv.getCompanyInfo());
 			mav.addObject("boardCode", vo.getBoardCode());
 			mav.addObject("boardTitle", bvo.getBoardTitle());
 			mav.addObject("boardColor", bvo.getBoardColor());
@@ -209,7 +220,7 @@ public class ArticleCtr {
 	}
 
 	@RequestMapping(value = "/SFA_notice_reply", method = RequestMethod.POST)
-	public String setArticleReply(@ModelAttribute ArticleVO vo, @RequestPart MultipartFile files) throws Exception {
+	public String setArticleReply(@ModelAttribute ArticleVO vo, @RequestPart MultipartFile files, HttpServletRequest request) throws Exception {
 
 		if (files.isEmpty()) {
 			artSrv.setArticleReply(vo);
@@ -219,7 +230,11 @@ public class ArticleCtr {
 			String fileNameExtension = FilenameUtils.getExtension(fileName).toLowerCase();
 			File destinationFile;
 			String destinationFileName;
-			String fileUrl = "c://upload//";
+			
+			String root_path = request.getSession().getServletContext().getRealPath("/WEB-INF/");
+			String attach_path = "images/upload/board/";
+			
+			String fileUrl = root_path+attach_path;
 
 			do {
 				destinationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
@@ -240,7 +255,7 @@ public class ArticleCtr {
 
 	@RequestMapping("/SFA_notice_delete")
 	@ResponseBody
-	public String setArtcileDelete(@RequestParam String aid, @RequestParam String boardCode) {
+	public String setArtcileDelete(@RequestParam String aid, @RequestParam String boardCode, HttpServletRequest request) {
 		ArticleVO vo = new ArticleVO();
 		int aidt = Integer.parseInt(aid);
 		vo.setAid(aidt);
@@ -248,7 +263,12 @@ public class ArticleCtr {
 
 		ArticleVO avo = artSrv.getArticleOne(vo);
 		if (avo.getFileName() != null) {
-			String fileUrl = "c://upload//";
+			
+			String root_path = request.getSession().getServletContext().getRealPath("/WEB-INF/");
+			String attach_path = "images/upload/board/";
+			
+			String fileUrl = root_path+attach_path;
+			
 			File file = new File(fileUrl + avo.getFileName());
 			if (file.exists()) {
 				file.delete();
@@ -293,7 +313,6 @@ public class ArticleCtr {
 			response.setHeader("Content-Description", "JSP Generated Data");
 
 			if (!skip) {
-				System.out.println("성공");
 				if (client.indexOf("MSIE") != -1) {
 					response.setHeader("Content-Disposition", "attachment; filename=\""
 							+ java.net.URLEncoder.encode(oriFileName, "UTF-8").replaceAll("\\+", "\\ ") + "\"");
@@ -329,11 +348,15 @@ public class ArticleCtr {
 	@RequestMapping(value = "/SFA_notice_delete_all", method = RequestMethod.POST)
 	@ResponseBody
 	public String setArticleDeleteAll(@ModelAttribute ArticleVO vo,
-			@RequestParam(value = "chkArr[]") List<String> chkArr) {
+			@RequestParam(value = "chkArr[]") List<String> chkArr, HttpServletRequest request) {
 
 		int aid;
 
-		String fileUrl = "c://upload//";
+		String root_path = request.getSession().getServletContext().getRealPath("/WEB-INF/");
+		String attach_path = "images/upload/board/";
+		
+		String fileUrl = root_path+attach_path;
+		
 		File files = null;
 		for (String list : chkArr) {
 			aid = Integer.parseInt(list);

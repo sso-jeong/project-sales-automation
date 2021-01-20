@@ -154,7 +154,8 @@
 		</div>
 </body>
 <script>
-	$(function() {			
+	$(function() {
+		$("tr:nth-child(n)").addClass("tr-even");			
 		$("#checkall").click(function(){
 		    if($("#checkall").prop("checked")){
 		     $(".chk").prop("checked",true);

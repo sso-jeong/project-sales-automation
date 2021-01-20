@@ -7,6 +7,7 @@
 	left: 0;
 	visibility: hidden;
 	opacity: 0;
+	z-index: 2;
 }
 
 .modal-wrapper.open {
@@ -20,7 +21,7 @@
 }
 
 .modal {
-	width: 1500px;
+	width: 1200px;
 	height: 800px;
 	position: absolute;
 	top: 50%;

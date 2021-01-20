@@ -46,7 +46,9 @@
 		SELECT empid,
 		empnm,
 		deptid,
+		buseo_name as buseoname,
 		grade,
+		grade_name as gradename,
 		emppwd,
 		empauth,
 		email,
@@ -76,11 +78,13 @@
 		reward,
 		boardCode,
 		boardTitle
-		FROM emp_tbl, boardauth_tbl
+		FROM emp_tbl, boardauth_tbl, buseo_tbl, grade_tbl
 		WHERE
 		empid = #{empid}
 		AND emppwd = #{emppwd}
 		AND deptid = boardGrp
+		AND deptid = buseo_id
+		AND grade = grade_id
 	</select>
 
 	<select id="pwdFind" parameterType="empvo" resultType="String">
@@ -138,6 +142,31 @@
 		<include refid="search"></include>
 		ORDER BY buseo_name  desc LIMIT #{start}, #{end}
 	</select>
+	
+	<select id="getApprEmpList" parameterType="hashmap"
+		resultType="empvo">
+		SELECT 
+		empid, 
+		empnm, 
+		buseo_name AS buseoname,
+		grade_name AS gradename,
+		CASE WHEN emphp = '' THEN ''
+		ELSE CONCAT(SUBSTR(emphp,1,3), '-',SUBSTR(emphp,4,4),'-',SUBSTR(emphp,8,4)) END as emphp,
+		CASE WHEN empcp = '' THEN ''
+		ELSE CONCAT(SUBSTR(empcp,1,3), '-',SUBSTR(empcp,4,4),'-',SUBSTR(empcp,8,4)) END as empcp, 
+		email
+		FROM emp_tbl E, buseo_tbl B, grade_tbl G
+		WHERE grade != 777 AND E.deptid = B.buseo_id AND E.grade = G.grade_id AND grade = #{grade}
+		ORDER BY buseo_name desc LIMIT #{start}, #{end}
+	</select>
+	
+	<select id="getApprCount" resultType="int">
+		SELECT COUNT(empid) 
+		FROM emp_tbl E, buseo_tbl B, grade_tbl G 
+		WHERE E.deptid= B.buseo_id AND E.grade = G.grade_id AND grade != 777 AND grade = #{grade}
+		ORDER BY regdate DESC	
+	</select>
+	
 	
 	<select id="getEmpContactList" parameterType="hashmap"
 		resultType="empvo">

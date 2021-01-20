@@ -143,7 +143,7 @@
 						</tr>
 					</c:if>
 					<c:forEach items="${salelist}" var="sale" varStatus="status">
-						<tr class="center font14">
+						<tr class="center font14" style="cursor: pointer;">
 							<td class="td-3"><input type="checkbox" name="chk" class="chk" data-uid="${sale.salenum}" style="width: 20px; height: 20px;" /></td>
 							<td class="td-5">${ (count - status.index) - ( (curPage - 1) * end ) }</td>
 							<td class="td-5">${sale.salenum}</td>

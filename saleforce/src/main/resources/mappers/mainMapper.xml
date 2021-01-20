@@ -143,7 +143,8 @@
 	
 	<update id="updatetottime" parameterType="commutevo">
 		<selectKey keyProperty="tottime" order="BEFORE" resultType="String">
-			SELECT SEC_TO_TIME ( TIMESTAMPDIFF( SECOND, ontime, offtime) ) AS tottime from dl_tbl WHERE dlnum = #{dlnum}
+			SELECT CASE WHEN ontime <![CDATA[>]]> defstr THEN SEC_TO_TIME ( TIMESTAMPDIFF( SECOND, ontime, offtime) )
+			ELSE SEC_TO_TIME ( TIMESTAMPDIFF( SECOND, defstr, offtime) ) END AS tottime from dl_tbl WHERE dlnum = #{dlnum}
 		</selectKey>
 		
 		UPDATE dl_tbl 
@@ -167,6 +168,7 @@
 			content,
 			SUBSTR(regdate,6,5) as regdate
 		FROM article_any
+		WHERE re_level = 0
 		ORDER BY division DESC, aid DESC LIMIT 5
 	</select>
 	
@@ -183,6 +185,7 @@
 			content,
 			SUBSTR(regdate,6,5) as regdate
 		FROM article_sale
+		WHERE re_level = 0
 		ORDER BY division DESC, aid DESC LIMIT 5
 	</select>
 	
@@ -199,6 +202,7 @@
 			content,
 			SUBSTR(regdate,6,5) as regdate
 		FROM article_human
+		WHERE re_level = 0
 		ORDER BY division DESC, aid DESC LIMIT 5
 	</select>
 	

@@ -3,7 +3,7 @@
 <mapper namespace="grade">
 
 	<select id="getGradeList" resultType="gradevo">
-		SELECT * FROM grade_tbl ORDER BY grade_id DESC
+		SELECT * FROM grade_tbl WHERE grade_id != '777' ORDER BY grade_id DESC
 	</select>
 
 </mapper>
